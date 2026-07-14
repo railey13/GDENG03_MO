@@ -18,8 +18,7 @@ public:
 	void setTexutre(VertexShaderPtr vertex_shader, TexturePtr texture);
 	void setTexutre(PixelShaderPtr pixel_shader, TexturePtr texture);
 
-	void setConstantBuffer(VertexShaderPtr vertex_shader, ConstantBufferPtr constant_buffer);
-	void setConstantBuffer(PixelShaderPtr pixel_shader, ConstantBufferPtr constant_buffer);
+	void setConstantBuffer(ConstantBufferPtr constant_buffer);
 	
 	void drawTriangleList(ui32  vertex_count, ui32  start_vertex_index);
 	void drawIndexedTriangleList(ui32  index_count, ui32  start_vertex_index, ui32  start_index_location);

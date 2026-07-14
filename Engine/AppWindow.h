@@ -11,7 +11,6 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "InputListener.h"
-#include "Camera.h"
 #include "CommandInvoker.h"
 
 #include "../IMGUI/imgui.h"
@@ -32,6 +31,7 @@ enum class Action {
 	SpawnCube,
 	SpawnSphere,
 	SpawnPlane,
+	SpawnCamera,
 	DeleteSelectedObject,
 	Undo,
 	Redo,
@@ -95,7 +95,8 @@ private:
 	void* ps_byte_code = nullptr;
 	size_t ps_size = 0;
 
-	Camera* m_sceneCamera;
+	int camera_flag = 0;
+	bool gamecamera = false;
 private:
 	friend class SpawnObjectCommand;
 	friend class DeleteObjectCommand;

@@ -1,17 +1,17 @@
-#include "Cube.h"
-#include "iostream"
+#include "GameCamera.h"
+#include "CameraHandler.h"
 
-Cube::Cube(void* shader_byte_code, size_t size_shader) {
+GameCamera::GameCamera(void* shader_byte_code, size_t size_shader) {
 	Vector3D position_list[] = {
-		{Vector3D(-0.2f, -0.2f, -0.2f)}, // POS1
-		{Vector3D(-0.2f, 0.2f, -0.2f)},	// POS2
-		{Vector3D(0.2f, 0.2f, -0.2f)},	// POS3 
-		{Vector3D(0.2f, -0.2f, -0.2f)}, // POS4
+		{Vector3D(-0.1f, -0.1f, -0.1f)}, // POS1
+		{Vector3D(-0.1f, 0.1f, -0.1f)},	// POS2
+		{Vector3D(0.1f, 0.1f, -0.1f)},	// POS3 
+		{Vector3D(0.1f, -0.1f, -0.1f)}, // POS4
 
-		{Vector3D(0.2f, -0.2f, 0.2f)},
-		{Vector3D(0.2f, 0.2f, 0.2f)},
-		{Vector3D(-0.2f, 0.2f, 0.2f)},
-		{Vector3D(-0.2f, -0.2f, 0.2f)},
+		{Vector3D(0.1f, -0.1f, 0.1f)},
+		{Vector3D(0.1f, 0.1f, 0.1f)},
+		{Vector3D(-0.1f, 0.1f, 0.1f)},
+		{Vector3D(-0.1f, -0.1f, 0.1f)},
 	};
 
 	Vector2D texcoord_list[] = {
@@ -20,8 +20,8 @@ Cube::Cube(void* shader_byte_code, size_t size_shader) {
 		{Vector2D(1.0f, 0.0f)},
 		{Vector2D(1.0f, 1.0f)}
 	};
-	
-	
+
+
 	vertex list[] = {
 		// FRONT SIDE
 		{position_list[0], texcoord_list[1]},
@@ -87,18 +87,20 @@ Cube::Cube(void* shader_byte_code, size_t size_shader) {
 	cc.m_time = 0;
 	m_cb = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&cc, sizeof(constant));
 
-	m_name = "Cube";
+	m_name = "Main Camera";
+
+	CameraHandler::get()->setGameCamera(this);
 }
 
-Cube::~Cube() {
+GameCamera::~GameCamera() {
 
 }
 
-void Cube::update(f32 deltaTime) {
+void GameCamera::update(f32 deltaTime) {
 
 }
 
-void Cube::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4 proj) {
+void GameCamera::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4 proj) {
 	constant cc;
 	Matrix4x4 temp;
 
@@ -111,20 +113,7 @@ void Cube::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4
 
 	cc.m_world *= temp;
 
-	temp.setIdentity();
-	temp.setRotationZ(m_rotation.m_z);
-
-	cc.m_world *= temp;
-
-	temp.setIdentity();
-	temp.setRotationY(m_rotation.m_y);
-
-	cc.m_world *= temp;
-
-	temp.setIdentity();
-	temp.setRotationX(m_rotation.m_x);
-
-	cc.m_world *= temp;
+	cc.m_world *= getRotationMatrix();
 
 	temp.setTranslation(m_position);
 
@@ -145,4 +134,47 @@ void Cube::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4
 	context->setIndexBuffer(m_ib);
 
 	context->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0);
+}
+
+Matrix4x4 GameCamera::getViewMatrix() const {
+	Matrix4x4 view = getRotationMatrix();
+
+	view.setTranslation(m_position);
+	view.inverse();
+
+	return view;
+}
+
+Matrix4x4 GameCamera::getProjectionMatrix() const {
+	Matrix4x4 proj;
+
+	proj.setPerspectiveFovLH(m_fov, m_aspect, m_znear, m_zfar);
+	
+	return proj;
+}
+
+Matrix4x4 GameCamera::getRotationMatrix() const {
+	Matrix4x4 rot_cam;
+	rot_cam.setIdentity();
+
+	Matrix4x4 temp;
+
+	temp.setRotationX(m_rotation.m_x);
+	rot_cam *= temp;
+
+	temp.setRotationY(m_rotation.m_y);
+	rot_cam *= temp;
+
+	temp.setRotationZ(m_rotation.m_z);
+	rot_cam *= temp;
+
+	return rot_cam;
+}
+
+Vector3D GameCamera::getForwardDirection() const {
+	return getRotationMatrix().getZDirection();
+}
+
+void GameCamera::setAspect(f32 width, f32 height) {
+	m_aspect = width / height;
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <math.h>
+#include "Prerequisites.h"
 
 class Vector3D {
 public:

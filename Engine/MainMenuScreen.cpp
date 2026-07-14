@@ -22,7 +22,9 @@ void MainMenuScreen::draw() {
 			if (ImGui::MenuItem("Plane")) {
 				AppWindow::get()->getInvoker().executeCommand((int)Action::SpawnPlane);
 			}
-
+			if (ImGui::MenuItem("Camera")) {
+				AppWindow::get()->getInvoker().executeCommand((int)Action::SpawnCamera);
+			}
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Panels")) {

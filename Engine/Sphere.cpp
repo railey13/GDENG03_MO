@@ -139,13 +139,14 @@ void Sphere::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4
 
 	m_cb->update(GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext(), &cc);
 
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(vs, m_cb);
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setConstantBuffer(ps, m_cb);
+	DeviceContextPtr context = GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext();
 
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setTexutre(ps, m_tex);
+	context->setConstantBuffer(m_cb);
 
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setVertexBuffer(m_vb);
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->setIndexBuffer(m_ib);
+	context->setTexutre(ps, m_tex);
 
-	GraphicsEngine::get()->getRenderSystem()->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0);
+	context->setVertexBuffer(m_vb);
+	context->setIndexBuffer(m_ib);
+
+	context->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0);
 }

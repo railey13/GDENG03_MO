@@ -8,6 +8,10 @@
 #include "DeleteObjectCommand.h"
 #include "CloseWindowCommand.h"
 
+#include "Camera.h"
+#include "GameCamera.h"
+#include "CameraHandler.h"
+
 AppWindow* AppWindow::sharedInstance = NULL;
 
 AppWindow* AppWindow::get() {
@@ -27,8 +31,6 @@ void AppWindow::destroy() {
 }
 
 void AppWindow::createGraphicsWindow() {
-	m_sceneCamera = new Camera();
-
 	m_swap_chain = GraphicsEngine::get()->getRenderSystem()->createSwapChain(this->m_hwnd, Settings::WindowWidth, Settings::WindowHeight);
 
 	GraphicsEngine::get()->getRenderSystem()->compileVertexShader(L"Engine/VertexShader.hlsl", "vsmain", &vs_byte_code, &vs_size);
@@ -37,7 +39,9 @@ void AppWindow::createGraphicsWindow() {
 	GraphicsEngine::get()->getRenderSystem()->compilePixelShader(L"Engine/PixelShader.hlsl", "psmain", &ps_byte_code, &ps_size);
 	m_ps = GraphicsEngine::get()->getRenderSystem()->createPixelShader(ps_byte_code, ps_size);
 
-	UIManager::initialize(m_hwnd, m_sceneCamera);
+	CameraHandler::initialize();
+
+	UIManager::initialize(m_hwnd, CameraHandler::get()->getSceneCamera());
 }
 
 AppWindow::AppWindow() {
@@ -55,6 +59,7 @@ void AppWindow::onCreate() {
 	m_invoker.bindCommand((int)Action::SpawnCube, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::CUBE); });
 	m_invoker.bindCommand((int)Action::SpawnSphere, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::SPHERE); });
 	m_invoker.bindCommand((int)Action::SpawnPlane, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::PLANE); });
+	m_invoker.bindCommand((int)Action::SpawnCamera , [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::GAME_CAMERA); });
 
 	m_invoker.bindCommand((int)Action::DeleteSelectedObject, [this]() {
 		return new DeleteObjectCommand(this, m_selectedGameObject);
@@ -71,7 +76,10 @@ void AppWindow::onUpdate() {
 
 	f32 deltaTime = EngineTime::getDeltaTime();
 
-	m_sceneCamera->update(deltaTime);
+	Camera* sceneCamera = CameraHandler::get()->getSceneCamera();
+	GameCamera* gameCamera = CameraHandler::get()->getGameCamera();
+
+	sceneCamera->update(deltaTime);
 
 	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setVertexShader(m_vs);
 	graphEngine->getRenderSystem()->getImmediateDeviceContext()->setPixelShader(m_ps);
@@ -82,7 +90,12 @@ void AppWindow::onUpdate() {
 
 	for (auto obj : m_objects) {
 		obj->update(deltaTime);
-		obj->draw(m_vs, m_ps, m_sceneCamera->getViewMatrix(), m_sceneCamera->getProjectionMatrix());
+		if (camera_flag == 0) {
+			obj->draw(m_vs, m_ps, sceneCamera->getViewMatrix(), sceneCamera->getProjectionMatrix());
+		}
+		if (camera_flag == 1) {
+			obj->draw(m_vs, m_ps, gameCamera->getViewMatrix(), gameCamera->getProjectionMatrix());
+		}
 	}
 
 	UIManager::get()->drawAllUI();
@@ -117,7 +130,7 @@ void AppWindow::onResize(ui32 width, ui32 height) {
 		m_swap_chain->resize(m_window_width, m_window_height);
 	}
 
-	m_sceneCamera->setAspect((f32)width, (f32)height);
+	CameraHandler::get()->getSceneCamera()->setAspect((f32)width, (f32)height);
 }
 
 void AppWindow::onKeyDown(i32 key) {
@@ -130,29 +143,10 @@ void AppWindow::onKeyUp(i32 key) {
 	// temporary inputs to test textures
 	switch (key) {
 		case '0': 
-			for (int i = 0; i < m_objects.size(); i++) {
-				m_objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/white.png"));
-			}
+			m_selectedGameObject->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/white.png"));
 			break;
 		case '1':
-			for (int i = 0; i < m_objects.size(); i++) {
-				m_objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/furina.png"));
-			}
-			break;
-		case '2':
-			for (int i = 0; i < m_objects.size(); i++) {
-				m_objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/CartethyiaPuppet.gif"));
-			}
-			break;
-		case '3':
-			for (int i = 0; i < m_objects.size(); i++) {
-				m_objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/MornyeThinking.gif"));
-			}
-			break;
-		case '4':
-			for (int i = 0; i < m_objects.size(); i++) {
-				m_objects[i]->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/AemeathGame.gif"));
-			}
+			m_selectedGameObject->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/CartethyiaPuppet.gif"));
 			break;
 		case 90: m_invoker.undo();
 			break;
@@ -162,6 +156,12 @@ void AppWindow::onKeyUp(i32 key) {
 			if (m_selectedGameObject) {
 				m_invoker.executeCommand((int)Action::DeleteSelectedObject);
 			}
+			break;
+		case VK_LEFT: camera_flag = 0;
+			break;
+		case VK_RIGHT: camera_flag = 1;
+			break;
+		default: break;
 	}
 }
 
@@ -211,11 +211,19 @@ AGameObject* AppWindow::SpawnGameObject(GAMEOBJECTS type) {
 		case GAMEOBJECTS::PLANE:
 			obj = new Plane(vs_byte_code, vs_size);
 			break;
+		case GAMEOBJECTS::GAME_CAMERA:
+			if (gamecamera) return nullptr;
+			obj = new GameCamera(vs_byte_code, vs_size);
+			obj->setScale(Vector3D(0.4f, 0.5f, 0));
+			gamecamera = true;
+			break;
 		default: break;
 	}
 
 	f32 spawnDistance = 1.0f;
-	Vector3D spawnPos = m_sceneCamera->getPosition() + m_sceneCamera->getForwardDirection() * spawnDistance;
+
+	Vector3D spawnPos = CameraHandler::get()->getSceneCamera()->getPosition() + CameraHandler::get()->getSceneCamera()->getForwardDirection() * spawnDistance;
+
 	obj->setPosition(spawnPos);
 
 	m_objects.push_back(obj);

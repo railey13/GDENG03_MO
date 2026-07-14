@@ -31,7 +31,8 @@ struct constant {
 enum GAMEOBJECTS {
 	CUBE,
 	SPHERE,
-	PLANE
+	PLANE,
+	GAME_CAMERA
 };
 
 class AGameObject {

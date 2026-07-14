@@ -146,11 +146,13 @@
     <ClCompile Include="Engine\AppWindow.cpp" />
     <ClCompile Include="Engine\AUIScreen.cpp" />
     <ClCompile Include="Engine\Camera.cpp" />
+    <ClCompile Include="Engine\CameraHandler.cpp" />
     <ClCompile Include="Engine\CameraScreen.cpp" />
     <ClCompile Include="Engine\ConstantBuffer.cpp" />
     <ClCompile Include="Engine\Cube.cpp" />
     <ClCompile Include="Engine\DeviceContext.cpp" />
     <ClCompile Include="Engine\EngineTime.cpp" />
+    <ClCompile Include="Engine\GameCamera.cpp" />
     <ClCompile Include="Engine\GraphicsEngine.cpp" />
     <ClCompile Include="Engine\HierarchyScreen.cpp" />
     <ClCompile Include="Engine\IndexBuffer.cpp" />
@@ -185,6 +187,7 @@
     <ClInclude Include="Engine\AppWindow.h" />
     <ClInclude Include="Engine\AUIScreen.h" />
     <ClInclude Include="Engine\Camera.h" />
+    <ClInclude Include="Engine\CameraHandler.h" />
     <ClInclude Include="Engine\CameraScreen.h" />
     <ClInclude Include="Engine\CloseWindowCommand.h" />
     <ClInclude Include="Engine\Command.h" />
@@ -194,6 +197,7 @@
     <ClInclude Include="Engine\DeleteObjectCommand.h" />
     <ClInclude Include="Engine\DeviceContext.h" />
     <ClInclude Include="Engine\EngineTime.h" />
+    <ClInclude Include="Engine\GameCamera.h" />
     <ClInclude Include="Engine\GraphicsEngine.h" />
     <ClInclude Include="Engine\HierarchyScreen.h" />
     <ClInclude Include="Engine\IndexBuffer.h" />
