@@ -37,7 +37,7 @@ void AppWindow::createGraphicsWindow() {
 	GraphicsEngine::get()->getRenderSystem()->compilePixelShader(L"Engine/PixelShader.hlsl", "psmain", &ps_byte_code, &ps_size);
 	m_ps = GraphicsEngine::get()->getRenderSystem()->createPixelShader(ps_byte_code, ps_size);
 
-	UIManager::initialize(m_hwnd);
+	UIManager::initialize(m_hwnd, m_sceneCamera);
 }
 
 AppWindow::AppWindow() {

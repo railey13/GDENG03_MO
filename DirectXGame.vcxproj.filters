@@ -192,6 +192,7 @@
     <ClCompile Include="Engine\InspectorScreen.cpp">
       <Filter>Scene Editor\Screens</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\CameraScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\AppWindow.h">
@@ -333,6 +334,7 @@
     <ClInclude Include="Engine\SpawnObjectCommand.h">
       <Filter>Scene Editor\Screens</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\CameraScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\VertexShader.hlsl">

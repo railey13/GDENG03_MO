@@ -6,6 +6,7 @@
 #include "AboutScreen.h"
 #include "HierarchyScreen.h"
 #include "InspectorScreen.h"
+#include "CameraScreen.h"
 
 UIManager* UIManager::sharedInstance = NULL;
 
@@ -13,8 +14,8 @@ UIManager* UIManager::get() {
 	return sharedInstance;
 }
 
-void UIManager::initialize(HWND hwnd) {
-	sharedInstance = new UIManager(hwnd);
+void UIManager::initialize(HWND hwnd, Camera* _cam) {
+	sharedInstance = new UIManager(hwnd,_cam);
 }
 
 void UIManager::destroy() {
@@ -60,7 +61,8 @@ bool UIManager::isUIScreenActive(std::string name) {
 	return false;
 }
 
-UIManager::UIManager(HWND hwnd) {
+UIManager::UIManager(HWND hwnd, Camera* _cam) {
+	cam = _cam;
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 
@@ -88,6 +90,10 @@ UIManager::UIManager(HWND hwnd) {
 	InspectorScreen* inspectorScreen = new InspectorScreen();
 	m_ui_table[UINames::INSPECTOR_SCREEN] = inspectorScreen;
 	m_ui_list.push_back(inspectorScreen);
+
+	CameraScreen* cameraScreen = new CameraScreen(cam);
+	m_ui_table[UINames::CAMERA_SCREEN] = cameraScreen;
+	m_ui_list.push_back(cameraScreen);
 }
 
 UIManager::~UIManager() {

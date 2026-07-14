@@ -6,6 +6,7 @@
 #include "Window.h"
 #include "DeviceContext.h"
 #include "AUIScreen.h"
+#include "Camera.h"
 
 #include "../IMGUI/imgui.h"
 #include "../IMGUI/backends/imgui_impl_dx11.h"
@@ -16,13 +17,14 @@ namespace UINames {
 	const std::string HIERARCHY_SCREEN = "HIERARCHY_SCREEN";
 	const std::string INSPECTOR_SCREEN = "INSPECTOR_SCREEN";
 	const std::string ABOUT_SCREEN = "ABOUT_SCREEN";
+	const std::string CAMERA_SCREEN = "CAMERA_SCREEN";
 }
 
 class UIManager {
 public:
 	static UIManager* get();
 
-	static void initialize(HWND hwnd);
+	static void initialize(HWND hwnd, Camera* cam);
 	static void destroy();
 
 	void drawAllUI();
@@ -33,7 +35,7 @@ public:
 
 	bool isUIScreenActive(std::string name);
 private:
-	UIManager(HWND hwnd);
+	UIManager(HWND hwnd, Camera* cam);
 
 	UIManager(UIManager const&) {};
 	UIManager& operator=(UIManager const&) {};
@@ -41,6 +43,7 @@ private:
 
 	~UIManager();
 private:
+	Camera* cam;
 	std::vector<AUIScreen*> m_ui_list;
 	std::unordered_map<std::string, AUIScreen*> m_ui_table;
 };

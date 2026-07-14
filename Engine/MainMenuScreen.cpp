@@ -40,6 +40,9 @@ void MainMenuScreen::draw() {
 		if (ImGui::MenuItem("About")) {
 			UIManager::get()->setUIScreenActive(UINames::ABOUT_SCREEN, !UIManager::get()->isUIScreenActive(UINames::ABOUT_SCREEN));
 		}
+		if (ImGui::MenuItem("Camera")){
+			UIManager::get()->setUIScreenActive(UINames::CAMERA_SCREEN, !UIManager::get()->isUIScreenActive(UINames::CAMERA_SCREEN));
+		}
 		ImGui::EndMainMenuBar();
 	}
 }

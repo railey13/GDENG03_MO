@@ -146,6 +146,7 @@
     <ClCompile Include="Engine\AppWindow.cpp" />
     <ClCompile Include="Engine\AUIScreen.cpp" />
     <ClCompile Include="Engine\Camera.cpp" />
+    <ClCompile Include="Engine\CameraScreen.cpp" />
     <ClCompile Include="Engine\ConstantBuffer.cpp" />
     <ClCompile Include="Engine\Cube.cpp" />
     <ClCompile Include="Engine\DeviceContext.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="Engine\AppWindow.h" />
     <ClInclude Include="Engine\AUIScreen.h" />
     <ClInclude Include="Engine\Camera.h" />
+    <ClInclude Include="Engine\CameraScreen.h" />
     <ClInclude Include="Engine\CloseWindowCommand.h" />
     <ClInclude Include="Engine\Command.h" />
     <ClInclude Include="Engine\CommandInvoker.h" />
