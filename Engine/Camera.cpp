@@ -11,7 +11,8 @@ void Camera::update(f32 deltaTime) {
 
 	Vector3D new_pos = m_position
 		+ world_cam.getZDirection() * (m_forward * deltaTime)
-		+ world_cam.getXDirection() * (m_strafe * deltaTime);
+		+ world_cam.getXDirection() * (m_strafe * deltaTime)
+		+world_cam.getYDirection() * (m_up * deltaTime);
 
 	world_cam.setTranslation(new_pos);
 	m_position = new_pos;
@@ -36,6 +37,9 @@ void Camera::onKeyDown(i32 key) {
 			break;
 		case 'D': m_strafe = 1;
 			break;
+		case 'Q': m_up = -1;
+			break;
+		case 'E': m_up = 1;
 	}
 }
 
@@ -49,6 +53,9 @@ void Camera::onKeyUp(i32 key) {
 			break;
 		case 'D': m_strafe = 0;
 			break;
+		case 'Q': m_up = 0;
+			break;
+		case 'E': m_up = 0;
 	}
 }
 

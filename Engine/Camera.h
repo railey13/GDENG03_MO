@@ -40,6 +40,8 @@ private:
 	// Camera Movement
 	f32 m_forward = 0.0f;
 	f32 m_strafe = 0.0f;
+	f32 m_up = 0.0f;
+
 	f32 m_sensitivity = 0.005f;
 	Point m_lastMousePos;
 	bool m_moveLock = true;
