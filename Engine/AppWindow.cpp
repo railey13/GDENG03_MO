@@ -159,7 +159,7 @@ void AppWindow::onKeyUp(i32 key) {
 			break;
 		case VK_LEFT: camera_flag = 0;
 			break;
-		case VK_RIGHT: camera_flag = 1;
+		case VK_RIGHT: if(CameraHandler::get()->getGameCamera()) camera_flag = 1;
 			break;
 		default: break;
 	}
@@ -187,6 +187,10 @@ void AppWindow::onRightMouseUp(const Point& mouse_pos) {
 
 void AppWindow::DestroyObject() {
 	if (m_objects.empty()) return;
+	if (m_objects.back() == CameraHandler::get()->getGameCamera()) {
+		camera_flag = 0;
+		gamecamera = false;
+	}
 	delete m_objects.back();
 	m_objects.pop_back();
 }
@@ -214,7 +218,7 @@ AGameObject* AppWindow::SpawnGameObject(GAMEOBJECTS type) {
 		case GAMEOBJECTS::GAME_CAMERA:
 			if (gamecamera) return nullptr;
 			obj = new GameCamera(vs_byte_code, vs_size);
-			obj->setScale(Vector3D(0.4f, 0.5f, 0));
+			obj->setScale(Vector3D(0.4f, 0.5f, 1));
 			gamecamera = true;
 			break;
 		default: break;
@@ -235,6 +239,11 @@ void AppWindow::RemoveObject(AGameObject* object) {
 
 	if (it != m_objects.end()) {
 		m_objects.erase(it);
+	}
+
+	if (object == CameraHandler::get()->getGameCamera()) {
+		camera_flag = 0;
+		gamecamera = false;
 	}
 }
 
