@@ -1,5 +1,6 @@
 #include "MainMenuScreen.h"
 #include "UIManager.h"
+#include "CameraHandler.h"
 #include "AppWindow.h"
 
 MainMenuScreen::MainMenuScreen() : AUIScreen(UINames::MAIN_MENU_BAR) {
@@ -37,6 +38,7 @@ void MainMenuScreen::draw() {
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Tools")) {
+			
 			ImGui::EndMenu();
 		}
 		if (ImGui::MenuItem("About")) {

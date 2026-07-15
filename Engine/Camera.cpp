@@ -124,9 +124,16 @@ Vector3D Camera::getForwardDirection() const {
 	return getRotationMatrix().getZDirection();
 }
 
+Vector3D Camera::getRotation() const
+{
+	return Vector3D(m_pitch,m_yaw,0);
+}
+
 Vector3D Camera::getPosition() const {
 	return m_position;
 }
+
+
 
 void Camera::setAspect(f32 width, f32 height) {
 	m_aspect = width / height;
