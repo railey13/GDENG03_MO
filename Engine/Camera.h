@@ -28,6 +28,7 @@ public:
 	Matrix4x4 getProjectionMatrix() const;
 	Matrix4x4 getRotationMatrix() const;
 	Vector3D getForwardDirection() const;
+	Vector3D getRotation() const;
 	Vector3D getPosition() const;
 
 	void setAspect(f32 width, f32 height);

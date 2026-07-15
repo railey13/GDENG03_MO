@@ -193,6 +193,8 @@
       <Filter>Scene Editor\Screens</Filter>
     </ClCompile>
     <ClCompile Include="Engine\CameraScreen.cpp" />
+    <ClCompile Include="Engine\CameraHandler.cpp" />
+    <ClCompile Include="Engine\GameCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\AppWindow.h">
@@ -257,9 +259,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Cube.h">
       <Filter>Game\GameObjects\Cube</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Plane.h">
-      <Filter>Game\GameObjects\Plane</Filter>
     </ClInclude>
     <ClInclude Include="Engine\AGameObject.h">
       <Filter>Game\GameObjects</Filter>
@@ -335,6 +334,11 @@
       <Filter>Scene Editor\Screens</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CameraScreen.h" />
+    <ClInclude Include="Engine\CameraHandler.h" />
+    <ClInclude Include="Engine\GameCamera.h" />
+    <ClInclude Include="Engine\Plane.h">
+      <Filter>Game\GameObjects\Sphere</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\VertexShader.hlsl">

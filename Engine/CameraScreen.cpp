@@ -1,5 +1,7 @@
 #include "CameraScreen.h"
 #include "UIManager.h"
+#include "CameraHandler.h"
+#include "AppWindow.h"
 #include "Camera.h"
 
 CameraScreen::CameraScreen(Camera* _cam) : AUIScreen(UINames::CAMERA_SCREEN) {
@@ -23,8 +25,20 @@ void CameraScreen::draw() {
 			ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize("Align Scene View with Game View").x) * 0.5f);
 			if (ImGui::Button("Align Scene View with Game View")) {
 				//
+				Camera* viewCam = CameraHandler::get()->getSceneCamera();
+				Vector3D camPos = viewCam->getPosition();
+				CameraHandler::get()->getGameCamera()->m_position = camPos;
+				CameraHandler::get()->getGameCamera()->m_rotation = viewCam->getRotation();
 			}
 
+			ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize("Align to View: Current Selected GameObject").x) * 0.5f);
+			if (ImGui::Button("Align to View: Current Selected GameObject")) {
+				//
+				Camera* viewCam = CameraHandler::get()->getSceneCamera();
+				Vector3D camPos = viewCam->getPosition();
+				AppWindow::get()->m_selectedGameObject->m_position = camPos;
+				AppWindow::get()->m_selectedGameObject->m_rotation = viewCam->getRotation();
+			}
 			ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize("Close").x) * 0.5f);
 			if (ImGui::Button("Close")) {
 				m_isActive = false;

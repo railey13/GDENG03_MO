@@ -112,8 +112,8 @@ void Cube::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4
 	cc.m_world *= temp;
 
 	temp.setIdentity();
-	temp.setRotationZ(m_rotation.m_z);
-
+	temp.setRotationX(m_rotation.m_x);
+	
 	cc.m_world *= temp;
 
 	temp.setIdentity();
@@ -122,7 +122,7 @@ void Cube::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4
 	cc.m_world *= temp;
 
 	temp.setIdentity();
-	temp.setRotationX(m_rotation.m_x);
+	temp.setRotationZ(m_rotation.m_z);
 
 	cc.m_world *= temp;
 
