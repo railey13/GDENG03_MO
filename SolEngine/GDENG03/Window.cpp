@@ -1,0 +1,170 @@
+#include "Window.h"
+#include "InputSystem.h"
+#include "IMGUI/imgui.h"
+#include "IMGUI/imgui_impl_win32.h"
+
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+Window* window = nullptr;
+
+Window::Window()
+	: m_hwnd(nullptr)
+	, m_is_run(false)
+	, msg{}
+{
+}
+
+static LRESULT CALLBACK Wndproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+{
+	if (ImGui_ImplWin32_WndProcHandler(hwnd, msg, wparam, lparam))
+		return true;
+
+	switch (msg)
+	{
+	case WM_CREATE:
+	{
+		window->setHWND(hwnd); // FIX: assign HWND before onCreate() fires,
+		window->onCreate();    // because CreateWindowEx hasn't returned yet
+		break;                 // so m_hwnd would still be nullptr otherwise
+	}
+	case WM_SETFOCUS:
+	{
+		window->onFocus();
+		break;
+	}
+	case WM_DESTROY:
+	{
+		window->onDestroy();
+		::PostQuitMessage(0);
+		break;
+	}
+	case WM_KEYDOWN:
+	{
+		std::map<InputListener*, InputListener*>::iterator it = InputSystem::get()->m_map_listeners.begin();
+		while (it != InputSystem::get()->m_map_listeners.end())
+		{
+			it->second->onKeyDown((int)wparam);
+			it++;
+		}
+		break;
+	}
+	case WM_KEYUP:
+	{
+		std::map<InputListener*, InputListener*>::iterator it = InputSystem::get()->m_map_listeners.begin();
+		while (it != InputSystem::get()->m_map_listeners.end())
+		{
+			it->second->onKeyUp((int)wparam);
+			it++;
+		}
+		break;
+	}
+	default:
+		return ::DefWindowProc(hwnd, msg, wparam, lparam);
+	}
+
+	return NULL;
+}
+
+bool Window::init()
+{
+	if (!window)
+		window = this;
+
+	WNDCLASSEX wc = {};
+	wc.cbClsExtra = NULL;
+	wc.cbSize = sizeof(WNDCLASSEX);
+	wc.cbWndExtra = NULL;
+	wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
+	wc.hInstance = NULL;
+	wc.lpszClassName = L"MyWindowClass";
+	wc.lpszMenuName = L"";
+	wc.style = NULL;
+	wc.lpfnWndProc = Wndproc;
+
+	if (!RegisterClassEx(&wc))
+		return false;
+
+	RECT rc = { 0, 0, 1024, 768 };
+	::AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
+
+	m_hwnd = ::CreateWindowEx(
+		WS_EX_OVERLAPPEDWINDOW,
+		L"MyWindowClass",
+		L"DirectX Application",
+		WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT, CW_USEDEFAULT,
+		rc.right - rc.left, rc.bottom - rc.top,
+		NULL, NULL, NULL, NULL);
+
+	if (!m_hwnd)
+		return false;
+
+	::ShowWindow(m_hwnd, SW_SHOW);
+	::UpdateWindow(m_hwnd);
+
+	m_is_run = true;
+
+	return true;
+}
+
+bool Window::broadcast()
+{
+	InputSystem::get()->update();
+
+	this->onUpdate();
+
+	while (::PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) > 0)
+	{
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+
+	Sleep(1);
+
+	return true;
+}
+
+bool Window::release()
+{
+	if (!::DestroyWindow(m_hwnd))
+		return false;
+
+	return true;
+}
+
+bool Window::isRun() const
+{
+	return m_is_run;
+}
+
+RECT Window::getClientWindowRect() const
+{
+	RECT rc;
+	::GetClientRect(m_hwnd, &rc);
+	return rc;
+}
+
+void Window::setHWND(HWND hwnd)
+{
+	m_hwnd = hwnd;
+}
+
+void Window::onDestroy()
+{
+	m_is_run = false;
+}
+
+void Window::onFocus()
+{
+}
+
+void Window::onKillFocus()
+{
+}
+
+Window::~Window()
+{
+}
