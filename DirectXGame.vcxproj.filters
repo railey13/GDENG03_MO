@@ -199,6 +199,8 @@
       <Filter>Scene Editor\Screens</Filter>
     </ClCompile>
     <ClCompile Include="Engine\CameraScreen.cpp" />
+    <ClCompile Include="Engine\CameraHandler.cpp" />
+    <ClCompile Include="Engine\GameCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\AppWindow.h">
@@ -347,6 +349,8 @@
       <Filter>Scene Editor\Screens</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CameraScreen.h" />
+    <ClInclude Include="Engine\CameraHandler.h" />
+    <ClInclude Include="Engine\GameCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\VertexShader.hlsl">

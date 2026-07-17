@@ -128,6 +128,11 @@ Vector3D Camera::getPosition() const {
 	return m_position;
 }
 
+Vector3D Camera::getRotation() const
+{
+	return Vector3D(m_pitch,m_yaw,0);
+}
+
 void Camera::setAspect(f32 width, f32 height) {
 	m_aspect = width / height;
 }
