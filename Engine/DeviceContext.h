@@ -7,6 +7,7 @@ public:
 	DeviceContext(ID3D11DeviceContext* device_context, RenderSystem* system);
 
 	void ClearRenderTargetColor(SwapChainPtr swap_chain, f32 red, f32 green, f32 blue, f32 alpha);
+	void ClearRenderTargetColor(RenderTexturePtr render_texture, f32 red, f32 green, f32 blue, f32 alpha);
 
 	void setVertexBuffer(VertexBufferPtr vertex_buffer);
 	void setIndexBuffer(IndexBufferPtr index_buffer);

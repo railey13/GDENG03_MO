@@ -27,7 +27,7 @@ VertexBuffer::VertexBuffer(void* list_vertices, ui32 size_vertex, ui32 size_list
 	};
 
 
-	ui32 size_layout = ARRAYSIZE(layout);
+	ui32 size_layout = (ui32)ARRAYSIZE(layout);
 
 	if (FAILED(m_system->m_d3d_device->CreateInputLayout(layout, size_layout, shader_byte_code, size_byte_shader, &m_layout))) {
 		throw std::exception("Vertex Buffer did not initiate successfully");

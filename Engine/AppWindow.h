@@ -83,6 +83,8 @@ public:
 	AGameObject* m_selectedGameObject = nullptr;
 private:
 	SwapChainPtr m_swap_chain;
+	RenderTexturePtr m_editor_rt;
+	RenderTexturePtr m_game_rt;
 
 	VertexShaderPtr m_vs;
 	PixelShaderPtr m_ps;

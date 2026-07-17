@@ -7,6 +7,7 @@
 #include "HierarchyScreen.h"
 #include "InspectorScreen.h"
 #include "CameraScreen.h"
+#include "ViewportScreen.h"
 
 UIManager* UIManager::sharedInstance = NULL;
 
@@ -61,6 +62,26 @@ bool UIManager::isUIScreenActive(std::string name) {
 	return false;
 }
 
+void UIManager::setViewportSRVs(ID3D11ShaderResourceView* editor_srv, ID3D11ShaderResourceView* game_srv) {
+	if (m_viewport_screen) {
+		m_viewport_screen->setViewportSRVs(editor_srv, game_srv);
+	}
+}
+
+ImVec2 UIManager::getEditorViewportSize() const {
+	if (m_viewport_screen) {
+		return m_viewport_screen->getEditorViewportSize();
+	}
+	return ImVec2(1024, 768);
+}
+
+ImVec2 UIManager::getGameViewportSize() const {
+	if (m_viewport_screen) {
+		return m_viewport_screen->getGameViewportSize();
+	}
+	return ImVec2(1024, 768);
+}
+
 UIManager::UIManager(HWND hwnd, Camera* _cam) {
 	cam = _cam;
 	IMGUI_CHECKVERSION();
@@ -94,6 +115,11 @@ UIManager::UIManager(HWND hwnd, Camera* _cam) {
 	CameraScreen* cameraScreen = new CameraScreen(cam);
 	m_ui_table[UINames::CAMERA_SCREEN] = cameraScreen;
 	m_ui_list.push_back(cameraScreen);
+
+	ViewportScreen* viewportScreen = new ViewportScreen();
+	m_ui_table[UINames::VIEWPORT_SCREEN] = viewportScreen;
+	m_ui_list.push_back(viewportScreen);
+	m_viewport_screen = viewportScreen;
 }
 
 UIManager::~UIManager() {

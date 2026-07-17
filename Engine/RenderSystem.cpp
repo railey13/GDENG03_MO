@@ -6,6 +6,7 @@
 #include "ConstantBuffer.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
+#include "RenderTexture.h"
 
 #include <d3dcompiler.h>
 #include <exception>
@@ -22,13 +23,13 @@ RenderSystem::RenderSystem() {
     };
 
     // get the vector size  
-    ui32  num_driver_types = ARRAYSIZE(driver_types);
+    ui32  num_driver_types = (ui32)ARRAYSIZE(driver_types);
 
     D3D_FEATURE_LEVEL feature_levels[] = {
             D3D_FEATURE_LEVEL_11_0
     };
 
-    ui32  num_feature_levels = ARRAYSIZE(feature_levels);
+    ui32  num_feature_levels = (ui32)ARRAYSIZE(feature_levels);
 
     HRESULT res = 0;
 
@@ -152,6 +153,17 @@ PixelShaderPtr RenderSystem::createPixelShader(void* shader_byte_code, size_t by
     }
 
     return ps;
+}
+
+RenderTexturePtr RenderSystem::createRenderTexture(ui32 width, ui32 height) {
+    RenderTexturePtr rt = nullptr;
+    try {
+        rt = std::make_shared<RenderTexture>(width, height, this);
+    }
+    catch (...) {
+
+    }
+    return rt;
 }
 
 ID3D11Device* RenderSystem::getD11Device() {

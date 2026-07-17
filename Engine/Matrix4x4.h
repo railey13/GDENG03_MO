@@ -39,28 +39,28 @@ public:
 	void setRotationX(f32 x) {
 		setIdentity();
 
-		m_mat[1][1] = cos(x);
-		m_mat[1][2] = sin(x);
-		m_mat[2][1] = -sin(x);
-		m_mat[2][2] = cos(x);
+		m_mat[1][1] = cosf(x);
+		m_mat[1][2] = sinf(x);
+		m_mat[2][1] = -sinf(x);
+		m_mat[2][2] = cosf(x);
 	}
 
 	void setRotationY(f32 y) {
 		setIdentity();
 
-		m_mat[0][0] = cos(y);
-		m_mat[0][2] = -sin(y);
-		m_mat[2][0] = sin(y);
-		m_mat[2][2] = cos(y);
+		m_mat[0][0] = cosf(y);
+		m_mat[0][2] = -sinf(y);
+		m_mat[2][0] = sinf(y);
+		m_mat[2][2] = cosf(y);
 	}
 
 	void setRotationZ(f32 z) {
 		setIdentity();
 
-		m_mat[0][0] = cos(z);
-		m_mat[0][1] = sin(z);
-		m_mat[1][0] = -sin(z);
-		m_mat[1][1] = cos(z);
+		m_mat[0][0] = cosf(z);
+		m_mat[0][1] = sinf(z);
+		m_mat[1][0] = -sinf(z);
+		m_mat[1][1] = cosf(z);
 	}
 
 	f32 getDeterminant() {
@@ -150,7 +150,7 @@ public:
 
 	void setPerspectiveFovLH(f32 fov, f32 aspect, f32 znear, f32 zfar) {
 
-		f32 yscale = 1.0f / tan(fov/2.0f);
+		f32 yscale = 1.0f / tanf(fov/2.0f);
 		f32 xscale = yscale / aspect;
 
 		m_mat[0][0] = xscale;

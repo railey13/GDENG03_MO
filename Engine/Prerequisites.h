@@ -14,6 +14,7 @@ class Resource;
 class ResourceManager;
 class Texture;
 class TextureManager;
+class RenderTexture;
 
 typedef std::shared_ptr<SwapChain> SwapChainPtr;
 typedef std::shared_ptr<DeviceContext> DeviceContextPtr;
@@ -24,6 +25,7 @@ typedef std::shared_ptr<VertexShader> VertexShaderPtr;
 typedef std::shared_ptr<PixelShader> PixelShaderPtr;
 typedef std::shared_ptr<Resource> ResourcePtr;
 typedef std::shared_ptr<Texture> TexturePtr;
+typedef std::shared_ptr<RenderTexture> RenderTexturePtr;
 
 typedef unsigned int ui32;
 typedef int	i32;

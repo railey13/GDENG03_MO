@@ -15,6 +15,15 @@ void InspectorScreen::draw() {
 	AGameObject* obj = AppWindow::get()->m_selectedGameObject;
 
 	if (m_isActive) {
+		ImGuiIO& io = ImGui::GetIO();
+		float menu_h = 20.0f;
+		float scr_w = io.DisplaySize.x;
+		float scr_h = io.DisplaySize.y;
+		float work_h = scr_h - menu_h;
+
+		ImGui::SetNextWindowPos(ImVec2(scr_w * 0.80f, menu_h), ImGuiCond_FirstUseEver);
+		ImGui::SetNextWindowSize(ImVec2(scr_w * 0.20f, work_h), ImGuiCond_FirstUseEver);
+
 		if (ImGui::Begin("Inspector", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
 			if (obj) {
 				// GameObject Name

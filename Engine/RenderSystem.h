@@ -15,6 +15,7 @@ public:
 	ConstantBufferPtr createConstantBuffer(void* buffer, ui32  size_buffer);
 	VertexShaderPtr createVertexShader(void* shader_byte_code, size_t byte_code_size);
 	PixelShaderPtr createPixelShader(void* shader_byte_code, size_t byte_code_size);
+	RenderTexturePtr createRenderTexture(ui32 width, ui32 height);
 
 	ID3D11Device* getD11Device();
 public:
@@ -49,5 +50,6 @@ private:
 	friend class PixelShader;
 	friend class GraphicsEngine;
 	friend class Texture;
+	friend class RenderTexture;
 };
 

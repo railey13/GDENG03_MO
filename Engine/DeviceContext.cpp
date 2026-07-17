@@ -6,6 +6,7 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "Texture.h"
+#include "RenderTexture.h"
 #include <exception>
 
 DeviceContext::DeviceContext(ID3D11DeviceContext* device_context, RenderSystem* system) : m_device_context(device_context), m_system(system){
@@ -17,6 +18,16 @@ void DeviceContext::ClearRenderTargetColor(SwapChainPtr swap_chain, f32 red, f32
 	m_device_context->ClearRenderTargetView(swap_chain->m_rtv, clear_color);
 	m_device_context->ClearDepthStencilView(swap_chain->m_dsv, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
 	m_device_context->OMSetRenderTargets(1, &swap_chain->m_rtv, swap_chain->m_dsv);
+}
+
+void DeviceContext::ClearRenderTargetColor(RenderTexturePtr render_texture, f32 red, f32 green, f32 blue, f32 alpha) {
+	f32 clear_color[] = {red, green, blue, alpha};
+	ID3D11RenderTargetView* rtv = render_texture->getRTV();
+	ID3D11DepthStencilView* dsv = render_texture->getDSV();
+	m_device_context->ClearRenderTargetView(rtv, clear_color);
+	if (dsv)
+		m_device_context->ClearDepthStencilView(dsv, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+	m_device_context->OMSetRenderTargets(1, &rtv, dsv);
 }
 
 void DeviceContext::setVertexBuffer(VertexBufferPtr vertex_buffer) {
@@ -33,8 +44,8 @@ void DeviceContext::setIndexBuffer(IndexBufferPtr index_buffer) {
 
 void DeviceContext::setViewportSize(ui32  width, ui32  height) {
 	D3D11_VIEWPORT vp = {};
-	vp.Width = width;
-	vp.Height = height;
+	vp.Width = (FLOAT)width;
+	vp.Height = (FLOAT)height;
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
 

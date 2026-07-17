@@ -51,6 +51,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, ui32 msg, WPARAM wparam, LPARAM lparam) {
             return ::DefWindowProc(hwnd, msg, wparam, lparam);
         }
     }
+    return 0;
 }
 
 Window::Window() {

@@ -14,8 +14,8 @@ Sphere::Sphere(void* shader_byte_code, size_t size_shader) {
 	top.texcoord = Vector2D(0.5f, 0.0f);
 	verts.push_back(top);
 
-	f32 phiStep = M_PI / m_stackCount;
-	f32 thetaStep = 2.0 * M_PI / m_sliceCount;
+	f32 phiStep = (f32)M_PI / m_stackCount;
+	f32 thetaStep = 2.0f * (f32)M_PI / m_sliceCount;
 
 	for (ui32 i = 1; i <= m_stackCount - 1; i++) {
 		f32 phi = i * phiStep;

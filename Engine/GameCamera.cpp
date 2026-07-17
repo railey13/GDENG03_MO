@@ -55,7 +55,7 @@ GameCamera::GameCamera(void* shader_byte_code, size_t size_shader) {
 		{position_list[0], texcoord_list[3]},
 	};
 
-	ui32 size_list = ARRAYSIZE(list);
+	ui32 size_list = (ui32)ARRAYSIZE(list);
 
 	ui32 index_list[] = {
 		// FRONT SIDE
@@ -78,7 +78,7 @@ GameCamera::GameCamera(void* shader_byte_code, size_t size_shader) {
 		22,23,20
 	};
 
-	ui32 size_index_list = ARRAYSIZE(index_list);
+	ui32 size_index_list = (ui32)ARRAYSIZE(index_list);
 
 	m_vb = GraphicsEngine::get()->getRenderSystem()->createVertexBuffer(list, sizeof(vertex), size_list, shader_byte_code, size_shader);
 	m_ib = GraphicsEngine::get()->getRenderSystem()->createIndexBuffer(index_list, size_index_list);

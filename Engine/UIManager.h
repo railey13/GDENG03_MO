@@ -18,7 +18,10 @@ namespace UINames {
 	const std::string INSPECTOR_SCREEN = "INSPECTOR_SCREEN";
 	const std::string ABOUT_SCREEN = "ABOUT_SCREEN";
 	const std::string CAMERA_SCREEN = "CAMERA_SCREEN";
+	const std::string VIEWPORT_SCREEN = "VIEWPORT_SCREEN";
 }
+
+class ViewportScreen;
 
 class UIManager {
 public:
@@ -34,6 +37,10 @@ public:
 	void setUIScreenActive(std::string name, bool flag);
 
 	bool isUIScreenActive(std::string name);
+
+	void setViewportSRVs(ID3D11ShaderResourceView* editor_srv, ID3D11ShaderResourceView* game_srv);
+	ImVec2 getEditorViewportSize() const;
+	ImVec2 getGameViewportSize() const;
 private:
 	UIManager(HWND hwnd, Camera* cam);
 
@@ -46,5 +53,6 @@ private:
 	Camera* cam;
 	std::vector<AUIScreen*> m_ui_list;
 	std::unordered_map<std::string, AUIScreen*> m_ui_table;
+	ViewportScreen* m_viewport_screen = nullptr;
 };
 
