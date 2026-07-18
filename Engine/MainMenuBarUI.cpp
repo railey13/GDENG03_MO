@@ -50,6 +50,7 @@ void MainMenuBarUI::draw() {
 			if (CameraUI* camera = ui->getUI<CameraUI>()) {
 				camera->toggleActive();
 			}
+
 		}
 		ImGui::EndMainMenuBar();
 	}
