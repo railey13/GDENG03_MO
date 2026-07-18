@@ -78,7 +78,8 @@ void AppWindow::onCreate() {
 	GameObject* plane = SpawnGameObject(PLANE);
 	if (plane) {
 		plane->getTransform()->setPosition(Vector3D(0.0f, -0.2f, 0.0f));
-		plane->getTransform()->setScale(Vector3D(2.0f, 1.0f, 2.0f));
+		plane->getTransform()->setScale(Vector3D(1.0f, 1.0f, 1.0f));
+		plane->getTransform()->setRotation(Vector3D(1.570796f, 0.0f, 0.0f));
 	}
 
 	GameObject* cube = SpawnGameObject(CUBE);

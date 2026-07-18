@@ -37,7 +37,7 @@ void TransformComponent::updateWorldMatrix() {
 	m_worldMatrix *= temp;
 
 	temp.setIdentity();
-	temp.setRotationZ(m_rotation.m_z);
+	temp.setRotationX(m_rotation.m_x);
 	m_worldMatrix *= temp;
 
 	temp.setIdentity();
@@ -45,7 +45,7 @@ void TransformComponent::updateWorldMatrix() {
 	m_worldMatrix *= temp;
 
 	temp.setIdentity();
-	temp.setRotationX(m_rotation.m_x);
+	temp.setRotationZ(m_rotation.m_z);
 	m_worldMatrix *= temp;
 
 	temp.setIdentity();

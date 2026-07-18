@@ -40,13 +40,7 @@ void ViewportUI::draw() {
 			Camera* scene = CameraHandler::get()->getSceneCamera();
 			GameCamera* game = CameraHandler::get()->getGameCamera();
 
-			if (game && scene) {
-				if (ImGui::Button("Align with View")) {
-					game->getTransform()->m_position = scene->getPosition();
-					game->getTransform()->m_rotation = scene->getRotation();
-				}
-				ImGui::Separator();
-			}
+			
 
 			ImVec2 size = ImGui::GetContentRegionAvail();
 			if (size.x < 64) size.x = 64;

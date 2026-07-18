@@ -3,10 +3,10 @@
 
 Plane::Plane(void* shader_byte_code, size_t size_shader) {
 	Vector3D position_list[] = {
-		{Vector3D(-1, 0, -1), }, // POS1
-		{Vector3D(-1, 0,  1), }, // POS2
-		{Vector3D(1,  0,  1), }, // POS3 
-		{Vector3D(1,  0, -1)  }, // POS4
+		{Vector3D(-1, -1, 0), }, // POS1
+		{Vector3D(-1,  1, 0), }, // POS2
+	    {Vector3D(1,  1, 0), }, // POS3
+	    {Vector3D(1, -1, 0), }, // POS4
 	};
 
 	Vector2D texcoord_list[] = {
