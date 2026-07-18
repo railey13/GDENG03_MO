@@ -1,12 +1,12 @@
 #pragma once
-#include "AUIScreen.h"
+#include "UI.h"
 #include <d3d11.h>
 #include "../IMGUI/imgui.h"
 
-class ViewportScreen : public AUIScreen {
+class ViewportUI : public UI {
 public:
-	ViewportScreen();
-	~ViewportScreen();
+	ViewportUI();
+	~ViewportUI();
 
 	void draw() override;
 

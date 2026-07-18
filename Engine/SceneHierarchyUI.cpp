@@ -1,16 +1,16 @@
-#include "HierarchyScreen.h"
+#include "SceneHierarchyUI.h"
 #include "UIManager.h"
 #include "AppWindow.h"
 
-HierarchyScreen::HierarchyScreen() : AUIScreen(UINames::HIERARCHY_SCREEN) {
+SceneHierarchyUI::SceneHierarchyUI() {
 	m_isActive = true;
 }
 
-HierarchyScreen::~HierarchyScreen() {
+SceneHierarchyUI::~SceneHierarchyUI() {
 
 }
 
-void HierarchyScreen::draw() {
+void SceneHierarchyUI::draw() {
 	if (m_isActive) {
 		ImGuiIO& io = ImGui::GetIO();
 		float menu_h = 20.0f;
@@ -22,9 +22,9 @@ void HierarchyScreen::draw() {
 		ImGui::SetNextWindowSize(ImVec2(scr_w * 0.20f, work_h * 0.70f), ImGuiCond_FirstUseEver);
 
 		if (ImGui::Begin("Hierarchy Tree", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
-			const std::vector<AGameObject*> objects = AppWindow::get()->getGameObjects();
+			const std::vector<GameObject*> objects = AppWindow::get()->getGameObjects();
 			for (int i = 0; i < (int)objects.size(); i++) {
-				AGameObject* obj = objects[i];
+				GameObject* obj = objects[i];
 				ImGui::PushID(i); 
 
 				bool isSelected = (AppWindow::get()->m_selectedGameObject == obj);

@@ -1,16 +1,16 @@
-#include "CameraScreen.h"
+#include "CameraUI.h"
 #include "UIManager.h"
 #include "Camera.h"
 
-CameraScreen::CameraScreen(Camera* _cam) : AUIScreen(UINames::CAMERA_SCREEN) {
-	cam = _cam;
-}
-
-CameraScreen::~CameraScreen() {
+CameraUI::CameraUI() {
 
 }
 
-void CameraScreen::draw() {
+CameraUI::~CameraUI() {
+
+}
+
+void CameraUI::draw() {
 	if (m_isActive) {
 		if (ImGui::Begin("Camera Settings", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
 			ImGui::Text("Coordinates");

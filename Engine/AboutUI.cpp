@@ -1,15 +1,15 @@
-#include "AboutScreen.h"
+#include "AboutUI.h"
 #include "UIManager.h"
 
-AboutScreen::AboutScreen() : AUIScreen(UINames::ABOUT_SCREEN) {
+AboutUI::AboutUI() {
 
 }
 
-AboutScreen::~AboutScreen() {
+AboutUI::~AboutUI() {
 
 }
 
-void AboutScreen::draw() {
+void AboutUI::draw() {
 	if (m_isActive) {
 		if (ImGui::Begin("Credits", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
 			ImGui::Text("About");

@@ -1,8 +1,8 @@
 #pragma once
-#include "AGameObject.h"
+#include "GameObject.h"
 #include "Settings.h"
 
-class GameCamera : public AGameObject{
+class GameCamera : public GameObject {
 public:
 	GameCamera(void* shader_byte_code, size_t size_shader);
 	~GameCamera();

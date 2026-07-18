@@ -12,6 +12,8 @@
 #include "VertexShader.h"
 #include "PixelShader.h"
 
+#include "GameObjectTypes.h"
+
 #include <string>
 
 struct vertex {
@@ -28,29 +30,17 @@ struct constant {
 	f32 padding[3];
 };
 
-enum GAMEOBJECTS {
-	CUBE,
-	SPHERE,
-	PLANE,
-	GAME_CAMERA
-};
-
-class AGameObject {
+class GameObject {
 public:
-	AGameObject();
-	virtual ~AGameObject();
+	GameObject();
+	virtual ~GameObject();
 public:
 	virtual void update(f32 deltaTime) = 0;
 	virtual void draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4 proj) = 0;
 public:
-	void setPosition(f32 x, f32 y, f32 z);
-	void setPosition(Vector3D position);
-
-	void setRotation(f32 x, f32 y, f32 z);
-	void setRotation(Vector3D rotation);
-
-	void setScale(f32 x, f32 y, f32 z);
-	void setScale(Vector3D scale);	
+	void setPosition(const Vector3D& position);
+	void setRotation(const Vector3D& rotation);
+	void setScale(const Vector3D& scale);
 
 	void setTexture(TexturePtr tex);
 public:
@@ -58,8 +48,8 @@ public:
 	Vector3D m_rotation;
 	Vector3D m_scale = Vector3D(1,1,1);
 
-	TexturePtr m_tex = nullptr;
-
 	std::string m_name;
+protected:
+	TexturePtr m_tex = nullptr;
 };
 

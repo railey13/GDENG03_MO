@@ -4,13 +4,13 @@
 
 class DeleteObjectCommand : public Command {
 public:
-	DeleteObjectCommand(AppWindow* receiver, AGameObject* target) : receiver(receiver), object(target){
+	DeleteObjectCommand(AppWindow* receiver, GameObject* target) : receiver(receiver), object(target){
 
 	}
 	// Inherited via Command
 	void execute() override {
 		if (receiver && object) {
-			std::vector<AGameObject*> objects = receiver->getGameObjects();
+			std::vector<GameObject*> objects = receiver->getGameObjects();
 
 			for (ui32 i = 0; i < objects.size(); i++) {
 				if (objects[i] == object) {
@@ -47,7 +47,7 @@ public:
 	}
 private:
 	AppWindow* receiver;
-	AGameObject* object = nullptr;
+	GameObject* object = nullptr;
 	bool m_inScene = false;
 	size_t m_index = 0;
 };

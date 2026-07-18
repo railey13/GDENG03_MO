@@ -1,13 +1,13 @@
 #pragma once
-#include "AUIScreen.h"
+#include "UI.h"
 #include "Prerequisites.h"
 
-class InspectorScreen : public AUIScreen{
+class InspectorUI : public UI{
 public:
-	InspectorScreen();
-	~InspectorScreen();
+	InspectorUI();
+	~InspectorUI();
 
-	// Inherited via AUIScreen
+	// Inherited via UI
 	void draw() override;
 private:
 	char m_nameBuffer[128] = "";

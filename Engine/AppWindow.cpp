@@ -13,6 +13,10 @@
 #include "CameraHandler.h"
 #include "RenderTexture.h"
 
+#include "Cube.h"
+#include "Plane.h"
+#include "Sphere.h"
+
 AppWindow* AppWindow::sharedInstance = NULL;
 
 AppWindow* AppWindow::get() {
@@ -44,7 +48,7 @@ void AppWindow::createGraphicsWindow() {
 
 	CameraHandler::initialize();
 
-	UIManager::initialize(m_hwnd, CameraHandler::get()->getSceneCamera());
+	UIManager::initialize(m_hwnd);
 }
 
 AppWindow::AppWindow() {
@@ -59,10 +63,10 @@ void AppWindow::onCreate() {
 	/*Window::onCreate();*/
 	InputSystem::get()->addListener(this);
 
-	m_invoker.bindCommand((int)Action::SpawnCube, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::CUBE); });
-	m_invoker.bindCommand((int)Action::SpawnSphere, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::SPHERE); });
-	m_invoker.bindCommand((int)Action::SpawnPlane, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::PLANE); });
-	m_invoker.bindCommand((int)Action::SpawnCamera , [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::GAME_CAMERA); });
+	m_invoker.bindCommand((int)Action::SpawnCube, [this]() { return new SpawnObjectCommand(this, CUBE); });
+	m_invoker.bindCommand((int)Action::SpawnSphere, [this]() { return new SpawnObjectCommand(this, SPHERE); });
+	m_invoker.bindCommand((int)Action::SpawnPlane, [this]() { return new SpawnObjectCommand(this, PLANE); });
+	m_invoker.bindCommand((int)Action::SpawnCamera , [this]() { return new SpawnObjectCommand(this, GAME_CAMERA); });
 
 	m_invoker.bindCommand((int)Action::DeleteSelectedObject, [this]() {
 		return new DeleteObjectCommand(this, m_selectedGameObject);
@@ -71,19 +75,19 @@ void AppWindow::onCreate() {
 	m_invoker.bindCommand((int)Action::CloseWindow, [this]() { return new CloseWindowCommand(this); });
 
 	// --- Sample Scene ---
-	AGameObject* plane = SpawnGameObject(GAMEOBJECTS::PLANE);
+	GameObject* plane = SpawnGameObject(PLANE);
 	if (plane) {
 		plane->setPosition(Vector3D(0.0f, -0.2f, 0.0f));
 		plane->setScale(Vector3D(2.0f, 1.0f, 2.0f));
 	}
 
-	AGameObject* cube = SpawnGameObject(GAMEOBJECTS::CUBE);
+	GameObject* cube = SpawnGameObject(CUBE);
 	if (cube) {
 		cube->setPosition(Vector3D(0.0f, 0.0f, 0.0f));
 		cube->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/orange.png"));
 	}
 
-	AGameObject* camera = SpawnGameObject(GAMEOBJECTS::GAME_CAMERA);
+	GameObject* camera = SpawnGameObject(GAME_CAMERA);
 	if (camera) {
 		camera->setPosition(Vector3D(-0.3f, 0.5f, -1.0f));
 		camera->setRotation(Vector3D(0.0f, 0.0f, 0.0f));
@@ -148,7 +152,7 @@ void AppWindow::onUpdate() {
 	context->ClearRenderTargetColor(this->m_swap_chain, 0.1f, 0.1f, 0.1f, 1.0f);
 	context->setViewportSize(m_window_width, m_window_height);
 
-	UIManager::get()->drawAllUI();
+	UIManager::get()->draw();
 
 	m_swap_chain->present(false);
 }
@@ -249,19 +253,19 @@ void AppWindow::DestroyAllObjects() {
 	}
 }
 
-AGameObject* AppWindow::SpawnGameObject(GAMEOBJECTS type) {
-	AGameObject* obj = nullptr;
+GameObject* AppWindow::SpawnGameObject(GameObjectTypes type) {
+	GameObject* obj = nullptr;
 	switch (type) {
-		case GAMEOBJECTS::CUBE:
+		case CUBE:
 			obj = new Cube(vs_byte_code, vs_size);
 			break;
-		case GAMEOBJECTS::SPHERE:
+		case SPHERE:
 			obj = new Sphere(vs_byte_code, vs_size);
 			break;
-		case GAMEOBJECTS::PLANE:
+		case PLANE:
 			obj = new Plane(vs_byte_code, vs_size);
 			break;
-		case GAMEOBJECTS::GAME_CAMERA:
+		case GAME_CAMERA:
 			if (gamecamera) return nullptr;
 			obj = new GameCamera(vs_byte_code, vs_size);
 			obj->setScale(Vector3D(0.4f, 0.5f, 0));
@@ -270,7 +274,7 @@ AGameObject* AppWindow::SpawnGameObject(GAMEOBJECTS type) {
 		default: break;
 	}
 
-	if (type == GAMEOBJECTS::GAME_CAMERA) {
+	if (type == GAME_CAMERA) {
 		obj->setPosition(CameraHandler::get()->getSceneCamera()->getPosition());
 		obj->setRotation(CameraHandler::get()->getSceneCamera()->getRotation());
 	}
@@ -284,7 +288,7 @@ AGameObject* AppWindow::SpawnGameObject(GAMEOBJECTS type) {
 	return obj;
 }
 
-void AppWindow::RemoveObject(AGameObject* object) {
+void AppWindow::RemoveObject(GameObject* object) {
 	auto it = std::find(m_objects.begin(), m_objects.end(), object);
 
 	if (it != m_objects.end()) {

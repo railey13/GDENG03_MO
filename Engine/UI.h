@@ -6,19 +6,19 @@
 
 class UIManager;
 
-class AUIScreen {
-protected:
-	AUIScreen(std::string name);
-	~AUIScreen();
-
-	std::string getName();
+class UI {
+public:
+	UI();
+	virtual ~UI();
+public:
 	virtual void draw() = 0;
-
-	void setActive(bool flag);
-
+public:
+	void toggleActive() { m_isActive = !m_isActive; }
+	bool isActive() { return m_isActive; }
 protected:
-	std::string m_name;
 	bool m_isActive = false;
+private:
+	size_t m_typeId = 0;
 
 	friend class UIManager;
 };

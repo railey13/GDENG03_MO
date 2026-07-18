@@ -4,14 +4,14 @@
 
 class SpawnObjectCommand : public Command {
 public:
-	SpawnObjectCommand(AppWindow* receiver, GAMEOBJECTS type) : receiver(receiver), type(type) {
+	SpawnObjectCommand(AppWindow* receiver, GameObjectTypes type) : receiver(receiver), type(type) {
 
 	}
 	// Inherited via Command
 	void execute() override {
 		if (!receiver) return;
 
-		if (object == nullptr){
+		if (object == nullptr) {
 			object = receiver->SpawnGameObject(type);
 		}
 		else {
@@ -27,6 +27,6 @@ public:
 
 private:
 	AppWindow* receiver;
-	AGameObject* object = nullptr;
-	GAMEOBJECTS type;
+	GameObject* object = nullptr;
+	GameObjectTypes type;
 };

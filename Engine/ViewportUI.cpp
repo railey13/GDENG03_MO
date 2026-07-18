@@ -1,28 +1,28 @@
-#include "ViewportScreen.h"
+#include "ViewportUI.h"
 #include "UIManager.h"
 #include "CameraHandler.h"
 
-ViewportScreen::ViewportScreen() : AUIScreen(UINames::VIEWPORT_SCREEN) {
+ViewportUI::ViewportUI() {
 	m_isActive = true;
 }
 
-ViewportScreen::~ViewportScreen() {
+ViewportUI::~ViewportUI() {
 }
 
-void ViewportScreen::setViewportSRVs(ID3D11ShaderResourceView* editor_srv, ID3D11ShaderResourceView* game_srv) {
+void ViewportUI::setViewportSRVs(ID3D11ShaderResourceView* editor_srv, ID3D11ShaderResourceView* game_srv) {
 	m_editor_srv = editor_srv;
 	m_game_srv = game_srv;
 }
 
-ImVec2 ViewportScreen::getEditorViewportSize() const {
+ImVec2 ViewportUI::getEditorViewportSize() const {
 	return m_editor_size;
 }
 
-ImVec2 ViewportScreen::getGameViewportSize() const {
+ImVec2 ViewportUI::getGameViewportSize() const {
 	return m_game_size;
 }
 
-void ViewportScreen::draw() {
+void ViewportUI::draw() {
 	if (!m_isActive) return;
 
 	ImGuiIO& io = ImGui::GetIO();

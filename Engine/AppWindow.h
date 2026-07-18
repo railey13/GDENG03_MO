@@ -18,10 +18,7 @@
 #include "../IMGUI/backends/imgui_impl_win32.h"
 
 #include "vector"
-#include "AGameObject.h"
-#include "Cube.h"
-#include "Plane.h"
-#include "Sphere.h"
+#include "GameObject.h"
 
 class SpawnObjectCommand;
 class DeleteObjectCommand;
@@ -74,13 +71,13 @@ private:
 	void DestroyObject();
 	void DestroyAllObjects();
 
-	AGameObject* SpawnGameObject(GAMEOBJECTS type);
-	void RemoveObject(AGameObject* object);
+	GameObject* SpawnGameObject(GameObjectTypes type);
+	void RemoveObject(GameObject* object);
 public:
 	CommandInvoker& getInvoker() { return m_invoker; }
-	const std::vector<AGameObject*>& getGameObjects() const { return m_objects; }
+	const std::vector<GameObject*>& getGameObjects() const { return m_objects; }
 
-	AGameObject* m_selectedGameObject = nullptr;
+	GameObject* m_selectedGameObject = nullptr;
 private:
 	SwapChainPtr m_swap_chain;
 	RenderTexturePtr m_editor_rt;
@@ -89,7 +86,7 @@ private:
 	VertexShaderPtr m_vs;
 	PixelShaderPtr m_ps;
 	
-	std::vector<AGameObject*> m_objects;
+	std::vector<GameObject*> m_objects;
 	CommandInvoker m_invoker;
 private:
 	void* vs_byte_code = nullptr;

@@ -1,18 +1,18 @@
-#include "InspectorScreen.h"
+#include "InspectorUI.h"
 #include "UIManager.h"
 #include "AppWindow.h"
-#include "AGameObject.h"
+#include "GameObject.h"
 
-InspectorScreen::InspectorScreen() : AUIScreen(UINames::INSPECTOR_SCREEN){
+InspectorUI::InspectorUI() {
 	m_isActive = true;
 }
 
-InspectorScreen::~InspectorScreen() {
+InspectorUI::~InspectorUI() {
 
 }
 
-void InspectorScreen::draw() {
-	AGameObject* obj = AppWindow::get()->m_selectedGameObject;
+void InspectorUI::draw() {
+	GameObject* obj = AppWindow::get()->m_selectedGameObject;
 
 	if (m_isActive) {
 		ImGuiIO& io = ImGui::GetIO();
@@ -56,9 +56,7 @@ void InspectorScreen::draw() {
 					if (ImGui::DragFloat3("Scale", &scale.m_x, m_transform_speed)) {
 						obj->m_scale = scale;
 					}
-
 				}
-
 			}		
 		}
 
