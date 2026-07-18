@@ -5,9 +5,9 @@ The purpose of the Repository was the replicate an engine feature which is 'Came
 
 Members:
 
-NIKOS RAILEY BUMANGLAG
-JAIRO RIO JAROPOJOP
-SOL ANDREI WILLIAM TABBOGA
+NIKOS RAILEY BUMANGLAG\
+JAIRO RIO JAROPOJOP\
+SOL ANDREI WILLIAM TABBOGA\
 JAN ELIZABETH VINGNO
 
 To use this project, you can download it as a zip file and export it. The project solution can be found in the root folder (DX11-Engine-Experiment), and all source and includes are inside the subfolder named 'Engine'. 
