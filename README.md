@@ -12,6 +12,8 @@ JAN ELIZABETH VINGNO
 
 To use this project, you can download it as a zip file and export it. The project solution can be found in the root folder (DX11-Engine-Experiment), and all source and includes are inside the subfolder named 'Engine'. 
 
+Make sure to download the libs zip from the google drive of our school submission. Otherwise download the DirectTexD.lib online .Inside the libs zip, locate DirectXTex and the bin folder inside. That is the bin folder contating DirectXTexD.lib. Copy the folder and find Libs/DirectXTex in the repo and paste it there. 
+
 main.cpp is the source file where the main function is located.
 
 Open the solution and you can run it from there. 
