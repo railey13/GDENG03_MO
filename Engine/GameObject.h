@@ -13,8 +13,12 @@
 #include "PixelShader.h"
 
 #include "GameObjectTypes.h"
+#include "TransformComponent.h"
 
 #include <string>
+#include <map>
+
+class Component;
 
 struct vertex {
 	Vector3D position;
@@ -38,18 +42,39 @@ public:
 	virtual void update(f32 deltaTime) = 0;
 	virtual void draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4 proj) = 0;
 public:
-	void setPosition(const Vector3D& position);
-	void setRotation(const Vector3D& rotation);
-	void setScale(const Vector3D& scale);
+	TransformComponent* getTransform() const;
+public:
+	template <typename T>
+	T* createComponent() {
+		static_assert(std::is_base_of <Component, T>::value, "T must be derive from Component Class");
+		auto e = getComponent<T>();
+		if (!e) {
+			auto id = typeid(T).hash_code();
+			auto c = new T();
+			createComponentInternal(c, id);
+			return c;
+		}
+		return e;
+	}
+	template <typename T>
+	T* getComponent() {
+		static_assert(std::is_base_of <Component, T>::value, "T must be derive from Component Class");
+		auto id = typeid(T).hash_code();
+		return static_cast<T*>(getComponentInternal(id));
+	}
 
 	void setTexture(TexturePtr tex);
+private:
+	void createComponentInternal(Component* component, size_t id);
+	Component* getComponentInternal(size_t id);
+	void removeComponent(size_t id);
 public:
-	Vector3D m_position = Vector3D(0,0,0);
-	Vector3D m_rotation;
-	Vector3D m_scale = Vector3D(1,1,1);
-
 	std::string m_name;
 protected:
-	TexturePtr m_tex = nullptr;
+	TexturePtr m_tex = nullptr;	
+	TransformComponent* m_transform = nullptr;
+	std::map<size_t, std::unique_ptr<Component>> m_components;
+
+	friend class Component;
 };
 

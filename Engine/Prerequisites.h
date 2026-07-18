@@ -15,6 +15,7 @@ class ResourceManager;
 class Texture;
 class TextureManager;
 class RenderTexture;
+class GameObject;
 
 typedef std::shared_ptr<SwapChain> SwapChainPtr;
 typedef std::shared_ptr<DeviceContext> DeviceContextPtr;

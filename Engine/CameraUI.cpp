@@ -27,8 +27,8 @@ void CameraUI::draw() {
 				//
 				Camera* viewCam = CameraHandler::get()->getSceneCamera();
 				Vector3D camPos = viewCam->getPosition();
-				CameraHandler::get()->getGameCamera()->m_position = camPos;
-				CameraHandler::get()->getGameCamera()->m_rotation = viewCam->getRotation();
+				CameraHandler::get()->getGameCamera()->getTransform()->m_position = camPos;
+				CameraHandler::get()->getGameCamera()->getTransform()->m_rotation = viewCam->getRotation();
 			}
 
 			ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize("Align to View: Current Selected GameObject").x) * 0.5f);
@@ -36,8 +36,8 @@ void CameraUI::draw() {
 				//
 				Camera* viewCam = CameraHandler::get()->getSceneCamera();
 				Vector3D camPos = viewCam->getPosition();
-				AppWindow::get()->m_selectedGameObject->m_position = camPos;
-				AppWindow::get()->m_selectedGameObject->m_rotation = viewCam->getRotation();
+				AppWindow::get()->m_selectedGameObject->getTransform()->m_position = camPos;
+				AppWindow::get()->m_selectedGameObject->getTransform()->m_rotation = viewCam->getRotation();
 			}
 
 			ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize("Close").x) * 0.5f);

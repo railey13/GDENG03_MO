@@ -77,20 +77,20 @@ void AppWindow::onCreate() {
 	// --- Sample Scene ---
 	GameObject* plane = SpawnGameObject(PLANE);
 	if (plane) {
-		plane->setPosition(Vector3D(0.0f, -0.2f, 0.0f));
-		plane->setScale(Vector3D(2.0f, 1.0f, 2.0f));
+		plane->getTransform()->setPosition(Vector3D(0.0f, -0.2f, 0.0f));
+		plane->getTransform()->setScale(Vector3D(2.0f, 1.0f, 2.0f));
 	}
 
 	GameObject* cube = SpawnGameObject(CUBE);
 	if (cube) {
-		cube->setPosition(Vector3D(0.0f, 0.0f, 0.0f));
+		cube->getTransform()->setPosition(Vector3D(0.0f, 0.0f, 0.0f));
 		cube->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/orange.png"));
 	}
 
 	GameObject* camera = SpawnGameObject(GAME_CAMERA);
 	if (camera) {
-		camera->setPosition(Vector3D(-0.3f, 0.5f, -1.0f));
-		camera->setRotation(Vector3D(0.0f, 0.0f, 0.0f));
+		camera->getTransform()->setPosition(Vector3D(-0.3f, 0.5f, -1.0f));
+		camera->getTransform()->setRotation((Vector3D(0.0f, 0.0f, 0.0f)));
 	}
 }
 
@@ -268,20 +268,20 @@ GameObject* AppWindow::SpawnGameObject(GameObjectTypes type) {
 		case GAME_CAMERA:
 			if (gamecamera) return nullptr;
 			obj = new GameCamera(vs_byte_code, vs_size);
-			obj->setScale(Vector3D(0.4f, 0.5f, 0));
+			obj->getTransform()->setScale((Vector3D(0.4f, 0.5f, 0)));
 			gamecamera = true;
 			break;
 		default: break;
 	}
 
 	if (type == GAME_CAMERA) {
-		obj->setPosition(CameraHandler::get()->getSceneCamera()->getPosition());
-		obj->setRotation(CameraHandler::get()->getSceneCamera()->getRotation());
+		obj->getTransform()->setPosition(CameraHandler::get()->getSceneCamera()->getPosition());
+		obj->getTransform()->setRotation(CameraHandler::get()->getSceneCamera()->getRotation());
 	}
 	else {
 		f32 spawnDistance = 1.0f;
 		Vector3D spawnPos = CameraHandler::get()->getSceneCamera()->getPosition() + CameraHandler::get()->getSceneCamera()->getForwardDirection() * spawnDistance;
-		obj->setPosition(spawnPos);
+		obj->getTransform()->setPosition(spawnPos);
 	}
 
 	m_objects.push_back(obj);

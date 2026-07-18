@@ -42,8 +42,8 @@ void ViewportUI::draw() {
 
 			if (game && scene) {
 				if (ImGui::Button("Align with View")) {
-					game->setPosition(scene->getPosition());
-					game->setRotation(scene->getRotation());
+					game->getTransform()->m_position = scene->getPosition();
+					game->getTransform()->m_rotation = scene->getRotation();
 				}
 				ImGui::Separator();
 			}

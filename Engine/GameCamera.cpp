@@ -106,18 +106,7 @@ void GameCamera::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Mat
 
 	cc.m_time = 0;
 
-	cc.m_world.setIdentity();
-
-	temp.setIdentity();
-	temp.setScale(m_scale);
-
-	cc.m_world *= temp;
-
-	cc.m_world *= getRotationMatrix();
-
-	temp.setTranslation(m_position);
-
-	cc.m_world *= temp;
+	getTransform()->getWorldMatrix(cc.m_world);
 
 	cc.m_view = view;
 	cc.m_proj = proj;
@@ -139,7 +128,7 @@ void GameCamera::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Mat
 Matrix4x4 GameCamera::getViewMatrix() const {
 	Matrix4x4 view = getRotationMatrix();
 
-	view.setTranslation(m_position);
+	view.setTranslation(getTransform()->m_position);
 	view.inverse();
 
 	return view;
@@ -159,13 +148,13 @@ Matrix4x4 GameCamera::getRotationMatrix() const {
 
 	Matrix4x4 temp;
 
-	temp.setRotationX(m_rotation.m_x);
+	temp.setRotationX(getTransform()->m_rotation.m_x);
 	rot_cam *= temp;
 
-	temp.setRotationY(m_rotation.m_y);
+	temp.setRotationY(getTransform()->m_rotation.m_y);
 	rot_cam *= temp;
 
-	temp.setRotationZ(m_rotation.m_z);
+	temp.setRotationZ(getTransform()->m_rotation.m_z);
 	rot_cam *= temp;
 
 	return rot_cam;

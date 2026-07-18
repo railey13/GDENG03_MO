@@ -2,22 +2,34 @@
 
 GameObject::GameObject() : m_name("GameObject") {
 	m_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/white.png");
+	m_transform = createComponent<TransformComponent>();
 }
 
 GameObject::~GameObject() {
 
 }
 
-void GameObject::setPosition(const Vector3D& position) {
-	m_position = position;
+TransformComponent* GameObject::getTransform() const {
+	return m_transform;
 }
 
-void GameObject::setRotation(const Vector3D& rotation) {
-	m_rotation = rotation;
+void GameObject::createComponentInternal(Component* component, size_t id) {
+	auto compPtr = std::unique_ptr<Component>(component);
+	m_components.emplace(id, std::move(compPtr));
+	component->m_typeId = id;
+	component->m_gameobject = this;
 }
 
-void GameObject::setScale(const Vector3D& scale) {
-	m_scale = scale;
+Component* GameObject::getComponentInternal(size_t id) {
+	auto it = m_components.find(id);
+
+	if (it == m_components.end()) return nullptr;
+
+	return it->second.get();
+}
+
+void GameObject::removeComponent(size_t id) {
+	m_components.erase(id);
 }
 
 void GameObject::setTexture(TexturePtr tex) {

@@ -146,7 +146,9 @@
   <ItemGroup>
     <ClCompile Include="Engine\AboutUI.cpp" />
     <ClCompile Include="Engine\AppWindow.cpp" />
+    <ClCompile Include="Engine\Component.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
+    <ClCompile Include="Engine\TransformComponent.cpp" />
     <ClCompile Include="Engine\UI.cpp" />
     <ClCompile Include="Engine\Camera.cpp" />
     <ClCompile Include="Engine\CameraHandler.cpp" />
@@ -189,7 +191,9 @@
   <ItemGroup>
     <ClInclude Include="Engine\AboutUI.h" />
     <ClInclude Include="Engine\AppWindow.h" />
+    <ClInclude Include="Engine\Component.h" />
     <ClInclude Include="Engine\GameObject.h" />
+    <ClInclude Include="Engine\TransformComponent.h" />
     <ClInclude Include="Engine\UI.h" />
     <ClInclude Include="Engine\Camera.h" />
     <ClInclude Include="Engine\CameraHandler.h" />

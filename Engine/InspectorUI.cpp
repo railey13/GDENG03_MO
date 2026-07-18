@@ -42,19 +42,19 @@ void InspectorUI::draw() {
 				}
 				// GameObject Transform
 				{
-					Vector3D pos = obj->m_position;
-					Vector3D rot = obj->m_rotation;
-					Vector3D scale = obj->m_scale;
+					Vector3D pos = obj->getTransform()->m_position;
+					Vector3D rot = obj->getTransform()->m_rotation;
+					Vector3D scale = obj->getTransform()->m_scale;
 
 					ImGui::Text("Transform");
 					if (ImGui::DragFloat3("Position", &pos.m_x, m_transform_speed)) {
-						obj->m_position = pos;
+						obj->getTransform()->setPosition(pos);
 					}
 					if (ImGui::DragFloat3("Rotation", &rot.m_x, m_transform_speed)) {
-						obj->m_rotation = rot;
+						obj->getTransform()->setRotation(rot);
 					}
 					if (ImGui::DragFloat3("Scale", &scale.m_x, m_transform_speed)) {
-						obj->m_scale = scale;
+						obj->getTransform()->setScale(scale);
 					}
 				}
 			}		
