@@ -96,3 +96,8 @@ ID3D11DeviceContext* DeviceContext::getContext() {
 DeviceContext::~DeviceContext() {
 	m_device_context->Release();
 }
+
+void DeviceContext::setBlendState(ID3D11BlendState* blend_state) {
+	float blend_factor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	m_device_context->OMSetBlendState(blend_state, blend_factor, 0xFFFFFFFF);
+}

@@ -28,6 +28,8 @@ public:
 	ID3D11DeviceContext* getContext();
 
 	~DeviceContext();
+public:
+	void setBlendState(ID3D11BlendState* blend_state);
 private:
 	ID3D11DeviceContext* m_device_context;
 	RenderSystem* m_system = nullptr;

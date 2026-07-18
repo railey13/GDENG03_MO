@@ -119,8 +119,8 @@ void AppWindow::onUpdate() {
 		context->setViewportSize(m_editor_rt->getWidth(), m_editor_rt->getHeight());
 		context->setVertexShader(m_vs);
 		context->setPixelShader(m_ps);
-
-		for (auto obj : m_objects) {
+		context->setBlendState(graphEngine->getRenderSystem()->m_alpha_blend_state);
+		for (auto obj : m_objects) {	
 			obj->draw(m_vs, m_ps, sceneCamera->getViewMatrix(), sceneCamera->getProjectionMatrix());
 		}
 	}
@@ -131,6 +131,7 @@ void AppWindow::onUpdate() {
 		context->setViewportSize(m_game_rt->getWidth(), m_game_rt->getHeight());
 		context->setVertexShader(m_vs);
 		context->setPixelShader(m_ps);
+		context->setBlendState(graphEngine->getRenderSystem()->m_alpha_blend_state);
 
 		if (gameCamera) {
 			ImVec2 game_size = UIManager::get()->getGameViewportSize();
