@@ -122,6 +122,10 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;windowscodecs.lib;%(AdditionalDependencies)</AdditionalDependencies>
+<<<<<<< Updated upstream
+=======
+      <AdditionalLibraryDirectories>$(ProjectDir)Libs\DirectXTex\bin\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+>>>>>>> Stashed changes
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -138,6 +142,11 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+<<<<<<< Updated upstream
+=======
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;windowscodecs.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Libs\DirectXTex\bin\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+>>>>>>> Stashed changes
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
