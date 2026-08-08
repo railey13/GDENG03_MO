@@ -147,6 +147,8 @@
     <ClCompile Include="Engine\AboutUI.cpp" />
     <ClCompile Include="Engine\AppWindow.cpp" />
     <ClCompile Include="Engine\Component.cpp" />
+    <ClCompile Include="Engine\Debug.cpp" />
+    <ClCompile Include="Engine\DebugUI.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
     <ClCompile Include="Engine\TransformComponent.cpp" />
     <ClCompile Include="Engine\UI.cpp" />
@@ -192,6 +194,8 @@
     <ClInclude Include="Engine\AboutUI.h" />
     <ClInclude Include="Engine\AppWindow.h" />
     <ClInclude Include="Engine\Component.h" />
+    <ClInclude Include="Engine\Debug.h" />
+    <ClInclude Include="Engine\DebugUI.h" />
     <ClInclude Include="Engine\GameObject.h" />
     <ClInclude Include="Engine\TransformComponent.h" />
     <ClInclude Include="Engine\UI.h" />

@@ -294,6 +294,9 @@ void AppWindow::RemoveObject(GameObject* object) {
 	auto it = std::find(m_objects.begin(), m_objects.end(), object);
 
 	if (it != m_objects.end()) {
+		if (object == m_selectedGameObject) {
+			gamecamera = false;
+		}
 		m_objects.erase(it);
 	}
 }

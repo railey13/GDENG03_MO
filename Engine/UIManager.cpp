@@ -8,6 +8,7 @@
 #include "MainMenuBarUI.h"
 #include "CameraUI.h"
 #include "ViewportUI.h"
+#include "DebugUI.h"
 
 UIManager* UIManager::sharedInstance = NULL;
 
@@ -32,6 +33,7 @@ UIManager::UIManager(HWND hwnd) {
 	registerUI<MainMenuBarUI>();
 	registerUI<CameraUI>();
 	registerUI<ViewportUI>();
+	registerUI<DebugUI>();
 }
 
 UIManager::~UIManager() {

@@ -3,6 +3,7 @@
 #include "../IMGUI/imgui.h"
 #include "../IMGUI/backends/imgui_impl_dx11.h"
 #include "../IMGUI/backends/imgui_impl_win32.h"
+#include "Debug.h"
 
 class UIManager;
 

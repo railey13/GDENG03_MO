@@ -129,17 +129,11 @@
     <ClCompile Include="Engine\RenderTexture.cpp">
       <Filter>Game Engine\GraphicsEngine\Render System</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ViewportScreen.cpp">
-      <Filter>Scene Editor\Screens</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Cube.cpp">
       <Filter>Game\GameObjects\Cube</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Plane.cpp">
       <Filter>Game\GameObjects\Plane</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\AGameObject.cpp">
-      <Filter>Game\GameObjects</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Sphere.cpp">
       <Filter>Game\GameObjects\Sphere</Filter>
@@ -180,27 +174,23 @@
     <ClCompile Include="Engine\UIManager.cpp">
       <Filter>Scene Editor</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\AUIScreen.cpp">
-      <Filter>Scene Editor</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Camera.cpp">
       <Filter>Scene Editor\Scene Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\MainMenuScreen.cpp">
-      <Filter>Scene Editor\Screens</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\AboutScreen.cpp">
-      <Filter>Scene Editor\Screens</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\HierarchyScreen.cpp">
-      <Filter>Scene Editor\Screens</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\InspectorScreen.cpp">
-      <Filter>Scene Editor\Screens</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\CameraScreen.cpp" />
     <ClCompile Include="Engine\CameraHandler.cpp" />
     <ClCompile Include="Engine\GameCamera.cpp" />
+    <ClCompile Include="Engine\AboutUI.cpp" />
+    <ClCompile Include="Engine\Component.cpp" />
+    <ClCompile Include="Engine\GameObject.cpp" />
+    <ClCompile Include="Engine\TransformComponent.cpp" />
+    <ClCompile Include="Engine\UI.cpp" />
+    <ClCompile Include="Engine\CameraUI.cpp" />
+    <ClCompile Include="Engine\SceneHierarchyUI.cpp" />
+    <ClCompile Include="Engine\InspectorUI.cpp" />
+    <ClCompile Include="Engine\MainMenuBarUI.cpp" />
+    <ClCompile Include="Engine\ViewportUI.cpp" />
+    <ClCompile Include="Engine\Debug.cpp" />
+    <ClCompile Include="Engine\DebugUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\AppWindow.h">
@@ -263,9 +253,6 @@
     <ClInclude Include="Engine\RenderTexture.h">
       <Filter>Game Engine\GraphicsEngine\Render System</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\ViewportScreen.h">
-      <Filter>Scene Editor\Screens</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Prerequisites.h">
       <Filter>Game Engine\GraphicsEngine</Filter>
     </ClInclude>
@@ -274,9 +261,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Plane.h">
       <Filter>Game\GameObjects\Plane</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\AGameObject.h">
-      <Filter>Game\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Sphere.h">
       <Filter>Game\GameObjects\Sphere</Filter>
@@ -323,34 +307,31 @@
     <ClInclude Include="Engine\UIManager.h">
       <Filter>Scene Editor</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\AUIScreen.h">
-      <Filter>Scene Editor</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Camera.h">
       <Filter>Scene Editor\Scene Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\MainMenuScreen.h">
-      <Filter>Scene Editor\Screens</Filter>
     </ClInclude>
     <ClInclude Include="Engine\CloseWindowCommand.h" />
     <ClInclude Include="Engine\Command.h" />
     <ClInclude Include="Engine\CommandInvoker.h" />
-    <ClInclude Include="Engine\AboutScreen.h">
-      <Filter>Scene Editor\Screens</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\HierarchyScreen.h">
-      <Filter>Scene Editor\Screens</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\DeleteObjectCommand.h" />
-    <ClInclude Include="Engine\InspectorScreen.h">
-      <Filter>Scene Editor\Screens</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\SpawnObjectCommand.h">
       <Filter>Scene Editor\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\CameraScreen.h" />
     <ClInclude Include="Engine\CameraHandler.h" />
     <ClInclude Include="Engine\GameCamera.h" />
+    <ClInclude Include="Engine\AboutUI.h" />
+    <ClInclude Include="Engine\Component.h" />
+    <ClInclude Include="Engine\GameObject.h" />
+    <ClInclude Include="Engine\TransformComponent.h" />
+    <ClInclude Include="Engine\UI.h" />
+    <ClInclude Include="Engine\CameraUI.h" />
+    <ClInclude Include="Engine\GameObjectTypes.h" />
+    <ClInclude Include="Engine\SceneHierarchyUI.h" />
+    <ClInclude Include="Engine\InspectorUI.h" />
+    <ClInclude Include="Engine\MainMenuBarUI.h" />
+    <ClInclude Include="Engine\ViewportUI.h" />
+    <ClInclude Include="Engine\Debug.h" />
+    <ClInclude Include="Engine\DebugUI.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\VertexShader.hlsl">

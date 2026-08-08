@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <string>
 
 class SwapChain;
 class DeviceContext;
@@ -32,3 +33,14 @@ typedef unsigned int ui32;
 typedef int	i32;
 typedef float f32;
 typedef double d64;
+
+enum class LogLevel {
+	Info = 0,
+	Warning,
+	Error
+};
+
+struct LogInfo {
+	LogLevel level;
+	std::string msg;
+};
