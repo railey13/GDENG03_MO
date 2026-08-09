@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Capsule.cpp" />
     <ClCompile Include="Engine\AboutUI.cpp" />
     <ClCompile Include="Engine\AppWindow.cpp" />
     <ClCompile Include="Engine\Component.cpp" />
@@ -191,6 +192,7 @@
     <ClCompile Include="IMGUI\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Capsule.h" />
     <ClInclude Include="Engine\AboutUI.h" />
     <ClInclude Include="Engine\AppWindow.h" />
     <ClInclude Include="Engine\Component.h" />

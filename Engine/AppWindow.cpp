@@ -17,6 +17,7 @@
 #include "Cube.h"
 #include "Plane.h"
 #include "Sphere.h"
+#include "Capsule.h"
 
 AppWindow* AppWindow::sharedInstance = NULL;
 
@@ -67,6 +68,7 @@ void AppWindow::onCreate() {
 	m_invoker.bindCommand((int)Action::SpawnCube, [this]() { return new SpawnObjectCommand(this, CUBE); });
 	m_invoker.bindCommand((int)Action::SpawnSphere, [this]() { return new SpawnObjectCommand(this, SPHERE); });
 	m_invoker.bindCommand((int)Action::SpawnPlane, [this]() { return new SpawnObjectCommand(this, PLANE); });
+	m_invoker.bindCommand((int)Action::SpawnCapsule, [this]() { return new SpawnObjectCommand(this, CAPSULE); });
 	m_invoker.bindCommand((int)Action::SpawnCamera , [this]() { return new SpawnObjectCommand(this, GAME_CAMERA); });
 
 	m_invoker.bindCommand((int)Action::DeleteSelectedObject, [this]() {
@@ -268,6 +270,9 @@ GameObject* AppWindow::SpawnGameObject(GameObjectTypes type) {
 			break;
 		case PLANE:
 			obj = new Plane(vs_byte_code, vs_size);
+			break;
+		case CAPSULE:
+			obj = new Capsule(vs_byte_code, vs_size);
 			break;
 		case GAME_CAMERA:
 			if (gamecamera) return nullptr;

@@ -28,6 +28,7 @@ enum class Action {
 	SpawnCube,
 	SpawnSphere,
 	SpawnPlane,
+	SpawnCapsule,
 	SpawnCamera,
 	DeleteSelectedObject,
 	ParentAction,

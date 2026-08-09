@@ -27,6 +27,9 @@ void MainMenuBarUI::draw() {
 			}
 			if (ImGui::MenuItem("Plane")) {
 				AppWindow::get()->getInvoker().executeCommand((int)Action::SpawnPlane);
+			}			
+			if (ImGui::MenuItem("Capsule")) {
+				AppWindow::get()->getInvoker().executeCommand((int)Action::SpawnCapsule);
 			}
 			if (ImGui::MenuItem("Camera")) {
 				AppWindow::get()->getInvoker().executeCommand((int)Action::SpawnCamera);

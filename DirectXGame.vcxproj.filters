@@ -191,6 +191,7 @@
     <ClCompile Include="Engine\ViewportUI.cpp" />
     <ClCompile Include="Engine\Debug.cpp" />
     <ClCompile Include="Engine\DebugUI.cpp" />
+    <ClCompile Include="Engine\Capsule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\AppWindow.h">
@@ -333,6 +334,7 @@
     <ClInclude Include="Engine\Debug.h" />
     <ClInclude Include="Engine\DebugUI.h" />
     <ClInclude Include="Engine\ParentCommand.h" />
+    <ClInclude Include="Engine\Capsule.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\VertexShader.hlsl">
