@@ -18,8 +18,6 @@
 #include <string>
 #include <map>
 
-class Component;
-
 struct vertex {
 	Vector3D position;
 	Vector2D texcoord;
@@ -42,7 +40,18 @@ public:
 	virtual void update(f32 deltaTime) = 0;
 	virtual void draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4 proj) = 0;
 public:
-	TransformComponent* getTransform() const;
+	void toggleComponentsActive(bool flag);
+	void toggleChildrenActive(bool flag);
+public:
+	void setName(const std::string& name);
+	void setActive(bool active);
+	void setParent(GameObject* parent);
+
+	bool isActive() { return m_active; }
+	std::string getName() { return m_name; }
+	TransformComponent* getTransform() const { return m_transform; }
+	GameObject* getParent() const { return m_parent; }
+	const std::vector<GameObject*>& getChildren() const { return m_children; }
 public:
 	template <typename T>
 	T* createComponent() {
@@ -68,13 +77,19 @@ private:
 	void createComponentInternal(Component* component, size_t id);
 	Component* getComponentInternal(size_t id);
 	void removeComponent(size_t id);
-public:
-	std::string m_name;
+	void addChild(GameObject* child);
+	void removeChild(GameObject* child);
 protected:
+	std::string m_name;
+	bool m_active = true;
+
 	TexturePtr m_tex = nullptr;	
 	TransformComponent* m_transform = nullptr;
 	std::map<size_t, std::unique_ptr<Component>> m_components;
 
+	GameObject* m_parent = nullptr;
+	std::vector<GameObject*> m_children;
+private:
 	friend class Component;
 };
 

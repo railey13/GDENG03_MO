@@ -6,11 +6,57 @@ GameObject::GameObject() : m_name("GameObject") {
 }
 
 GameObject::~GameObject() {
+	if (m_parent) {
+		m_parent->removeChild(this);
+		m_parent = nullptr;
+	}
 
+	while (!m_children.empty()) {
+		auto c = m_children.back();
+
+		c->setParent(nullptr);
+	}
+
+	m_components.clear();
 }
 
-TransformComponent* GameObject::getTransform() const {
-	return m_transform;
+void GameObject::toggleComponentsActive(bool flag) {
+	for (auto&& [typeID, component] : m_components) {
+		component->setActive(flag);
+	}
+}
+
+void GameObject::toggleChildrenActive(bool flag) {
+	for (auto obj : m_children) {
+		obj->setActive(flag);
+	}
+}
+
+void GameObject::setName(const std::string& name) {
+	m_name = name;
+}
+
+void GameObject::setActive(bool active) {
+	m_active = active;
+	toggleComponentsActive(active);
+	toggleChildrenActive(active);
+}
+
+
+void GameObject::setParent(GameObject* parent) {
+	if (m_parent == parent || parent == this) return;
+
+	if (m_parent) {
+		m_parent->removeChild(this);
+	}
+
+	m_parent = parent;
+
+	if (m_parent) {
+		m_parent->addChild(this);
+	}
+
+	m_transform->updateWorldMatrix();
 }
 
 void GameObject::createComponentInternal(Component* component, size_t id) {
@@ -34,5 +80,13 @@ void GameObject::removeComponent(size_t id) {
 
 void GameObject::setTexture(TexturePtr tex) {
 	m_tex = tex;
+}
+
+void GameObject::addChild(GameObject* child) {
+	m_children.push_back(child);
+}
+
+void GameObject::removeChild(GameObject* child) {
+	m_children.erase(std::remove(m_children.begin(), m_children.end(), child), m_children.end());
 }
 

@@ -129,7 +129,7 @@ void GameCamera::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Mat
 Matrix4x4 GameCamera::getViewMatrix() const {
 	Matrix4x4 view = getRotationMatrix();
 
-	view.setTranslation(getTransform()->m_position);
+	view.setTranslation(getTransform()->getWorldPosition());
 	view.inverse();
 
 	return view;
@@ -149,13 +149,13 @@ Matrix4x4 GameCamera::getRotationMatrix() const {
 
 	Matrix4x4 temp;
 
-	temp.setRotationX(getTransform()->m_rotation.m_x);
+	temp.setRotationX(getTransform()->getRotation().m_x);
 	rot_cam *= temp;
 
-	temp.setRotationY(getTransform()->m_rotation.m_y);
+	temp.setRotationY(getTransform()->getRotation().m_y);
 	rot_cam *= temp;
 
-	temp.setRotationZ(getTransform()->m_rotation.m_z);
+	temp.setRotationZ(getTransform()->getRotation().m_z);
 	rot_cam *= temp;
 
 	return rot_cam;

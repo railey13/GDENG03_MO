@@ -28,23 +28,23 @@ void InspectorUI::draw() {
 			if (obj) {
 				// GameObject Name
 				{
-					strncpy_s(m_nameBuffer, obj->m_name.c_str(), sizeof(m_nameBuffer) - 1);
+					strncpy_s(m_nameBuffer, obj->getName().c_str(), sizeof(m_nameBuffer) - 1);
 					m_nameBuffer[sizeof(m_nameBuffer) - 1] = '\0';
 
 					if (ImGui::InputText("Name", m_nameBuffer, sizeof(m_nameBuffer))) {
 						if (m_nameBuffer[0] == '\0') {
-							obj->m_name = "GameObject";
+							obj->setName("GameObject");
 						}
 						else {
-							obj->m_name = m_nameBuffer;
+							obj->setName(m_nameBuffer);
 						}
 					}
 				}
 				// GameObject Transform
 				{
-					Vector3D pos = obj->getTransform()->m_position;
-					Vector3D rot = obj->getTransform()->m_rotation;
-					Vector3D scale = obj->getTransform()->m_scale;
+					Vector3D pos = obj->getTransform()->getPosition();
+					Vector3D rot = obj->getTransform()->getRotation();
+					Vector3D scale = obj->getTransform()->getScale();
 
 					ImGui::Text("Transform");
 					if (ImGui::DragFloat3("Position", &pos.m_x, m_transform_speed)) {

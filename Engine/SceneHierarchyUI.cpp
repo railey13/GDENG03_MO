@@ -11,31 +11,103 @@ SceneHierarchyUI::~SceneHierarchyUI() {
 }
 
 void SceneHierarchyUI::draw() {
-	if (m_isActive) {
-		ImGuiIO& io = ImGui::GetIO();
-		float menu_h = 20.0f;
-		float scr_w = io.DisplaySize.x;
-		float scr_h = io.DisplaySize.y;
-		float work_h = scr_h - menu_h;
+	if (!m_isActive) return;
 
-		ImGui::SetNextWindowPos(ImVec2(0.0f, menu_h), ImGuiCond_FirstUseEver);
-		ImGui::SetNextWindowSize(ImVec2(scr_w * 0.20f, work_h * 0.70f), ImGuiCond_FirstUseEver);
+	AppWindow* app = AppWindow::get();
 
-		if (ImGui::Begin("Hierarchy Tree", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
-			const std::vector<GameObject*> objects = AppWindow::get()->getGameObjects();
-			for (int i = 0; i < (int)objects.size(); i++) {
-				GameObject* obj = objects[i];
-				ImGui::PushID(i); 
+	if (ImGui::Begin("Hierarchy Tree", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
 
-				bool isSelected = (AppWindow::get()->m_selectedGameObject == obj);
-				if (ImGui::Selectable(obj->m_name.c_str(), isSelected)) {
-					AppWindow::get()->m_selectedGameObject = obj;
-				}
+		auto objs = app->getGameObjects();
 
-				ImGui::PopID();
+		// draw objects without parents first
+		for (auto obj : objs) { 
+			if (!obj->getParent()) {
+				DrawGameObjectList(obj, app);
 			}
 		}
 
-		ImGui::End();
+		ImGui::InvisibleButton("##HierarchyEmptySpace", ImGui::GetContentRegionAvail());
+
+		// make the empty area a drag-drop target
+		if (ImGui::BeginDragDropTarget()) {
+			if (const ImGuiPayload* payLoad = ImGui::AcceptDragDropPayload("GAMEOBJECT")) {
+				GameObject* drag = *(GameObject**)payLoad->Data;
+
+				if (drag && drag->getParent() != nullptr) {
+					app->setPendingObjectParent({ drag, nullptr });
+					app->getInvoker().executeCommand(static_cast<int>(Action::ParentAction));
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
+
+		// unselect gameobject when clicked on empty area
+		if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left) 
+			&& !ImGui::IsAnyItemHovered()) {
+			app->m_selectedGameObject = nullptr;
+		}
 	}
+
+	ImGui::End();
+	
+}
+
+void SceneHierarchyUI::DrawGameObjectList(GameObject* obj, AppWindow* app) {
+	ImGui::PushID(obj);
+
+	auto children = obj->getChildren();
+	bool isSelected = (app->m_selectedGameObject == obj);
+
+	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_SpanAvailWidth;
+
+	if (isSelected) flags = flags | ImGuiTreeNodeFlags_Selected;
+	if (children.empty()) flags = flags | ImGuiTreeNodeFlags_Leaf; // no collapsing arrow set
+
+	bool openChildList = ImGui::TreeNodeEx((void*)(intptr_t)obj, flags, "%s", obj->getName().c_str());
+
+	if (ImGui::IsItemClicked() && !ImGui::IsItemToggledOpen()) {
+		app->m_selectedGameObject = obj;
+	}
+
+	// set the drag-drop source to be GameObject only
+	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
+		ImGui::SetDragDropPayload("GAMEOBJECT", &obj, sizeof(GameObject*));
+		ImGui::Text("%s", obj->getName().c_str());
+		ImGui::EndDragDropSource();
+	}
+
+	// make this object a drag-drop target
+	if (ImGui::BeginDragDropTarget()) { 
+		if (const ImGuiPayload* payLoad = ImGui::AcceptDragDropPayload("GAMEOBJECT")) {
+			GameObject* drag = *(GameObject**)payLoad->Data;
+
+			if (drag && drag != obj && !isDescendant(obj, drag)) {
+				app->setPendingObjectParent({ drag, obj });
+				app->getInvoker().executeCommand(static_cast<int>(Action::ParentAction));
+			}
+		}
+		ImGui::EndDragDropTarget();
+	}
+
+	// repeat for further children
+	if (openChildList) {
+		for (auto c : children) {
+			if (c) {
+				DrawGameObjectList(c, app);
+			}
+		}
+		ImGui::TreePop();
+	}
+	ImGui::PopID();
+}
+
+bool SceneHierarchyUI::isDescendant(GameObject* drag, GameObject* obj) {
+	GameObject* current = drag;
+
+	while (current) {
+		if (current == obj) return true;
+		current = current->getParent();
+	}
+
+	return false;
 }

@@ -7,6 +7,7 @@
 #include "SpawnObjectCommand.h"
 #include "DeleteObjectCommand.h"
 #include "CloseWindowCommand.h"
+#include "ParentCommand.h"
 
 #include "Camera.h"
 #include "GameCamera.h"
@@ -73,6 +74,7 @@ void AppWindow::onCreate() {
 	});
 
 	m_invoker.bindCommand((int)Action::CloseWindow, [this]() { return new CloseWindowCommand(this); });
+	m_invoker.bindCommand((int)Action::ParentAction, [this]() { return new ParentCommand(m_pendingParent.child, m_pendingParent.newParent); });
 
 	// --- Sample Scene ---
 	GameObject* plane = SpawnGameObject(PLANE);
@@ -276,6 +278,8 @@ GameObject* AppWindow::SpawnGameObject(GameObjectTypes type) {
 		default: break;
 	}
 
+	if (obj == nullptr) return nullptr;
+
 	if (type == GAME_CAMERA) {
 		obj->getTransform()->setPosition(CameraHandler::get()->getSceneCamera()->getPosition());
 		obj->getTransform()->setRotation(CameraHandler::get()->getSceneCamera()->getRotation());
@@ -299,6 +303,10 @@ void AppWindow::RemoveObject(GameObject* object) {
 		}
 		m_objects.erase(it);
 	}
+}
+
+void AppWindow::setPendingObjectParent(PendingParent pendingParent) {
+	m_pendingParent = pendingParent;
 }
 
 

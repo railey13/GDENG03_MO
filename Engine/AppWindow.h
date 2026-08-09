@@ -30,9 +30,16 @@ enum class Action {
 	SpawnPlane,
 	SpawnCamera,
 	DeleteSelectedObject,
+	ParentAction,
 	Undo,
 	Redo,
 	CloseWindow,
+};
+
+
+struct PendingParent {
+	GameObject* child = nullptr;
+	GameObject* newParent = nullptr;
 };
 
 class AppWindow: public Window, public InputListener{
@@ -74,6 +81,8 @@ private:
 	GameObject* SpawnGameObject(GameObjectTypes type);
 	void RemoveObject(GameObject* object);
 public:
+	void setPendingObjectParent(PendingParent pendingParent);
+
 	CommandInvoker& getInvoker() { return m_invoker; }
 	const std::vector<GameObject*>& getGameObjects() const { return m_objects; }
 
@@ -82,6 +91,7 @@ private:
 	SwapChainPtr m_swap_chain;
 	RenderTexturePtr m_editor_rt;
 	RenderTexturePtr m_game_rt;
+	PendingParent m_pendingParent;
 
 	VertexShaderPtr m_vs;
 	PixelShaderPtr m_ps;

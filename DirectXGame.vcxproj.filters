@@ -332,6 +332,7 @@
     <ClInclude Include="Engine\ViewportUI.h" />
     <ClInclude Include="Engine\Debug.h" />
     <ClInclude Include="Engine\DebugUI.h" />
+    <ClInclude Include="Engine\ParentCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\VertexShader.hlsl">

@@ -197,6 +197,7 @@
     <ClInclude Include="Engine\Debug.h" />
     <ClInclude Include="Engine\DebugUI.h" />
     <ClInclude Include="Engine\GameObject.h" />
+    <ClInclude Include="Engine\ParentCommand.h" />
     <ClInclude Include="Engine\TransformComponent.h" />
     <ClInclude Include="Engine\UI.h" />
     <ClInclude Include="Engine\Camera.h" />
