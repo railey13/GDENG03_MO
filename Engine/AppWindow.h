@@ -77,6 +77,39 @@ private:
 	AGameObject* SpawnGameObject(GAMEOBJECTS type);
 	void RemoveObject(AGameObject* object);
 public:
+<<<<<<< Updated upstream
+=======
+	void setPendingObjectParent(PendingParent pendingParent);
+
+	// Stress Test
+	void spawnStressCubes(int count, bool withRb);
+	bool isStressActive() const { return m_stress_active; }
+	void setStressActive(bool active);
+	float getStressRate() const { return m_stress_rate; }
+	void setStressRate(float rate) { m_stress_rate = rate; }
+	bool getStressWithRb() const { return m_stress_with_rb; }
+	void setStressWithRb(bool withRb) { m_stress_with_rb = withRb; }
+	bool getStressAutoStop() const { return m_stress_auto_stop; }
+	void setStressAutoStop(bool autoStop) { m_stress_auto_stop = autoStop; }
+	float getStressStopFps() const { return m_stress_stop_fps; }
+	void setStressStopFps(float stopFps) { m_stress_stop_fps = stopFps; }
+
+	float getStressFps() const { return m_fps; }
+	float getStressElapsed() const { return m_stress_elapsed; }
+	int getStressPeakObjs() const { return m_stress_peak_objs; }
+	float getStressMinFps() const { return m_stress_min_fps; }
+	float getStressLastDur() const { return m_stress_last_dur; }
+	int getStressLastObjs() const { return m_stress_last_objs; }
+
+	// Play / Pause / Step / Stop
+	void onPlay();
+	void onPause();
+	void onStep();
+	void onStop();
+	bool isPaused() const { return m_scene_state == SceneState::Pause; }
+	SceneState getSceneState() const { return m_scene_state; }
+
+>>>>>>> Stashed changes
 	CommandInvoker& getInvoker() { return m_invoker; }
 	const std::vector<AGameObject*>& getGameObjects() const { return m_objects; }
 
@@ -85,6 +118,14 @@ private:
 	SwapChainPtr m_swap_chain;
 	RenderTexturePtr m_editor_rt;
 	RenderTexturePtr m_game_rt;
+<<<<<<< Updated upstream
+=======
+	PendingParent m_pendingParent;
+
+	SceneState m_scene_state = SceneState::Edit;
+	bool m_step_one_frame = false;
+	int m_play_obj_count = 0;
+>>>>>>> Stashed changes
 
 	VertexShaderPtr m_vs;
 	PixelShaderPtr m_ps;
