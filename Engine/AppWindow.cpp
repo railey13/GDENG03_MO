@@ -54,33 +54,63 @@ void AppWindow::createGraphicsWindow() {
 
 	CameraHandler::initialize();
 
+	UIManager::initialize(m_hwnd, CameraHandler::get()->getSceneCamera());
 	UIManager::initialize(m_hwnd);
 }
 
 void AppWindow::onPlay() {
 	if (m_scene_state == SceneState::Play) return;
 
-	// Snapshot every current object's transform so we can restore on Stop
-	for (GameObject* obj : m_objects)
-		if (obj) obj->saveSnapshot();
+	// Snapshot every current object's transform so we can restore on Stop if entering from Edit mode
+	if (m_scene_state == SceneState::Edit) {
+		for (GameObject* obj : m_objects)
+			if (obj) obj->saveSnapshot();
 
-	// Push editor transforms into physics bodies before simulation starts
-	for (GameObject* obj : m_objects) {
-		if (!obj) continue;
-		PhysicsComponent* rb = obj->getComponent<PhysicsComponent>();
-		if (rb) rb->resetToOwnerTransform();
+		// Push editor transforms into physics bodies before simulation starts
+		for (GameObject* obj : m_objects) {
+			if (!obj) continue;
+			PhysicsComponent* rb = obj->getComponent<PhysicsComponent>();
+			if (rb) rb->resetToOwnerTransform();
+		}
+
+		m_play_obj_count = (int)m_objects.size();
 	}
 
-	m_play_obj_count = (int)m_objects.size();
 	m_scene_state = SceneState::Play;
-
 	if (UIManager::get()) UIManager::get()->setSceneState(m_scene_state);
+}
+
+void AppWindow::onPause() {
+	if (m_scene_state == SceneState::Pause) return;
+
+	// If pausing directly from Edit mode, transition to Play first to establish snapshot/play boundary
+	if (m_scene_state == SceneState::Edit) {
+		onPlay();
+	}
+
+	m_scene_state = SceneState::Pause;
+	if (UIManager::get()) UIManager::get()->setSceneState(m_scene_state);
+}
+
+void AppWindow::onStep() {
+	// If currently in Edit mode, transition to Play & Pause first
+	if (m_scene_state == SceneState::Edit) {
+		onPlay();
+		onPause();
+	}
+	else if (m_scene_state == SceneState::Play) {
+		onPause();
+	}
+
+	// Flag to advance simulation by exactly 1 frame in the next update cycle
+	m_step_one_frame = true;
 }
 
 void AppWindow::onStop() {
 	if (m_scene_state == SceneState::Edit) return;
 
 	m_scene_state = SceneState::Edit;
+	m_step_one_frame = false;
 	if (UIManager::get()) UIManager::get()->setSceneState(m_scene_state);
 
 	// 1. Destroy objects that were spawned during Play (indices >= m_play_obj_count)
@@ -191,10 +221,13 @@ void AppWindow::onUpdate() {
 		}
 	}
 
-	// Step physics simulation only while in Play mode
-	if (m_scene_state == SceneState::Play)
-		PhysicsSystem::get()->update(deltaTime);
-
+	// Step physics simulation only while in Play mode or when frame stepping
+	if (m_scene_state == SceneState::Play || m_step_one_frame) {
+		float stepDelta = m_step_one_frame ? (1.0f / 60.0f) : deltaTime;
+		PhysicsSystem::get()->update(stepDelta);
+		m_step_one_frame = false;
+	}
+  
 	for (auto obj : m_objects) {
 		obj->update(deltaTime);
 	}

@@ -8,5 +8,6 @@
 enum class SceneState
 {
 	Edit,   // Default authoring state — inspector edits persist
-	Play,   // Runtime state — inspector edits and spawns are reverted on Stop
+	Play,   // Runtime state — simulation running continuously
+	Pause,  // Runtime state — simulation paused, state preserved, supports frame stepping
 };

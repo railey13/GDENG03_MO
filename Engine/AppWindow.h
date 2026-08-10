@@ -108,11 +108,13 @@ public:
 	float getStressLastDur() const { return m_stress_last_dur; }
 	int getStressLastObjs() const { return m_stress_last_objs; }
 
-	// Play / Stop
+	// Play / Pause / Step / Stop
 	void onPlay();
+	void onPause();
+	void onStep();
 	void onStop();
+	bool isPaused() const { return m_scene_state == SceneState::Pause; }
 	SceneState getSceneState() const { return m_scene_state; }
-
 	CommandInvoker& getInvoker() { return m_invoker; }
 	const std::vector<GameObject*>& getGameObjects() const { return m_objects; }
 
