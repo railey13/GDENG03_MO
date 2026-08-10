@@ -118,7 +118,7 @@ void GameCamera::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Mat
 
 	context->setConstantBuffer(m_cb);
 
-	context->setTexutre(ps, m_tex);
+	context->setTexture(ps, m_tex);
 
 	context->setVertexBuffer(m_vb);
 	context->setIndexBuffer(m_ib);

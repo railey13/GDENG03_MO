@@ -17,8 +17,6 @@ void DebugUI::draw() {
 		if (ImGui::Button("Clear Logs")) {
 			Debug::clearLogs();
 		}
-		ImGui::SameLine();
-		ImGui::Text("FPS: %.1f", m_displayedFps);
 
 		if (ImGui::BeginChild("Logs", ImVec2(0,0), true, ImGuiWindowFlags_HorizontalScrollbar)) {
 			for (const auto& log : Debug::getLogs()) {

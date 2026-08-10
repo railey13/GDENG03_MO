@@ -60,11 +60,11 @@ void DeviceContext::setPixelShader(PixelShaderPtr pixel_shader) {
 	m_device_context->PSSetShader(pixel_shader->m_ps, nullptr, 0);
 }
 
-void DeviceContext::setTexutre(VertexShaderPtr vertex_shader, TexturePtr texture) {
+void DeviceContext::setTexture(VertexShaderPtr vertex_shader, TexturePtr texture) {
 	m_device_context->VSSetShaderResources(0, 1, &texture->m_shader_res_view);
 }
 
-void DeviceContext::setTexutre(PixelShaderPtr pixel_shader, TexturePtr texture) {
+void DeviceContext::setTexture(PixelShaderPtr pixel_shader, TexturePtr texture) {
 	m_device_context->PSSetShaderResources(0, 1, &texture->m_shader_res_view);
 }
 

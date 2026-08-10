@@ -12,6 +12,8 @@ public:
 	bool isActive() const { return m_active; }
 
 	virtual void setActive(bool active);
+
+	size_t getID() const { return m_typeId; }
 private:
 	size_t m_typeId = 0;
 	GameObject* m_gameobject = nullptr;
