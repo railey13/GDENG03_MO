@@ -42,6 +42,9 @@ public:
 public:
 	void toggleComponentsActive(bool flag);
 	void toggleChildrenActive(bool flag);
+	// Snapshot — delegates to TransformComponent for Play/Stop restore
+	void saveSnapshot();
+	void restoreSnapshot();
 public:
 	void setName(const std::string& name);
 	void setActive(bool active);

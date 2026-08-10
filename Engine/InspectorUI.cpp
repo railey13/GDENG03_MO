@@ -2,6 +2,8 @@
 #include "UIManager.h"
 #include "AppWindow.h"
 #include "GameObject.h"
+#include "PhysicsComponent.h"
+#include "PhysicsSystem.h"
 
 InspectorUI::InspectorUI() {
 	m_isActive = true;
@@ -55,6 +57,50 @@ void InspectorUI::draw() {
 					}
 					if (ImGui::DragFloat3("Scale", &scale.m_x, m_transform_speed)) {
 						obj->getTransform()->setScale(scale);
+					}
+				}
+
+				// Physics Component
+				{
+					PhysicsComponent* rb = obj->getComponent<PhysicsComponent>();
+
+					ImGui::Separator();
+					if (ImGui::CollapsingHeader("Physics", ImGuiTreeNodeFlags_DefaultOpen)) {
+						if (!rb) {
+							// No physics — offer to add one
+							ImGui::PushStyleColor(ImGuiCol_Button,        ImVec4(0.13f, 0.45f, 0.65f, 1.0f));
+							ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.18f, 0.60f, 0.85f, 1.0f));
+							if (ImGui::Button("+ Add Box Collider", ImVec2(-1, 0))) {
+								PhysicsComponent* newRb = PhysicsSystem::get()->createComponent(
+									obj, PhysicsComponent::BodyType::DYNAMIC);
+								newRb->addBoxColliderFromScale();
+								newRb->enableGravity(true);
+							}
+							ImGui::PopStyleColor(2);
+						}
+						else {
+							// Body type dropdown
+							const char* bodyTypes[] = { "Static", "Kinematic", "Dynamic" };
+							int currentType = static_cast<int>(rb->getBodyType());
+							if (ImGui::Combo("Body Type", &currentType, bodyTypes, 3)) {
+								rb->setBodyType(static_cast<PhysicsComponent::BodyType>(currentType));
+							}
+
+							// Live velocity readouts (read-only)
+							Vector3D linVel = rb->getLinearVelocity();
+							Vector3D angVel = rb->getAngularVelocity();
+							ImGui::Text("Linear Vel:  (%.2f, %.2f, %.2f)", linVel.m_x, linVel.m_y, linVel.m_z);
+							ImGui::Text("Angular Vel: (%.2f, %.2f, %.2f)", angVel.m_x, angVel.m_y, angVel.m_z);
+
+							ImGui::Spacing();
+							// Remove physics
+							ImGui::PushStyleColor(ImGuiCol_Button,        ImVec4(0.55f, 0.10f, 0.10f, 1.0f));
+							ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.75f, 0.15f, 0.15f, 1.0f));
+							if (ImGui::Button("Remove Physics", ImVec2(-1, 0))) {
+								rb->release(); // removes from component map, destructor untracks
+							}
+							ImGui::PopStyleColor(2);
+						}
 					}
 				}
 			}		

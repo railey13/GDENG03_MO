@@ -5,6 +5,7 @@
 #include "UI.h"
 #include "DeviceContext.h"
 #include "Window.h"
+#include "SceneState.h"
 
 class ViewportUI;
 
@@ -49,6 +50,7 @@ public:
 	void setViewportSRVs(ID3D11ShaderResourceView* editor_srv, ID3D11ShaderResourceView* game_srv);
 	ImVec2 getEditorViewportSize() const;
 	ImVec2 getGameViewportSize() const;
+	void setSceneState(SceneState state);
 public:
 	void draw();
 private:

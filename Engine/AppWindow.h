@@ -12,6 +12,7 @@
 #include "PixelShader.h"
 #include "InputListener.h"
 #include "CommandInvoker.h"
+#include "SceneState.h"
 
 #include "../IMGUI/imgui.h"
 #include "../IMGUI/backends/imgui_impl_dx11.h"
@@ -84,6 +85,31 @@ private:
 public:
 	void setPendingObjectParent(PendingParent pendingParent);
 
+	// Stress Test
+	void spawnStressCubes(int count, bool withRb);
+	bool isStressActive() const { return m_stress_active; }
+	void setStressActive(bool active);
+	float getStressRate() const { return m_stress_rate; }
+	void setStressRate(float rate) { m_stress_rate = rate; }
+	bool getStressWithRb() const { return m_stress_with_rb; }
+	void setStressWithRb(bool withRb) { m_stress_with_rb = withRb; }
+	bool getStressAutoStop() const { return m_stress_auto_stop; }
+	void setStressAutoStop(bool autoStop) { m_stress_auto_stop = autoStop; }
+	float getStressStopFps() const { return m_stress_stop_fps; }
+	void setStressStopFps(float stopFps) { m_stress_stop_fps = stopFps; }
+
+	float getStressFps() const { return m_fps; }
+	float getStressElapsed() const { return m_stress_elapsed; }
+	int getStressPeakObjs() const { return m_stress_peak_objs; }
+	float getStressMinFps() const { return m_stress_min_fps; }
+	float getStressLastDur() const { return m_stress_last_dur; }
+	int getStressLastObjs() const { return m_stress_last_objs; }
+
+	// Play / Stop
+	void onPlay();
+	void onStop();
+	SceneState getSceneState() const { return m_scene_state; }
+
 	CommandInvoker& getInvoker() { return m_invoker; }
 	const std::vector<GameObject*>& getGameObjects() const { return m_objects; }
 
@@ -93,6 +119,9 @@ private:
 	RenderTexturePtr m_editor_rt;
 	RenderTexturePtr m_game_rt;
 	PendingParent m_pendingParent;
+
+	SceneState m_scene_state = SceneState::Edit;
+	int m_play_obj_count = 0;
 
 	VertexShaderPtr m_vs;
 	PixelShaderPtr m_ps;
@@ -107,6 +136,21 @@ private:
 
 	int camera_flag = 0;
 	bool gamecamera = false;
+
+	// Stress Test State
+	bool  m_stress_active    = false;
+	float m_stress_rate      = 10.0f;
+	bool  m_stress_with_rb   = true;
+	float m_stress_timer     = 0.0f;
+	float m_stress_elapsed   = 0.0f;
+	bool  m_stress_auto_stop = false;
+	float m_stress_stop_fps  = 30.0f;
+
+	float m_fps              = 60.0f;
+	int   m_stress_peak_objs = 0;
+	float m_stress_min_fps   = 9999.0f;
+	float m_stress_last_dur  = 0.0f;
+	int   m_stress_last_objs = 0;
 private:
 	friend class SpawnObjectCommand;
 	friend class DeleteObjectCommand;

@@ -9,6 +9,7 @@
 #include "CameraUI.h"
 #include "ViewportUI.h"
 #include "DebugUI.h"
+#include "StressTestUI.h"
 
 UIManager* UIManager::sharedInstance = NULL;
 
@@ -34,6 +35,7 @@ UIManager::UIManager(HWND hwnd) {
 	registerUI<CameraUI>();
 	registerUI<ViewportUI>();
 	registerUI<DebugUI>();
+	registerUI<StressTestUI>();
 }
 
 UIManager::~UIManager() {
@@ -88,6 +90,12 @@ ImVec2 UIManager::getGameViewportSize() const {
 		return port->getGameViewportSize();
 	}
 	return ImVec2(1024, 768);
+}
+
+void UIManager::setSceneState(SceneState state) {
+	if (MainMenuBarUI* bar = getUI<MainMenuBarUI>()) {
+		bar->setSceneState(state);
+	}
 }
 
 void UIManager::draw() {

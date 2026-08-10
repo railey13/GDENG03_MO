@@ -24,6 +24,19 @@ void TransformComponent::setScale(const Vector3D& scale) {
 	updateWorldMatrix();
 }
 
+void TransformComponent::saveSnapshot() {
+	m_snap_position = m_position;
+	m_snap_rotation = m_rotation;
+	m_snap_scale    = m_scale;
+}
+
+void TransformComponent::restoreSnapshot() {
+	m_position = m_snap_position;
+	m_rotation = m_snap_rotation;
+	m_scale    = m_snap_scale;
+	updateWorldMatrix();
+}
+
 void TransformComponent::updateWorldMatrix() {
 	Matrix4x4 temp;
 

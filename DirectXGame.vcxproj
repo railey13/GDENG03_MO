@@ -29,26 +29,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -82,9 +82,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)React3D Library\include;$(ProjectDir)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -99,7 +99,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -113,16 +113,16 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)React3D Library\include;$(ProjectDir)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>DirectXTexD.lib;d3d11.lib;d3dcompiler.lib;DirectXTex.lib;windowscodecs.lib;%(AdditionalDependencies);DirectXTex.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Libs\DirectXTex\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;windowscodecs.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Libs\DirectXTex\bin\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -131,7 +131,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -139,8 +139,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>DirectXTexD.lib;$(CoreLibraryDependencies);%(AdditionalDependencies);DirectXTex.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Libs\DirectXTex\bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;windowscodecs.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Libs\DirectXTex\bin\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -183,6 +183,96 @@
     <ClCompile Include="Engine\VertexBuffer.cpp" />
     <ClCompile Include="Engine\VertexShader.cpp" />
     <ClCompile Include="Engine\Window.cpp" />
+    <ClCompile Include="Engine\PhysicsComponent.cpp" />
+    <ClCompile Include="Engine\PhysicsSystem.cpp" />
+    <ClCompile Include="Engine\StressTestUI.cpp" />
+    <ClCompile Include="React3D Library\src\body\Body.cpp" />
+    <ClCompile Include="React3D Library\src\body\RigidBody.cpp" />
+    <ClCompile Include="React3D Library\src\collision\broadphase\DynamicAABBTree.cpp" />
+    <ClCompile Include="React3D Library\src\collision\Collider.cpp" />
+    <ClCompile Include="React3D Library\src\collision\CollisionCallback.cpp" />
+    <ClCompile Include="React3D Library\src\collision\ContactManifold.cpp" />
+    <ClCompile Include="React3D Library\src\collision\ConvexMesh.cpp" />
+    <ClCompile Include="React3D Library\src\collision\HalfEdgeStructure.cpp" />
+    <ClCompile Include="React3D Library\src\collision\HeightField.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\CapsuleVsCapsuleAlgorithm.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\CapsuleVsConvexPolyhedronAlgorithm.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\CollisionDispatch.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\ConvexPolyhedronVsConvexPolyhedronAlgorithm.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\GJK\GJKAlgorithm.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\GJK\VoronoiSimplex.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\NarrowPhaseInfoBatch.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\NarrowPhaseInput.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\SAT\SATAlgorithm.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\SphereVsCapsuleAlgorithm.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\SphereVsConvexPolyhedronAlgorithm.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\SphereVsSphereAlgorithm.cpp" />
+    <ClCompile Include="React3D Library\src\collision\OverlapCallback.cpp" />
+    <ClCompile Include="React3D Library\src\collision\PolygonVertexArray.cpp" />
+    <ClCompile Include="React3D Library\src\collision\RaycastInfo.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\AABB.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\BoxShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\CapsuleShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\CollisionShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\ConcaveMeshShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\ConcaveShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\ConvexMeshShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\ConvexPolyhedronShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\ConvexShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\HeightFieldShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\SphereShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\TriangleShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\TriangleMesh.cpp" />
+    <ClCompile Include="React3D Library\src\collision\TriangleVertexArray.cpp" />
+    <ClCompile Include="React3D Library\src\collision\VertexArray.cpp" />
+    <ClCompile Include="React3D Library\src\components\BallAndSocketJointComponents.cpp" />
+    <ClCompile Include="React3D Library\src\components\BodyComponents.cpp" />
+    <ClCompile Include="React3D Library\src\components\ColliderComponents.cpp" />
+    <ClCompile Include="React3D Library\src\components\Components.cpp" />
+    <ClCompile Include="React3D Library\src\components\FixedJointComponents.cpp" />
+    <ClCompile Include="React3D Library\src\components\HingeJointComponents.cpp" />
+    <ClCompile Include="React3D Library\src\components\JointComponents.cpp" />
+    <ClCompile Include="React3D Library\src\components\RigidBodyComponents.cpp" />
+    <ClCompile Include="React3D Library\src\components\SliderJointComponents.cpp" />
+    <ClCompile Include="React3D Library\src\components\TransformComponents.cpp" />
+    <ClCompile Include="React3D Library\src\constraint\BallAndSocketJoint.cpp" />
+    <ClCompile Include="React3D Library\src\constraint\ContactPoint.cpp" />
+    <ClCompile Include="React3D Library\src\constraint\FixedJoint.cpp" />
+    <ClCompile Include="React3D Library\src\constraint\HingeJoint.cpp" />
+    <ClCompile Include="React3D Library\src\constraint\Joint.cpp" />
+    <ClCompile Include="React3D Library\src\constraint\SliderJoint.cpp" />
+    <ClCompile Include="React3D Library\src\engine\Entity.cpp" />
+    <ClCompile Include="React3D Library\src\engine\EntityManager.cpp" />
+    <ClCompile Include="React3D Library\src\engine\Island.cpp" />
+    <ClCompile Include="React3D Library\src\engine\Material.cpp" />
+    <ClCompile Include="React3D Library\src\engine\OverlappingPairs.cpp" />
+    <ClCompile Include="React3D Library\src\engine\PhysicsCommon.cpp" />
+    <ClCompile Include="React3D Library\src\engine\PhysicsWorld.cpp" />
+    <ClCompile Include="React3D Library\src\mathematics\Matrix2x2.cpp" />
+    <ClCompile Include="React3D Library\src\mathematics\Matrix3x3.cpp" />
+    <ClCompile Include="React3D Library\src\mathematics\Quaternion.cpp" />
+    <ClCompile Include="React3D Library\src\mathematics\Transform.cpp" />
+    <ClCompile Include="React3D Library\src\mathematics\Vector2.cpp" />
+    <ClCompile Include="React3D Library\src\mathematics\Vector3.cpp" />
+    <ClCompile Include="React3D Library\src\memory\HeapAllocator.cpp" />
+    <ClCompile Include="React3D Library\src\memory\MemoryAllocator.cpp" />
+    <ClCompile Include="React3D Library\src\memory\MemoryManager.cpp" />
+    <ClCompile Include="React3D Library\src\memory\PoolAllocator.cpp" />
+    <ClCompile Include="React3D Library\src\memory\SingleFrameAllocator.cpp" />
+    <ClCompile Include="React3D Library\src\systems\BroadPhaseSystem.cpp" />
+    <ClCompile Include="React3D Library\src\systems\CollisionDetectionSystem.cpp" />
+    <ClCompile Include="React3D Library\src\systems\ConstraintSolverSystem.cpp" />
+    <ClCompile Include="React3D Library\src\systems\ContactSolverSystem.cpp" />
+    <ClCompile Include="React3D Library\src\systems\DynamicsSystem.cpp" />
+    <ClCompile Include="React3D Library\src\systems\SolveBallAndSocketJointSystem.cpp" />
+    <ClCompile Include="React3D Library\src\systems\SolveFixedJointSystem.cpp" />
+    <ClCompile Include="React3D Library\src\systems\SolveHingeJointSystem.cpp" />
+    <ClCompile Include="React3D Library\src\systems\SolveSliderJointSystem.cpp" />
+    <ClCompile Include="React3D Library\src\utils\DebugRenderer.cpp" />
+    <ClCompile Include="React3D Library\src\utils\DefaultLogger.cpp" />
+    <ClCompile Include="React3D Library\src\utils\Profiler.cpp" />
+    <ClCompile Include="React3D Library\src\utils\quickhull\QHHalfEdgeStructure.cpp" />
+    <ClCompile Include="React3D Library\src\utils\quickhull\QuickHull.cpp" />
     <ClCompile Include="IMGUI\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="IMGUI\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="IMGUI\imgui.cpp" />
@@ -234,6 +324,7 @@
     <ClInclude Include="Engine\ResourceManager.h" />
     <ClInclude Include="Engine\SpawnObjectCommand.h" />
     <ClInclude Include="Engine\Sphere.h" />
+    <ClInclude Include="Engine\StressTestUI.h" />
     <ClInclude Include="Engine\SwapChain.h" />
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\TextureManager.h" />

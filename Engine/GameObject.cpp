@@ -32,6 +32,14 @@ void GameObject::toggleChildrenActive(bool flag) {
 	}
 }
 
+void GameObject::saveSnapshot() {
+	if (m_transform) m_transform->saveSnapshot();
+}
+
+void GameObject::restoreSnapshot() {
+	if (m_transform) m_transform->restoreSnapshot();
+}
+
 void GameObject::setName(const std::string& name) {
 	m_name = name;
 }

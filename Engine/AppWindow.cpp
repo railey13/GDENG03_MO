@@ -19,6 +19,9 @@
 #include "Sphere.h"
 #include "Capsule.h"
 
+#include "PhysicsSystem.h"
+#include "PhysicsComponent.h"
+
 AppWindow* AppWindow::sharedInstance = NULL;
 
 AppWindow* AppWindow::get() {
@@ -53,6 +56,55 @@ void AppWindow::createGraphicsWindow() {
 	UIManager::initialize(m_hwnd);
 }
 
+void AppWindow::onPlay() {
+	if (m_scene_state == SceneState::Play) return;
+
+	// Snapshot every current object's transform so we can restore on Stop
+	for (GameObject* obj : m_objects)
+		if (obj) obj->saveSnapshot();
+
+	// Push editor transforms into physics bodies before simulation starts
+	for (GameObject* obj : m_objects) {
+		if (!obj) continue;
+		PhysicsComponent* rb = obj->getComponent<PhysicsComponent>();
+		if (rb) rb->resetToOwnerTransform();
+	}
+
+	m_play_obj_count = (int)m_objects.size();
+	m_scene_state = SceneState::Play;
+
+	if (UIManager::get()) UIManager::get()->setSceneState(m_scene_state);
+}
+
+void AppWindow::onStop() {
+	if (m_scene_state == SceneState::Edit) return;
+
+	m_scene_state = SceneState::Edit;
+	if (UIManager::get()) UIManager::get()->setSceneState(m_scene_state);
+
+	// 1. Destroy objects that were spawned during Play (indices >= m_play_obj_count)
+	while ((int)m_objects.size() > m_play_obj_count) {
+		GameObject* obj = m_objects.back();
+		if (obj == m_selectedGameObject) m_selectedGameObject = nullptr;
+		if (dynamic_cast<GameCamera*>(obj)) gamecamera = false;
+		delete obj;
+		m_objects.pop_back();
+	}
+
+	// 2. Restore every pre-play object's transform
+	for (GameObject* obj : m_objects)
+		if (obj) obj->restoreSnapshot();
+
+	// 3. Resync physics bodies to the restored transforms
+	for (GameObject* obj : m_objects) {
+		if (!obj) continue;
+		PhysicsComponent* rb = obj->getComponent<PhysicsComponent>();
+		if (rb) rb->resetToOwnerTransform();
+	}
+
+	m_play_obj_count = 0;
+}
+
 AppWindow::AppWindow() {
 	
 }
@@ -62,7 +114,9 @@ AppWindow::~AppWindow() {
 }
 
 void AppWindow::onCreate() {
-	/*Window::onCreate();*/
+	// PhysicsSystem is DX-independent — safe to init before shaders are compiled
+	PhysicsSystem::get()->initialize();
+
 	InputSystem::get()->addListener(this);
 
 	m_invoker.bindCommand((int)Action::SpawnCube, [this]() { return new SpawnObjectCommand(this, CUBE); });
@@ -78,24 +132,11 @@ void AppWindow::onCreate() {
 	m_invoker.bindCommand((int)Action::CloseWindow, [this]() { return new CloseWindowCommand(this); });
 	m_invoker.bindCommand((int)Action::ParentAction, [this]() { return new ParentCommand(m_pendingParent.child, m_pendingParent.newParent); });
 
-	// --- Sample Scene ---
-	GameObject* plane = SpawnGameObject(PLANE);
-	if (plane) {
-		plane->getTransform()->setPosition(Vector3D(0.0f, -0.2f, 0.0f));
-		plane->getTransform()->setScale(Vector3D(1.0f, 1.0f, 1.0f));
-		plane->getTransform()->setRotation(Vector3D(1.570796f, 0.0f, 0.0f));
-	}
-
-	GameObject* cube = SpawnGameObject(CUBE);
-	if (cube) {
-		cube->getTransform()->setPosition(Vector3D(0.0f, 0.0f, 0.0f));
-		cube->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/orange.png"));
-	}
-
+	// --- Blank Starter Scene (Camera Only) ---
 	GameObject* camera = SpawnGameObject(GAME_CAMERA);
 	if (camera) {
-		camera->getTransform()->setPosition(Vector3D(-0.3f, 0.5f, -1.0f));
-		camera->getTransform()->setRotation((Vector3D(0.0f, 0.0f, 0.0f)));
+		camera->getTransform()->setPosition(Vector3D(0.0f, 2.0f, -5.0f));
+		camera->getTransform()->setRotation(Vector3D(0.0f, 0.0f, 0.0f));
 	}
 }
 
@@ -105,11 +146,50 @@ void AppWindow::onUpdate() {
 	DeviceContextPtr context = graphEngine->getRenderSystem()->getImmediateDeviceContext();
 
 	f32 deltaTime = EngineTime::getDeltaTime();
+	m_fps = (deltaTime > 0.0001f) ? (1.0f / deltaTime) : 60.0f;
 
 	Camera* sceneCamera = CameraHandler::get()->getSceneCamera();
 	GameCamera* gameCamera = CameraHandler::get()->getGameCamera();
 
 	sceneCamera->update(deltaTime);
+
+	// --- Stress Spawner Logic ---
+	if (m_stress_active) {
+		m_stress_elapsed += deltaTime;
+		m_stress_timer   += deltaTime;
+
+		float spawn_interval = (m_stress_rate > 0.0f) ? (1.0f / m_stress_rate) : 1.0f;
+		while (m_stress_timer >= spawn_interval) {
+			m_stress_timer -= spawn_interval;
+
+			// Spawn cube with slight XZ scatter above origin
+			GameObject* cube = SpawnGameObject(CUBE);
+			if (cube) {
+				float rx = ((float)rand() / RAND_MAX - 0.5f) * 1.0f;
+				float rz = ((float)rand() / RAND_MAX - 0.5f) * 1.0f;
+				float ry = 3.0f + ((float)rand() / RAND_MAX) * 2.0f;
+				cube->getTransform()->setPosition(Vector3D(rx, ry, rz));
+
+				if (m_stress_with_rb && PhysicsSystem::get()->isInitialized()) {
+					PhysicsComponent* rb = PhysicsSystem::get()->createComponent(cube, PhysicsComponent::BodyType::DYNAMIC);
+					rb->addBoxColliderFromScale();
+					rb->enableGravity(true);
+				}
+			}
+		}
+
+		int currentObjs = (int)m_objects.size();
+		if (currentObjs > m_stress_peak_objs) m_stress_peak_objs = currentObjs;
+		if (m_fps > 0.0f && m_fps < m_stress_min_fps) m_stress_min_fps = m_fps;
+
+		if (m_stress_auto_stop && m_stress_elapsed > 2.0f && m_fps > 0.0f && m_fps < m_stress_stop_fps) {
+			setStressActive(false);
+		}
+	}
+
+	// Step physics simulation only while in Play mode
+	if (m_scene_state == SceneState::Play)
+		PhysicsSystem::get()->update(deltaTime);
 
 	for (auto obj : m_objects) {
 		obj->update(deltaTime);
@@ -167,8 +247,9 @@ void AppWindow::onDestroy() {
 	Window::onDestroy();
 
 	InputSystem::get()->removeListener(this);
-	m_objects.clear();
+	m_objects.clear(); // Destroys all GameObjects → their PhysicsComponents → rigid bodies
 
+	PhysicsSystem::get()->release(); // Safe to destroy world after all rigid bodies are gone
 	GraphicsEngine::get()->destroy();
 }
 
@@ -270,6 +351,9 @@ GameObject* AppWindow::SpawnGameObject(GameObjectTypes type) {
 			break;
 		case PLANE:
 			obj = new Plane(vs_byte_code, vs_size);
+			// Default horizontal ground plane (5x5, 90 deg X rotation)
+			obj->getTransform()->setScale(Vector3D(5.0f, 5.0f, 1.0f));
+			obj->getTransform()->setRotation(Vector3D(1.570796f, 0.0f, 0.0f));
 			break;
 		case CAPSULE:
 			obj = new Capsule(vs_byte_code, vs_size);
@@ -312,6 +396,38 @@ void AppWindow::RemoveObject(GameObject* object) {
 
 void AppWindow::setPendingObjectParent(PendingParent pendingParent) {
 	m_pendingParent = pendingParent;
+}
+
+void AppWindow::setStressActive(bool active) {
+	if (m_stress_active == active) return;
+	if (active) {
+		m_stress_elapsed   = 0.0f;
+		m_stress_timer     = 0.0f;
+		m_stress_peak_objs = (int)m_objects.size();
+		m_stress_min_fps   = 9999.0f;
+	} else {
+		m_stress_last_dur  = m_stress_elapsed;
+		m_stress_last_objs = m_stress_peak_objs;
+	}
+	m_stress_active = active;
+}
+
+void AppWindow::spawnStressCubes(int count, bool withRb) {
+	for (int i = 0; i < count; i++) {
+		GameObject* cube = SpawnGameObject(CUBE);
+		if (cube) {
+			float rx = ((float)rand() / RAND_MAX - 0.5f) * 0.8f;
+			float rz = ((float)rand() / RAND_MAX - 0.5f) * 0.8f;
+			float ry = 1.0f + i * 0.5f;
+			cube->getTransform()->setPosition(Vector3D(rx, ry, rz));
+
+			if (withRb && PhysicsSystem::get()->isInitialized()) {
+				PhysicsComponent* rb = PhysicsSystem::get()->createComponent(cube, PhysicsComponent::BodyType::DYNAMIC);
+				rb->addBoxColliderFromScale();
+				rb->enableGravity(true);
+			}
+		}
+	}
 }
 
 
