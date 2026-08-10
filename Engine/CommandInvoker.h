@@ -34,7 +34,7 @@ public:
 			redoStack.push(std::move(cmd));
 
 			Debug::Log("UNDO");
-		}
+		} else Debug::Log("NOTHING TO UNDO");
 	}
 
 	void redo() {
@@ -45,7 +45,7 @@ public:
 			undoStack.push(std::move(cmd));
 
 			Debug::Log("REDO");
-		}
+		} else Debug::Log("NOTHING TO REDO");
 	}
 
 private:

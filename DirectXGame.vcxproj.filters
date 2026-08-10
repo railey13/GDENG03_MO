@@ -335,6 +335,7 @@
     <ClInclude Include="Engine\DebugUI.h" />
     <ClInclude Include="Engine\ParentCommand.h" />
     <ClInclude Include="Engine\Capsule.h" />
+    <ClInclude Include="Engine\SaveTransformCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\VertexShader.hlsl">

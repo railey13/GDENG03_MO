@@ -56,10 +56,18 @@ void InspectorUI::draw() {
 					if (ImGui::DragFloat3("Scale", &scale.m_x, m_transform_speed)) {
 						obj->getTransform()->setScale(scale);
 					}
+
+					if (ImGui::Button("Confirm Changes")) {
+						//Call command stack here
+						AppWindow::get()->getInvoker().executeCommand((int)Action::SaveTransform);
+						
+
+						Debug::Log("TRANSFORM FOR " + obj->getName() +  " SAVED");
+
+					}
 				}
 			}		
 		}
-
 		ImGui::End();
 	}
 }

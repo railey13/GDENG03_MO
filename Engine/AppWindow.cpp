@@ -7,6 +7,7 @@
 #include "SpawnObjectCommand.h"
 #include "DeleteObjectCommand.h"
 #include "CloseWindowCommand.h"
+#include "SaveTransformCommand.h"
 #include "ParentCommand.h"
 
 #include "Camera.h"
@@ -74,6 +75,9 @@ void AppWindow::onCreate() {
 	m_invoker.bindCommand((int)Action::DeleteSelectedObject, [this]() {
 		return new DeleteObjectCommand(this, m_selectedGameObject);
 	});
+
+	//SAVING AND LOADING TRANSFORM DATA
+	m_invoker.bindCommand((int)Action::SaveTransform, [this]() { return new SaveTransformCommand(this, m_selectedGameObject); });
 
 	m_invoker.bindCommand((int)Action::CloseWindow, [this]() { return new CloseWindowCommand(this); });
 	m_invoker.bindCommand((int)Action::ParentAction, [this]() { return new ParentCommand(m_pendingParent.child, m_pendingParent.newParent); });
@@ -208,10 +212,20 @@ void AppWindow::onKeyUp(i32 key) {
 		case '1':
 			m_selectedGameObject->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/CartethyiaPuppet.gif"));
 			break;
-		case 90: m_invoker.undo();
+
+		//UNDO [Z BUTTON]
+		case 90:
+			m_invoker.undo();
+			
 			break;
-		case 89: m_invoker.redo();
+
+		//REDO [Y BUTTON]
+		case 89: 
+			m_invoker.redo();
+
 			break;
+
+
 		case VK_DELETE: 
 			if (m_selectedGameObject) {
 				m_invoker.executeCommand((int)Action::DeleteSelectedObject);
