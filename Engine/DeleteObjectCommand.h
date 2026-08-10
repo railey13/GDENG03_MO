@@ -1,6 +1,7 @@
 #pragma once
 #include "Command.h"
 #include "AppWindow.h"
+#include "CameraHandler.h"
 
 class DeleteObjectCommand : public Command {
 public:
@@ -36,6 +37,13 @@ public:
 			else {
 				receiver->m_objects.insert(receiver->m_objects.begin() + m_index, object);
 			}
+			object->setActive(true);
+
+			if (GameCamera* cam = dynamic_cast<GameCamera*>(object)) {
+				CameraHandler::get()->setGameCamera(cam);
+				receiver->gamecamera = true;
+			}
+			
 			m_inScene = true;
 		}
 	}

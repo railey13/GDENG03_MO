@@ -382,14 +382,21 @@ GameObject* AppWindow::SpawnGameObject(GameObjectTypes type) {
 	m_objects.push_back(obj);
 	return obj;
 }
-
+	
 void AppWindow::RemoveObject(GameObject* object) {
 	auto it = std::find(m_objects.begin(), m_objects.end(), object);
 
 	if (it != m_objects.end()) {
 		if (object == m_selectedGameObject) {
+			m_selectedGameObject = nullptr;
+		}
+
+		if (dynamic_cast<GameCamera*>(object) && CameraHandler::get()->getGameCamera() == object) {
+			CameraHandler::get()->setGameCamera(nullptr);
 			gamecamera = false;
 		}
+
+		object->setActive(false);
 		m_objects.erase(it);
 	}
 }
