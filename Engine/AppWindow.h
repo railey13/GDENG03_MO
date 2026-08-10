@@ -126,6 +126,7 @@ private:
 	PendingParent m_pendingParent;
 
 	SceneState m_scene_state = SceneState::Edit;
+	bool m_step_one_frame = false;
 	int m_play_obj_count = 0;
 
 	VertexShaderPtr m_vs;
