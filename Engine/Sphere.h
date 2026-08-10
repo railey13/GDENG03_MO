@@ -1,12 +1,12 @@
 #pragma once
-#include "AGameObject.h"
+#include "GameObject.h"
 
-class Sphere : public AGameObject {
+class Sphere : public GameObject {
 public:
 	Sphere(void* shader_byte_code, size_t size_shader);
 	~Sphere();
 public:
-	// Inherited via AGameObject
+	// Inherited via GameObject
 	void update(f32 deltaTime) override;
 	void draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4 proj) override;
 private:

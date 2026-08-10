@@ -62,11 +62,13 @@ RenderSystem::RenderSystem() {
     m_dxgi_device->GetParent(__uuidof(IDXGIAdapter), (void**)&m_dxgi_adapter); // get the dxgi adapter instance
     m_dxgi_adapter->GetParent(__uuidof(IDXGIFactory), (void**)&m_dxgi_factory); // get the dxgi factory instance
 
+    createAlphaBlendState();
 }
 
 RenderSystem::~RenderSystem() {
     if (m_vsblob) m_vsblob->Release();
     if (m_psblob) m_psblob->Release();
+    if (m_alpha_blend_state) m_alpha_blend_state->Release();
 
     m_dxgi_device->Release();
     m_dxgi_adapter->Release();
@@ -204,4 +206,24 @@ void RenderSystem::releaseCompiledShader() {
     if (m_blob) {
         m_blob->Release();
     }
+}
+
+ID3D11BlendState* RenderSystem::createAlphaBlendState() {
+    D3D11_BLEND_DESC blend_desc = {};
+    blend_desc.RenderTarget[0].BlendEnable = TRUE;
+    blend_desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+    blend_desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+    blend_desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+    blend_desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+    blend_desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_INV_SRC_ALPHA;
+    blend_desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+    blend_desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+    HRESULT res = m_d3d_device->CreateBlendState(&blend_desc, &m_alpha_blend_state);
+
+    if (FAILED(res)) {
+        throw std::exception("Blend state did not initiate successfully.");
+    }
+
+    return m_alpha_blend_state;
 }

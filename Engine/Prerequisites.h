@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <string>
 
 class SwapChain;
 class DeviceContext;
@@ -15,6 +16,8 @@ class ResourceManager;
 class Texture;
 class TextureManager;
 class RenderTexture;
+class GameObject;
+class Component;
 
 typedef std::shared_ptr<SwapChain> SwapChainPtr;
 typedef std::shared_ptr<DeviceContext> DeviceContextPtr;
@@ -31,3 +34,14 @@ typedef unsigned int ui32;
 typedef int	i32;
 typedef float f32;
 typedef double d64;
+
+enum class LogLevel {
+	Info = 0,
+	Warning,
+	Error
+};
+
+struct LogInfo {
+	LogLevel level;
+	std::string msg;
+};

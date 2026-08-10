@@ -1,4 +1,6 @@
 #pragma once
+#include "Debug.h"
+
 class Command {
 public:
 	virtual ~Command() {}

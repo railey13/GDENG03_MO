@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <iostream>
 #include <thread>
+#include "Debug.h"
 
 EngineTime* EngineTime::sharedInstance = NULL;
 
@@ -37,7 +38,7 @@ void EngineTime::UpdateFPSCounter() {
     if (sharedInstance->fpsAccumulatedTime >= 1.0) {
         sharedInstance->currentFPS = sharedInstance->fpsFrameCount / sharedInstance->fpsAccumulatedTime;
 
-        std::cout << "FPS: " << sharedInstance->currentFPS << std::endl;
+        Debug::Log("FPS: " + std::to_string(sharedInstance->currentFPS));
 
         sharedInstance->fpsFrameCount = 0;
         sharedInstance->fpsAccumulatedTime = 0.0;

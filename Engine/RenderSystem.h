@@ -23,6 +23,10 @@ public:
 	bool compilePixelShader(const wchar_t* file_name, const char* entry_point_name, void** shader_byte_code, size_t* byte_code_size);
 
 	void releaseCompiledShader();
+public:
+	ID3D11BlendState* createAlphaBlendState();
+public:
+	ID3D11BlendState* m_alpha_blend_state = nullptr;
 private:
 	DeviceContextPtr m_imm_device_context; 
 private:
@@ -40,7 +44,6 @@ private:
 	ID3DBlob* m_psblob = nullptr;
 	ID3D11VertexShader* m_vs = nullptr;
 	ID3D11PixelShader* m_ps = nullptr;
-
 private:
 	friend class SwapChain;
 	friend class VertexBuffer;

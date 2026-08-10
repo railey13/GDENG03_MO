@@ -88,7 +88,7 @@ Cube::Cube(void* shader_byte_code, size_t size_shader) {
 	m_cb = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&cc, sizeof(constant));
 
 	m_name = "Cube";
-	m_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/orange.png");
+	m_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/white.png");
 }
 
 Cube::~Cube() {
@@ -105,31 +105,7 @@ void Cube::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4
 
 	cc.m_time = 0;
 
-	cc.m_world.setIdentity();
-
-	temp.setIdentity();
-	temp.setScale(m_scale);
-
-	cc.m_world *= temp;
-
-	temp.setIdentity();
-	temp.setRotationZ(m_rotation.m_z);
-
-	cc.m_world *= temp;
-
-	temp.setIdentity();
-	temp.setRotationY(m_rotation.m_y);
-
-	cc.m_world *= temp;
-
-	temp.setIdentity();
-	temp.setRotationX(m_rotation.m_x);
-
-	cc.m_world *= temp;
-
-	temp.setTranslation(m_position);
-
-	cc.m_world *= temp;
+	getTransform()->getWorldMatrix(cc.m_world);
 
 	cc.m_view = view;
 	cc.m_proj = proj;
@@ -140,7 +116,12 @@ void Cube::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x4
 
 	context->setConstantBuffer(m_cb);
 
-	context->setTexutre(ps, m_tex);
+	TextureComponent* tex = getComponent<TextureComponent>();
+
+	if (!tex)
+		context->setTexture(ps, m_tex);
+	else
+		context->setTexture(ps, tex->getTexture());
 
 	context->setVertexBuffer(m_vb);
 	context->setIndexBuffer(m_ib);

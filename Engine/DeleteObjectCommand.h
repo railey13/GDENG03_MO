@@ -1,16 +1,17 @@
 #pragma once
 #include "Command.h"
 #include "AppWindow.h"
+#include "CameraHandler.h"
 
 class DeleteObjectCommand : public Command {
 public:
-	DeleteObjectCommand(AppWindow* receiver, AGameObject* target) : receiver(receiver), object(target){
+	DeleteObjectCommand(AppWindow* receiver, GameObject* target) : receiver(receiver), object(target){
 
 	}
 	// Inherited via Command
 	void execute() override {
 		if (receiver && object) {
-			std::vector<AGameObject*> objects = receiver->getGameObjects();
+			std::vector<GameObject*> objects = receiver->getGameObjects();
 
 			for (ui32 i = 0; i < objects.size(); i++) {
 				if (objects[i] == object) {
@@ -36,6 +37,13 @@ public:
 			else {
 				receiver->m_objects.insert(receiver->m_objects.begin() + m_index, object);
 			}
+			object->setActive(true);
+
+			if (GameCamera* cam = dynamic_cast<GameCamera*>(object)) {
+				CameraHandler::get()->setGameCamera(cam);
+				receiver->gamecamera = true;
+			}
+			
 			m_inScene = true;
 		}
 	}
@@ -47,7 +55,7 @@ public:
 	}
 private:
 	AppWindow* receiver;
-	AGameObject* object = nullptr;
+	GameObject* object = nullptr;
 	bool m_inScene = false;
 	size_t m_index = 0;
 };

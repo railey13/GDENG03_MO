@@ -35,7 +35,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -48,7 +48,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -82,9 +82,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)React3D Library\include;$(ProjectDir)IMGUI\;$(ProjectDir)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -99,7 +99,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -113,19 +113,16 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)React3D Library\include;$(ProjectDir)IMGUI\;$(ProjectDir)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;windowscodecs.lib;%(AdditionalDependencies)</AdditionalDependencies>
-<<<<<<< Updated upstream
-=======
       <AdditionalLibraryDirectories>$(ProjectDir)Libs\DirectXTex\bin\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
->>>>>>> Stashed changes
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -134,7 +131,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -142,38 +139,40 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-<<<<<<< Updated upstream
-=======
       <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;windowscodecs.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)Libs\DirectXTex\bin\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
->>>>>>> Stashed changes
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Engine\AboutScreen.cpp" />
-    <ClCompile Include="Engine\AGameObject.cpp" />
+    <ClCompile Include="Engine\Capsule.cpp" />
+    <ClCompile Include="Engine\AboutUI.cpp" />
     <ClCompile Include="Engine\AppWindow.cpp" />
-    <ClCompile Include="Engine\AUIScreen.cpp" />
+    <ClCompile Include="Engine\Component.cpp" />
+    <ClCompile Include="Engine\Debug.cpp" />
+    <ClCompile Include="Engine\DebugUI.cpp" />
+    <ClCompile Include="Engine\GameObject.cpp" />
+    <ClCompile Include="Engine\TransformComponent.cpp" />
+    <ClCompile Include="Engine\UI.cpp" />
     <ClCompile Include="Engine\Camera.cpp" />
     <ClCompile Include="Engine\CameraHandler.cpp" />
-    <ClCompile Include="Engine\CameraScreen.cpp" />
+    <ClCompile Include="Engine\CameraUI.cpp" />
     <ClCompile Include="Engine\ConstantBuffer.cpp" />
     <ClCompile Include="Engine\Cube.cpp" />
     <ClCompile Include="Engine\DeviceContext.cpp" />
     <ClCompile Include="Engine\EngineTime.cpp" />
     <ClCompile Include="Engine\GameCamera.cpp" />
     <ClCompile Include="Engine\GraphicsEngine.cpp" />
-    <ClCompile Include="Engine\HierarchyScreen.cpp" />
+    <ClCompile Include="Engine\SceneHierarchyUI.cpp" />
     <ClCompile Include="Engine\IndexBuffer.cpp" />
     <ClCompile Include="Engine\InputSystem.cpp" />
-    <ClCompile Include="Engine\InspectorScreen.cpp" />
+    <ClCompile Include="Engine\InspectorUI.cpp" />
     <ClCompile Include="Engine\main.cpp" />
-    <ClCompile Include="Engine\MainMenuScreen.cpp" />
+    <ClCompile Include="Engine\MainMenuBarUI.cpp" />
     <ClCompile Include="Engine\PixelShader.cpp" />
     <ClCompile Include="Engine\Plane.cpp" />
     <ClCompile Include="Engine\RenderSystem.cpp" />
     <ClCompile Include="Engine\RenderTexture.cpp" />
-    <ClCompile Include="Engine\ViewportScreen.cpp" />
+    <ClCompile Include="Engine\ViewportUI.cpp" />
     <ClCompile Include="Engine\Resource.cpp" />
     <ClCompile Include="Engine\ResourceManager.cpp" />
     <ClCompile Include="Engine\Sphere.cpp" />
@@ -184,6 +183,97 @@
     <ClCompile Include="Engine\VertexBuffer.cpp" />
     <ClCompile Include="Engine\VertexShader.cpp" />
     <ClCompile Include="Engine\Window.cpp" />
+    <ClCompile Include="Engine\PhysicsComponent.cpp" />
+    <ClCompile Include="Engine\PhysicsSystem.cpp" />
+    <ClCompile Include="Engine\StressTestUI.cpp" />
+    <ClCompile Include="IMGUI\ImGuiFileDialog.cpp" />
+    <ClCompile Include="React3D Library\src\body\Body.cpp" />
+    <ClCompile Include="React3D Library\src\body\RigidBody.cpp" />
+    <ClCompile Include="React3D Library\src\collision\broadphase\DynamicAABBTree.cpp" />
+    <ClCompile Include="React3D Library\src\collision\Collider.cpp" />
+    <ClCompile Include="React3D Library\src\collision\CollisionCallback.cpp" />
+    <ClCompile Include="React3D Library\src\collision\ContactManifold.cpp" />
+    <ClCompile Include="React3D Library\src\collision\ConvexMesh.cpp" />
+    <ClCompile Include="React3D Library\src\collision\HalfEdgeStructure.cpp" />
+    <ClCompile Include="React3D Library\src\collision\HeightField.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\CapsuleVsCapsuleAlgorithm.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\CapsuleVsConvexPolyhedronAlgorithm.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\CollisionDispatch.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\ConvexPolyhedronVsConvexPolyhedronAlgorithm.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\GJK\GJKAlgorithm.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\GJK\VoronoiSimplex.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\NarrowPhaseInfoBatch.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\NarrowPhaseInput.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\SAT\SATAlgorithm.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\SphereVsCapsuleAlgorithm.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\SphereVsConvexPolyhedronAlgorithm.cpp" />
+    <ClCompile Include="React3D Library\src\collision\narrowphase\SphereVsSphereAlgorithm.cpp" />
+    <ClCompile Include="React3D Library\src\collision\OverlapCallback.cpp" />
+    <ClCompile Include="React3D Library\src\collision\PolygonVertexArray.cpp" />
+    <ClCompile Include="React3D Library\src\collision\RaycastInfo.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\AABB.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\BoxShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\CapsuleShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\CollisionShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\ConcaveMeshShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\ConcaveShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\ConvexMeshShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\ConvexPolyhedronShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\ConvexShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\HeightFieldShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\SphereShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\shapes\TriangleShape.cpp" />
+    <ClCompile Include="React3D Library\src\collision\TriangleMesh.cpp" />
+    <ClCompile Include="React3D Library\src\collision\TriangleVertexArray.cpp" />
+    <ClCompile Include="React3D Library\src\collision\VertexArray.cpp" />
+    <ClCompile Include="React3D Library\src\components\BallAndSocketJointComponents.cpp" />
+    <ClCompile Include="React3D Library\src\components\BodyComponents.cpp" />
+    <ClCompile Include="React3D Library\src\components\ColliderComponents.cpp" />
+    <ClCompile Include="React3D Library\src\components\Components.cpp" />
+    <ClCompile Include="React3D Library\src\components\FixedJointComponents.cpp" />
+    <ClCompile Include="React3D Library\src\components\HingeJointComponents.cpp" />
+    <ClCompile Include="React3D Library\src\components\JointComponents.cpp" />
+    <ClCompile Include="React3D Library\src\components\RigidBodyComponents.cpp" />
+    <ClCompile Include="React3D Library\src\components\SliderJointComponents.cpp" />
+    <ClCompile Include="React3D Library\src\components\TransformComponents.cpp" />
+    <ClCompile Include="React3D Library\src\constraint\BallAndSocketJoint.cpp" />
+    <ClCompile Include="React3D Library\src\constraint\ContactPoint.cpp" />
+    <ClCompile Include="React3D Library\src\constraint\FixedJoint.cpp" />
+    <ClCompile Include="React3D Library\src\constraint\HingeJoint.cpp" />
+    <ClCompile Include="React3D Library\src\constraint\Joint.cpp" />
+    <ClCompile Include="React3D Library\src\constraint\SliderJoint.cpp" />
+    <ClCompile Include="React3D Library\src\engine\Entity.cpp" />
+    <ClCompile Include="React3D Library\src\engine\EntityManager.cpp" />
+    <ClCompile Include="React3D Library\src\engine\Island.cpp" />
+    <ClCompile Include="React3D Library\src\engine\Material.cpp" />
+    <ClCompile Include="React3D Library\src\engine\OverlappingPairs.cpp" />
+    <ClCompile Include="React3D Library\src\engine\PhysicsCommon.cpp" />
+    <ClCompile Include="React3D Library\src\engine\PhysicsWorld.cpp" />
+    <ClCompile Include="React3D Library\src\mathematics\Matrix2x2.cpp" />
+    <ClCompile Include="React3D Library\src\mathematics\Matrix3x3.cpp" />
+    <ClCompile Include="React3D Library\src\mathematics\Quaternion.cpp" />
+    <ClCompile Include="React3D Library\src\mathematics\Transform.cpp" />
+    <ClCompile Include="React3D Library\src\mathematics\Vector2.cpp" />
+    <ClCompile Include="React3D Library\src\mathematics\Vector3.cpp" />
+    <ClCompile Include="React3D Library\src\memory\HeapAllocator.cpp" />
+    <ClCompile Include="React3D Library\src\memory\MemoryAllocator.cpp" />
+    <ClCompile Include="React3D Library\src\memory\MemoryManager.cpp" />
+    <ClCompile Include="React3D Library\src\memory\PoolAllocator.cpp" />
+    <ClCompile Include="React3D Library\src\memory\SingleFrameAllocator.cpp" />
+    <ClCompile Include="React3D Library\src\systems\BroadPhaseSystem.cpp" />
+    <ClCompile Include="React3D Library\src\systems\CollisionDetectionSystem.cpp" />
+    <ClCompile Include="React3D Library\src\systems\ConstraintSolverSystem.cpp" />
+    <ClCompile Include="React3D Library\src\systems\ContactSolverSystem.cpp" />
+    <ClCompile Include="React3D Library\src\systems\DynamicsSystem.cpp" />
+    <ClCompile Include="React3D Library\src\systems\SolveBallAndSocketJointSystem.cpp" />
+    <ClCompile Include="React3D Library\src\systems\SolveFixedJointSystem.cpp" />
+    <ClCompile Include="React3D Library\src\systems\SolveHingeJointSystem.cpp" />
+    <ClCompile Include="React3D Library\src\systems\SolveSliderJointSystem.cpp" />
+    <ClCompile Include="React3D Library\src\utils\DebugRenderer.cpp" />
+    <ClCompile Include="React3D Library\src\utils\DefaultLogger.cpp" />
+    <ClCompile Include="React3D Library\src\utils\Profiler.cpp" />
+    <ClCompile Include="React3D Library\src\utils\quickhull\QHHalfEdgeStructure.cpp" />
+    <ClCompile Include="React3D Library\src\utils\quickhull\QuickHull.cpp" />
     <ClCompile Include="IMGUI\backends\imgui_impl_dx11.cpp" />
     <ClCompile Include="IMGUI\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="IMGUI\imgui.cpp" />
@@ -191,15 +281,23 @@
     <ClCompile Include="IMGUI\imgui_draw.cpp" />
     <ClCompile Include="IMGUI\imgui_tables.cpp" />
     <ClCompile Include="IMGUI\imgui_widgets.cpp" />
+    <ClCompile Include="Engine\TextureComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\AboutScreen.h" />
-    <ClInclude Include="Engine\AGameObject.h" />
+    <ClInclude Include="Engine\Capsule.h" />
+    <ClInclude Include="Engine\AboutUI.h" />
     <ClInclude Include="Engine\AppWindow.h" />
-    <ClInclude Include="Engine\AUIScreen.h" />
+    <ClInclude Include="Engine\Component.h" />
+    <ClInclude Include="Engine\Debug.h" />
+    <ClInclude Include="Engine\DebugUI.h" />
+    <ClInclude Include="Engine\GameObject.h" />
+    <ClInclude Include="Engine\ParentCommand.h" />
+    <ClInclude Include="Engine\SaveTransformCommand.h" />
+    <ClInclude Include="Engine\TransformComponent.h" />
+    <ClInclude Include="Engine\UI.h" />
     <ClInclude Include="Engine\Camera.h" />
     <ClInclude Include="Engine\CameraHandler.h" />
-    <ClInclude Include="Engine\CameraScreen.h" />
+    <ClInclude Include="Engine\CameraUI.h" />
     <ClInclude Include="Engine\CloseWindowCommand.h" />
     <ClInclude Include="Engine\Command.h" />
     <ClInclude Include="Engine\CommandInvoker.h" />
@@ -209,13 +307,14 @@
     <ClInclude Include="Engine\DeviceContext.h" />
     <ClInclude Include="Engine\EngineTime.h" />
     <ClInclude Include="Engine\GameCamera.h" />
+    <ClInclude Include="Engine\GameObjectTypes.h" />
     <ClInclude Include="Engine\GraphicsEngine.h" />
-    <ClInclude Include="Engine\HierarchyScreen.h" />
+    <ClInclude Include="Engine\SceneHierarchyUI.h" />
     <ClInclude Include="Engine\IndexBuffer.h" />
     <ClInclude Include="Engine\InputListener.h" />
     <ClInclude Include="Engine\InputSystem.h" />
-    <ClInclude Include="Engine\InspectorScreen.h" />
-    <ClInclude Include="Engine\MainMenuScreen.h" />
+    <ClInclude Include="Engine\InspectorUI.h" />
+    <ClInclude Include="Engine\MainMenuBarUI.h" />
     <ClInclude Include="Engine\Matrix4x4.h" />
     <ClInclude Include="Engine\PixelShader.h" />
     <ClInclude Include="Engine\Plane.h" />
@@ -223,11 +322,12 @@
     <ClInclude Include="Engine\Prerequisites.h" />
     <ClInclude Include="Engine\RenderSystem.h" />
     <ClInclude Include="Engine\RenderTexture.h" />
-    <ClInclude Include="Engine\ViewportScreen.h" />
+    <ClInclude Include="Engine\ViewportUI.h" />
     <ClInclude Include="Engine\Resource.h" />
     <ClInclude Include="Engine\ResourceManager.h" />
     <ClInclude Include="Engine\SpawnObjectCommand.h" />
     <ClInclude Include="Engine\Sphere.h" />
+    <ClInclude Include="Engine\StressTestUI.h" />
     <ClInclude Include="Engine\SwapChain.h" />
     <ClInclude Include="Engine\Texture.h" />
     <ClInclude Include="Engine\TextureManager.h" />
@@ -240,13 +340,17 @@
     <ClInclude Include="Engine\Window.h" />
     <ClInclude Include="IMGUI\backends\imgui_impl_dx11.h" />
     <ClInclude Include="IMGUI\backends\imgui_impl_win32.h" />
+    <ClInclude Include="IMGUI\dirent\dirent.h" />
     <ClInclude Include="IMGUI\imconfig.h" />
     <ClInclude Include="IMGUI\imgui.h" />
+    <ClInclude Include="IMGUI\ImGuiFileDialog.h" />
+    <ClInclude Include="IMGUI\ImGuiFileDialogConfig.h" />
     <ClInclude Include="IMGUI\imgui_internal.h" />
     <ClInclude Include="IMGUI\imstb_rectpack.h" />
     <ClInclude Include="IMGUI\imstb_textedit.h" />
     <ClInclude Include="IMGUI\imstb_truetype.h" />
     <ClInclude Include="Settings.h" />
+    <ClInclude Include="Engine\TextureComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\PixelShader.hlsl">

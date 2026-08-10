@@ -12,30 +12,39 @@
 #include "PixelShader.h"
 #include "InputListener.h"
 #include "CommandInvoker.h"
+#include "SceneState.h"
 
 #include "../IMGUI/imgui.h"
 #include "../IMGUI/backends/imgui_impl_dx11.h"
 #include "../IMGUI/backends/imgui_impl_win32.h"
 
 #include "vector"
-#include "AGameObject.h"
-#include "Cube.h"
-#include "Plane.h"
-#include "Sphere.h"
+#include "GameObject.h"
 
 class SpawnObjectCommand;
 class DeleteObjectCommand;
+class SaveTransformCommand;
 class CloseWindowCommand;
 
 enum class Action {
 	SpawnCube,
 	SpawnSphere,
 	SpawnPlane,
+	SpawnCapsule,
 	SpawnCamera,
 	DeleteSelectedObject,
+	ParentAction,
 	Undo,
 	Redo,
 	CloseWindow,
+	SaveTransform,
+	UndoTransform
+};
+
+
+struct PendingParent {
+	GameObject* child = nullptr;
+	GameObject* newParent = nullptr;
 };
 
 class AppWindow: public Window, public InputListener{
@@ -74,11 +83,9 @@ private:
 	void DestroyObject();
 	void DestroyAllObjects();
 
-	AGameObject* SpawnGameObject(GAMEOBJECTS type);
-	void RemoveObject(AGameObject* object);
+	GameObject* SpawnGameObject(GameObjectTypes type);
+	void RemoveObject(GameObject* object);
 public:
-<<<<<<< Updated upstream
-=======
 	void setPendingObjectParent(PendingParent pendingParent);
 
 	// Stress Test
@@ -108,29 +115,29 @@ public:
 	void onStop();
 	bool isPaused() const { return m_scene_state == SceneState::Pause; }
 	SceneState getSceneState() const { return m_scene_state; }
-
->>>>>>> Stashed changes
 	CommandInvoker& getInvoker() { return m_invoker; }
-	const std::vector<AGameObject*>& getGameObjects() const { return m_objects; }
+	const std::vector<GameObject*>& getGameObjects() const { return m_objects; }
 
-	AGameObject* m_selectedGameObject = nullptr;
+	GameObject* m_selectedGameObject = nullptr;
 private:
 	SwapChainPtr m_swap_chain;
 	RenderTexturePtr m_editor_rt;
 	RenderTexturePtr m_game_rt;
-<<<<<<< Updated upstream
-=======
 	PendingParent m_pendingParent;
 
 	SceneState m_scene_state = SceneState::Edit;
-	bool m_step_one_frame = false;
 	int m_play_obj_count = 0;
->>>>>>> Stashed changes
 
 	VertexShaderPtr m_vs;
 	PixelShaderPtr m_ps;
 	
-	std::vector<AGameObject*> m_objects;
+	std::vector<GameObject*> m_objects;
+
+	//For Transformations
+	std::vector<Vector3D> m_positions;
+	std::vector<Vector3D> m_rotations;
+	std::vector<Vector3D> m_scales;
+
 	CommandInvoker m_invoker;
 private:
 	void* vs_byte_code = nullptr;
@@ -140,9 +147,25 @@ private:
 
 	int camera_flag = 0;
 	bool gamecamera = false;
+
+	// Stress Test State
+	bool  m_stress_active    = false;
+	float m_stress_rate      = 10.0f;
+	bool  m_stress_with_rb   = true;
+	float m_stress_timer     = 0.0f;
+	float m_stress_elapsed   = 0.0f;
+	bool  m_stress_auto_stop = false;
+	float m_stress_stop_fps  = 30.0f;
+
+	float m_fps              = 60.0f;
+	int   m_stress_peak_objs = 0;
+	float m_stress_min_fps   = 9999.0f;
+	float m_stress_last_dur  = 0.0f;
+	int   m_stress_last_objs = 0;
 private:
 	friend class SpawnObjectCommand;
 	friend class DeleteObjectCommand;
+	friend class SaveTransformCommand;
 	friend class CloseWindowCommand;
 };
 

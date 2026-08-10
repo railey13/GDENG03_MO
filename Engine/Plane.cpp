@@ -3,10 +3,10 @@
 
 Plane::Plane(void* shader_byte_code, size_t size_shader) {
 	Vector3D position_list[] = {
-		{Vector3D(-1, 0, -1), }, // POS1
-		{Vector3D(-1, 0,  1), }, // POS2
-		{Vector3D(1,  0,  1), }, // POS3 
-		{Vector3D(1,  0, -1)  }, // POS4
+		{Vector3D(-1, -1, 0), }, // POS1
+		{Vector3D(-1,  1, 0), }, // POS2
+	    {Vector3D(1,  1, 0), }, // POS3
+	    {Vector3D(1, -1, 0), }, // POS4
 	};
 
 	Vector2D texcoord_list[] = {
@@ -59,31 +59,7 @@ void Plane::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x
 
 	cc.m_time = 0;
 
-	cc.m_world.setIdentity();
-
-	temp.setIdentity();
-	temp.setScale(Vector3D(m_scale.m_x, 1.0f, m_scale.m_z));
-
-	cc.m_world *= temp;
-
-	temp.setIdentity();
-	temp.setRotationZ(m_rotation.m_z);
-
-	cc.m_world *= temp;
-
-	temp.setIdentity();
-	temp.setRotationY(m_rotation.m_y);
-
-	cc.m_world *= temp;
-
-	temp.setIdentity();
-	temp.setRotationX(m_rotation.m_x);
-
-	cc.m_world *= temp;
-
-	temp.setTranslation(m_position);
-
-	cc.m_world *= temp;
+	getTransform()->getWorldMatrix(cc.m_world);
 
 	cc.m_view = view;
 	cc.m_proj = proj;
@@ -94,7 +70,12 @@ void Plane::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix4x
 
 	context->setConstantBuffer(m_cb);
 
-	context->setTexutre(ps, m_tex);
+	TextureComponent* tex = getComponent<TextureComponent>();
+
+	if (!tex)
+		context->setTexture(ps, m_tex);
+	else
+		context->setTexture(ps, tex->getTexture());
 
 	context->setVertexBuffer(m_vb);
 	context->setIndexBuffer(m_ib);

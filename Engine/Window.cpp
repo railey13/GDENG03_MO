@@ -1,6 +1,6 @@
 #include "Window.h"
 #include "EngineTime.h"
-#include "IMGUI/imgui.h"
+#include "imgui.h"
 
 #include <iostream>
 #include <exception>
@@ -38,6 +38,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, ui32 msg, WPARAM wparam, LPARAM lparam) {
             ::PostQuitMessage(0);
             break;
         }
+        case WM_MOVE:
         case WM_SIZE: {
             Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
             if (window) {

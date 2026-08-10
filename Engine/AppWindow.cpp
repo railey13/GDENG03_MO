@@ -7,11 +7,21 @@
 #include "SpawnObjectCommand.h"
 #include "DeleteObjectCommand.h"
 #include "CloseWindowCommand.h"
+#include "SaveTransformCommand.h"
+#include "ParentCommand.h"
 
 #include "Camera.h"
 #include "GameCamera.h"
 #include "CameraHandler.h"
 #include "RenderTexture.h"
+
+#include "Cube.h"
+#include "Plane.h"
+#include "Sphere.h"
+#include "Capsule.h"
+
+#include "PhysicsSystem.h"
+#include "PhysicsComponent.h"
 
 AppWindow* AppWindow::sharedInstance = NULL;
 
@@ -44,9 +54,7 @@ void AppWindow::createGraphicsWindow() {
 
 	CameraHandler::initialize();
 
-<<<<<<< Updated upstream
 	UIManager::initialize(m_hwnd, CameraHandler::get()->getSceneCamera());
-=======
 	UIManager::initialize(m_hwnd);
 }
 
@@ -126,7 +134,6 @@ void AppWindow::onStop() {
 	}
 
 	m_play_obj_count = 0;
->>>>>>> Stashed changes
 }
 
 AppWindow::AppWindow() {
@@ -138,37 +145,32 @@ AppWindow::~AppWindow() {
 }
 
 void AppWindow::onCreate() {
-	/*Window::onCreate();*/
+	// PhysicsSystem is DX-independent — safe to init before shaders are compiled
+	PhysicsSystem::get()->initialize();
+
 	InputSystem::get()->addListener(this);
 
-	m_invoker.bindCommand((int)Action::SpawnCube, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::CUBE); });
-	m_invoker.bindCommand((int)Action::SpawnSphere, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::SPHERE); });
-	m_invoker.bindCommand((int)Action::SpawnPlane, [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::PLANE); });
-	m_invoker.bindCommand((int)Action::SpawnCamera , [this]() { return new SpawnObjectCommand(this, GAMEOBJECTS::GAME_CAMERA); });
+	m_invoker.bindCommand((int)Action::SpawnCube, [this]() { return new SpawnObjectCommand(this, CUBE); });
+	m_invoker.bindCommand((int)Action::SpawnSphere, [this]() { return new SpawnObjectCommand(this, SPHERE); });
+	m_invoker.bindCommand((int)Action::SpawnPlane, [this]() { return new SpawnObjectCommand(this, PLANE); });
+	m_invoker.bindCommand((int)Action::SpawnCapsule, [this]() { return new SpawnObjectCommand(this, CAPSULE); });
+	m_invoker.bindCommand((int)Action::SpawnCamera , [this]() { return new SpawnObjectCommand(this, GAME_CAMERA); });
 
 	m_invoker.bindCommand((int)Action::DeleteSelectedObject, [this]() {
 		return new DeleteObjectCommand(this, m_selectedGameObject);
 	});
 
+	//SAVING AND LOADING TRANSFORM DATA
+	m_invoker.bindCommand((int)Action::SaveTransform, [this]() { return new SaveTransformCommand(this, m_selectedGameObject); });
+
 	m_invoker.bindCommand((int)Action::CloseWindow, [this]() { return new CloseWindowCommand(this); });
+	m_invoker.bindCommand((int)Action::ParentAction, [this]() { return new ParentCommand(m_pendingParent.child, m_pendingParent.newParent); });
 
-	// --- Sample Scene ---
-	AGameObject* plane = SpawnGameObject(GAMEOBJECTS::PLANE);
-	if (plane) {
-		plane->setPosition(Vector3D(0.0f, -0.2f, 0.0f));
-		plane->setScale(Vector3D(2.0f, 1.0f, 2.0f));
-	}
-
-	AGameObject* cube = SpawnGameObject(GAMEOBJECTS::CUBE);
-	if (cube) {
-		cube->setPosition(Vector3D(0.0f, 0.0f, 0.0f));
-		cube->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/orange.png"));
-	}
-
-	AGameObject* camera = SpawnGameObject(GAMEOBJECTS::GAME_CAMERA);
+	// --- Blank Starter Scene (Camera Only) ---
+	GameObject* camera = SpawnGameObject(GAME_CAMERA);
 	if (camera) {
-		camera->setPosition(Vector3D(-0.3f, 0.5f, -1.0f));
-		camera->setRotation(Vector3D(0.0f, 0.0f, 0.0f));
+		camera->getTransform()->setPosition(Vector3D(0.0f, 2.0f, -5.0f));
+		camera->getTransform()->setRotation(Vector3D(0.0f, 0.0f, 0.0f));
 	}
 }
 
@@ -178,14 +180,13 @@ void AppWindow::onUpdate() {
 	DeviceContextPtr context = graphEngine->getRenderSystem()->getImmediateDeviceContext();
 
 	f32 deltaTime = EngineTime::getDeltaTime();
+	m_fps = (deltaTime > 0.0001f) ? (1.0f / deltaTime) : 60.0f;
 
 	Camera* sceneCamera = CameraHandler::get()->getSceneCamera();
 	GameCamera* gameCamera = CameraHandler::get()->getGameCamera();
 
 	sceneCamera->update(deltaTime);
 
-<<<<<<< Updated upstream
-=======
 	// --- Stress Spawner Logic ---
 	if (m_stress_active) {
 		m_stress_elapsed += deltaTime;
@@ -226,8 +227,7 @@ void AppWindow::onUpdate() {
 		PhysicsSystem::get()->update(stepDelta);
 		m_step_one_frame = false;
 	}
-
->>>>>>> Stashed changes
+  
 	for (auto obj : m_objects) {
 		obj->update(deltaTime);
 	}
@@ -241,8 +241,8 @@ void AppWindow::onUpdate() {
 		context->setViewportSize(m_editor_rt->getWidth(), m_editor_rt->getHeight());
 		context->setVertexShader(m_vs);
 		context->setPixelShader(m_ps);
-
-		for (auto obj : m_objects) {
+		context->setBlendState(graphEngine->getRenderSystem()->m_alpha_blend_state);
+		for (auto obj : m_objects) {	
 			obj->draw(m_vs, m_ps, sceneCamera->getViewMatrix(), sceneCamera->getProjectionMatrix());
 		}
 	}
@@ -253,6 +253,7 @@ void AppWindow::onUpdate() {
 		context->setViewportSize(m_game_rt->getWidth(), m_game_rt->getHeight());
 		context->setVertexShader(m_vs);
 		context->setPixelShader(m_ps);
+		context->setBlendState(graphEngine->getRenderSystem()->m_alpha_blend_state);
 
 		if (gameCamera) {
 			ImVec2 game_size = UIManager::get()->getGameViewportSize();
@@ -274,7 +275,7 @@ void AppWindow::onUpdate() {
 	context->ClearRenderTargetColor(this->m_swap_chain, 0.1f, 0.1f, 0.1f, 1.0f);
 	context->setViewportSize(m_window_width, m_window_height);
 
-	UIManager::get()->drawAllUI();
+	UIManager::get()->draw();
 
 	m_swap_chain->present(false);
 }
@@ -283,8 +284,9 @@ void AppWindow::onDestroy() {
 	Window::onDestroy();
 
 	InputSystem::get()->removeListener(this);
-	m_objects.clear();
+	m_objects.clear(); // Destroys all GameObjects → their PhysicsComponents → rigid bodies
 
+	PhysicsSystem::get()->release(); // Safe to destroy world after all rigid bodies are gone
 	GraphicsEngine::get()->destroy();
 }
 
@@ -318,14 +320,10 @@ void AppWindow::onKeyUp(i32 key) {
 	if (ImGui::GetIO().WantCaptureKeyboard) return;
 	// temporary inputs to test textures
 	switch (key) {
-		case '0': 
-			m_selectedGameObject->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/white.png"));
-			break;
-		case '1':
-			m_selectedGameObject->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/CartethyiaPuppet.gif"));
-			break;
+		//UNDO
 		case 90: m_invoker.undo();
 			break;
+		//REDO
 		case 89: m_invoker.redo();
 			break;
 		case VK_DELETE: 
@@ -375,46 +373,100 @@ void AppWindow::DestroyAllObjects() {
 	}
 }
 
-AGameObject* AppWindow::SpawnGameObject(GAMEOBJECTS type) {
-	AGameObject* obj = nullptr;
+GameObject* AppWindow::SpawnGameObject(GameObjectTypes type) {
+	GameObject* obj = nullptr;
 	switch (type) {
-		case GAMEOBJECTS::CUBE:
+		case CUBE:
 			obj = new Cube(vs_byte_code, vs_size);
 			break;
-		case GAMEOBJECTS::SPHERE:
+		case SPHERE:
 			obj = new Sphere(vs_byte_code, vs_size);
 			break;
-		case GAMEOBJECTS::PLANE:
+		case PLANE:
 			obj = new Plane(vs_byte_code, vs_size);
+			// Default horizontal ground plane (5x5, 90 deg X rotation)
+			obj->getTransform()->setScale(Vector3D(5.0f, 5.0f, 1.0f));
+			obj->getTransform()->setRotation(Vector3D(1.570796f, 0.0f, 0.0f));
 			break;
-		case GAMEOBJECTS::GAME_CAMERA:
+		case CAPSULE:
+			obj = new Capsule(vs_byte_code, vs_size);
+			break;
+		case GAME_CAMERA:
 			if (gamecamera) return nullptr;
 			obj = new GameCamera(vs_byte_code, vs_size);
-			obj->setScale(Vector3D(0.4f, 0.5f, 0));
+			obj->getTransform()->setScale((Vector3D(0.4f, 0.5f, 0)));
 			gamecamera = true;
 			break;
 		default: break;
 	}
 
-	if (type == GAMEOBJECTS::GAME_CAMERA) {
-		obj->setPosition(CameraHandler::get()->getSceneCamera()->getPosition());
-		obj->setRotation(CameraHandler::get()->getSceneCamera()->getRotation());
+	if (obj == nullptr) return nullptr;
+
+	if (type == GAME_CAMERA) {
+		obj->getTransform()->setPosition(CameraHandler::get()->getSceneCamera()->getPosition());
+		obj->getTransform()->setRotation(CameraHandler::get()->getSceneCamera()->getRotation());
 	}
 	else {
 		f32 spawnDistance = 1.0f;
 		Vector3D spawnPos = CameraHandler::get()->getSceneCamera()->getPosition() + CameraHandler::get()->getSceneCamera()->getForwardDirection() * spawnDistance;
-		obj->setPosition(spawnPos);
+		obj->getTransform()->setPosition(spawnPos);
 	}
 
 	m_objects.push_back(obj);
 	return obj;
 }
-
-void AppWindow::RemoveObject(AGameObject* object) {
+	
+void AppWindow::RemoveObject(GameObject* object) {
 	auto it = std::find(m_objects.begin(), m_objects.end(), object);
 
 	if (it != m_objects.end()) {
+		if (object == m_selectedGameObject) {
+			m_selectedGameObject = nullptr;
+		}
+
+		if (dynamic_cast<GameCamera*>(object) && CameraHandler::get()->getGameCamera() == object) {
+			CameraHandler::get()->setGameCamera(nullptr);
+			gamecamera = false;
+		}
+
+		object->setActive(false);
 		m_objects.erase(it);
+	}
+}
+
+void AppWindow::setPendingObjectParent(PendingParent pendingParent) {
+	m_pendingParent = pendingParent;
+}
+
+void AppWindow::setStressActive(bool active) {
+	if (m_stress_active == active) return;
+	if (active) {
+		m_stress_elapsed   = 0.0f;
+		m_stress_timer     = 0.0f;
+		m_stress_peak_objs = (int)m_objects.size();
+		m_stress_min_fps   = 9999.0f;
+	} else {
+		m_stress_last_dur  = m_stress_elapsed;
+		m_stress_last_objs = m_stress_peak_objs;
+	}
+	m_stress_active = active;
+}
+
+void AppWindow::spawnStressCubes(int count, bool withRb) {
+	for (int i = 0; i < count; i++) {
+		GameObject* cube = SpawnGameObject(CUBE);
+		if (cube) {
+			float rx = ((float)rand() / RAND_MAX - 0.5f) * 0.8f;
+			float rz = ((float)rand() / RAND_MAX - 0.5f) * 0.8f;
+			float ry = 1.0f + i * 0.5f;
+			cube->getTransform()->setPosition(Vector3D(rx, ry, rz));
+
+			if (withRb && PhysicsSystem::get()->isInitialized()) {
+				PhysicsComponent* rb = PhysicsSystem::get()->createComponent(cube, PhysicsComponent::BodyType::DYNAMIC);
+				rb->addBoxColliderFromScale();
+				rb->enableGravity(true);
+			}
+		}
 	}
 }
 
