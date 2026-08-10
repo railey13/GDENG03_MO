@@ -23,6 +23,7 @@
 
 class SpawnObjectCommand;
 class DeleteObjectCommand;
+class SaveTransformCommand;
 class CloseWindowCommand;
 
 enum class Action {
@@ -36,6 +37,8 @@ enum class Action {
 	Undo,
 	Redo,
 	CloseWindow,
+	SaveTransform,
+	UndoTransform
 };
 
 
@@ -127,6 +130,12 @@ private:
 	PixelShaderPtr m_ps;
 	
 	std::vector<GameObject*> m_objects;
+
+	//For Transformations
+	std::vector<Vector3D> m_positions;
+	std::vector<Vector3D> m_rotations;
+	std::vector<Vector3D> m_scales;
+
 	CommandInvoker m_invoker;
 private:
 	void* vs_byte_code = nullptr;
@@ -154,6 +163,7 @@ private:
 private:
 	friend class SpawnObjectCommand;
 	friend class DeleteObjectCommand;
+	friend class SaveTransformCommand;
 	friend class CloseWindowCommand;
 };
 
