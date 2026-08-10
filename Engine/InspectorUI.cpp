@@ -3,7 +3,10 @@
 #include "AppWindow.h"
 #include "GameObject.h"
 #include "PhysicsComponent.h"
+#include "TextureComponent.h"
 #include "PhysicsSystem.h"
+#include "../IMGUI/ImGuiFileDialog.h"
+#include "Texture.h"
 
 InspectorUI::InspectorUI() {
 	m_isActive = true;
@@ -103,9 +106,67 @@ void InspectorUI::draw() {
 						}
 					}
 				}
+
+				// Texture Component
+				{
+					TextureComponent* tex = obj->getComponent<TextureComponent>();
+					if (ImGui::CollapsingHeader("Texture", ImGuiTreeNodeFlags_DefaultOpen)) {
+						if (!tex) {
+							if (ImGui::Button("+ Add Texture Component"))
+								obj->createComponent<TextureComponent>();
+						}
+						else {
+							ImGui::Text("Current Texture: ");
+							ImGui::SameLine();
+							ImGui::Image(tex->getTexture()->getSRV(), ImVec2(32, 32));
+
+							if (ImGui::Button("Change Texture")) {
+								IGFD::FileDialogConfig config;
+								config.path = "Assets/Textures";
+
+								ImGuiFileDialog::Instance()->OpenDialog(
+									"ChooseFileDlgKey",
+									"Choose Texture",
+									".png,.jpg,.gif",
+									config
+								);
+							}
+
+							if (ImGui::Button("Remove Texture Component")) {
+								obj->deleteComponent<TextureComponent>();
+							}
+						}
+					}
+
+				}
 			}		
 		}
 
 		ImGui::End();
+
+		if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey")) // => will show a dialog
+		{
+			if (ImGuiFileDialog::Instance()->IsOk())
+			{
+				std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
+				//std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
+				//std::string filter = ImGuiFileDialog::Instance()->GetCurrentFilter();
+				// here convert from string because a string was passed as a userDatas, but it can be what you want
+				//std::string userDatas;
+				//if (ImGuiFileDialog::Instance()->GetUserDatas())
+				//	userDatas = std::string((const char*)ImGuiFileDialog::Instance()->GetUserDatas());
+				//auto selection = ImGuiFileDialog::Instance()->GetSelection(); // multiselection
+
+				// action
+
+				TextureComponent* tex = obj->getComponent<TextureComponent>();
+				if (tex && !filePathName.empty()) {
+					tex->setTexturePath(filePathName);
+				}
+
+			}
+			// close
+			ImGuiFileDialog::Instance()->Close();
+		}
 	}
 }

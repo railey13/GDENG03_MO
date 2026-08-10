@@ -143,7 +143,12 @@ void Capsule::draw(VertexShaderPtr vs, PixelShaderPtr ps, Matrix4x4 view, Matrix
 
 	context->setConstantBuffer(m_cb);
 
-	context->setTexutre(ps, m_tex);
+	TextureComponent* tex = getComponent<TextureComponent>();
+
+	if (!tex)
+		context->setTexture(ps, m_tex);
+	else
+		context->setTexture(ps, tex->getTexture());
 
 	context->setVertexBuffer(m_vb);
 	context->setIndexBuffer(m_ib);

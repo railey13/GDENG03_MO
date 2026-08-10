@@ -86,10 +86,6 @@ void GameObject::removeComponent(size_t id) {
 	m_components.erase(id);
 }
 
-void GameObject::setTexture(TexturePtr tex) {
-	m_tex = tex;
-}
-
 void GameObject::addChild(GameObject* child) {
 	m_children.push_back(child);
 }

@@ -283,12 +283,6 @@ void AppWindow::onKeyUp(i32 key) {
 	if (ImGui::GetIO().WantCaptureKeyboard) return;
 	// temporary inputs to test textures
 	switch (key) {
-		case '0': 
-			m_selectedGameObject->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/white.png"));
-			break;
-		case '1':
-			m_selectedGameObject->setTexture(GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/CartethyiaPuppet.gif"));
-			break;
 		case 90: m_invoker.undo();
 			break;
 		case 89: m_invoker.redo();

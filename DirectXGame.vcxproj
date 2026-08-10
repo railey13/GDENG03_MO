@@ -84,7 +84,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)React3D Library\include;$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)React3D Library\include;$(ProjectDir)IMGUI\;$(ProjectDir)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -115,7 +115,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)React3D Library\include;$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)React3D Library\include;$(ProjectDir)IMGUI\;$(ProjectDir)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -186,6 +186,7 @@
     <ClCompile Include="Engine\PhysicsComponent.cpp" />
     <ClCompile Include="Engine\PhysicsSystem.cpp" />
     <ClCompile Include="Engine\StressTestUI.cpp" />
+    <ClCompile Include="IMGUI\ImGuiFileDialog.cpp" />
     <ClCompile Include="React3D Library\src\body\Body.cpp" />
     <ClCompile Include="React3D Library\src\body\RigidBody.cpp" />
     <ClCompile Include="React3D Library\src\collision\broadphase\DynamicAABBTree.cpp" />
@@ -280,6 +281,7 @@
     <ClCompile Include="IMGUI\imgui_draw.cpp" />
     <ClCompile Include="IMGUI\imgui_tables.cpp" />
     <ClCompile Include="IMGUI\imgui_widgets.cpp" />
+    <ClCompile Include="Engine\TextureComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Capsule.h" />
@@ -337,13 +339,17 @@
     <ClInclude Include="Engine\Window.h" />
     <ClInclude Include="IMGUI\backends\imgui_impl_dx11.h" />
     <ClInclude Include="IMGUI\backends\imgui_impl_win32.h" />
+    <ClInclude Include="IMGUI\dirent\dirent.h" />
     <ClInclude Include="IMGUI\imconfig.h" />
     <ClInclude Include="IMGUI\imgui.h" />
+    <ClInclude Include="IMGUI\ImGuiFileDialog.h" />
+    <ClInclude Include="IMGUI\ImGuiFileDialogConfig.h" />
     <ClInclude Include="IMGUI\imgui_internal.h" />
     <ClInclude Include="IMGUI\imstb_rectpack.h" />
     <ClInclude Include="IMGUI\imstb_textedit.h" />
     <ClInclude Include="IMGUI\imstb_truetype.h" />
     <ClInclude Include="Settings.h" />
+    <ClInclude Include="Engine\TextureComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\PixelShader.hlsl">

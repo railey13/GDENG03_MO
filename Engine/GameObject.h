@@ -14,6 +14,7 @@
 
 #include "GameObjectTypes.h"
 #include "TransformComponent.h"
+#include "TextureComponent.h"
 
 #include <string>
 #include <map>
@@ -75,7 +76,12 @@ public:
 		return static_cast<T*>(getComponentInternal(id));
 	}
 
-	void setTexture(TexturePtr tex);
+	template<typename T>
+	void deleteComponent() {
+		static_assert(std::is_base_of <Component, T>::value, "T must be derive from Component Class");
+		removeComponent(typeid(T).hash_code());
+	}
+
 private:
 	void createComponentInternal(Component* component, size_t id);
 	Component* getComponentInternal(size_t id);
