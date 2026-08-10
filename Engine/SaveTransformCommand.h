@@ -16,9 +16,9 @@ public:
 			storedRot = receiver->m_selectedGameObject->getTransform()->getRotation();
 			storedScale = receiver->m_selectedGameObject->getTransform()->getScale();
 
-			//list{ storedPos,storedRot,storedScale } {};
-
 			receiver->m_positions.push_back(storedPos);
+			receiver->m_rotations.push_back(storedRot);
+			receiver->m_scales.push_back(storedScale);
 
 		}
 	}
@@ -28,8 +28,10 @@ public:
 		if (receiver) {
 			receiver->m_selectedGameObject->getTransform()->setPosition
 				(receiver->m_positions[0]);
-			//receiver->m_selectedGameObject->getTransform()->setRotation(list[1]);
-			//receiver->m_selectedGameObject->getTransform()->setScale(list[2]);*/
+			receiver->m_selectedGameObject->getTransform()->setRotation
+				(receiver->m_rotations[0]);
+			receiver->m_selectedGameObject->getTransform()->setScale
+			(receiver->m_scales[0]);
 		}
 	}
 private:

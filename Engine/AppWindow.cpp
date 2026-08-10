@@ -7,6 +7,7 @@
 #include "SpawnObjectCommand.h"
 #include "DeleteObjectCommand.h"
 #include "CloseWindowCommand.h"
+#include "SaveTransformCommand.h"
 #include "ParentCommand.h"
 
 #include "Camera.h"
@@ -128,6 +129,9 @@ void AppWindow::onCreate() {
 	m_invoker.bindCommand((int)Action::DeleteSelectedObject, [this]() {
 		return new DeleteObjectCommand(this, m_selectedGameObject);
 	});
+
+	//SAVING AND LOADING TRANSFORM DATA
+	m_invoker.bindCommand((int)Action::SaveTransform, [this]() { return new SaveTransformCommand(this, m_selectedGameObject); });
 
 	m_invoker.bindCommand((int)Action::CloseWindow, [this]() { return new CloseWindowCommand(this); });
 	m_invoker.bindCommand((int)Action::ParentAction, [this]() { return new ParentCommand(m_pendingParent.child, m_pendingParent.newParent); });
@@ -283,8 +287,10 @@ void AppWindow::onKeyUp(i32 key) {
 	if (ImGui::GetIO().WantCaptureKeyboard) return;
 	// temporary inputs to test textures
 	switch (key) {
+		//UNDO
 		case 90: m_invoker.undo();
 			break;
+		//REDO
 		case 89: m_invoker.redo();
 			break;
 		case VK_DELETE: 
