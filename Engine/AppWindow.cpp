@@ -419,6 +419,7 @@ GameObject* AppWindow::SpawnGameObject(GameObjectTypes type) {
 			break;
 		case LUCY:
 			obj = new Lucy();
+			obj->m_gameObjectType = GameObjectTypes::LUCY;
 			break;
 		default: break;
 	}

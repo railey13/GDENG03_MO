@@ -110,5 +110,6 @@ protected:
 private:
 	friend class Component;
 	friend class SceneLoader;
+	friend class AppWindow;
 };
 

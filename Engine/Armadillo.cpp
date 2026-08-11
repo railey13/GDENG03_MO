@@ -14,6 +14,7 @@ Armadillo::Armadillo() {
 	m_cb = render->createConstantBuffer(&cc, sizeof(constant));
 
 	m_name = "Armadillo";
+	m_gameObjectType = GameObjectTypes::ARMADILLO;
 }
 
 Armadillo::~Armadillo() {

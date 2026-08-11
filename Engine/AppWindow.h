@@ -28,6 +28,7 @@ class SaveTransformCommand;
 class CloseWindowCommand;
 class SceneLoader;
 
+
 enum class Action {
 	SpawnCube,
 	SpawnSphere,
@@ -177,5 +178,6 @@ private:
 	friend class SaveTransformCommand;
 	friend class CloseWindowCommand;
 	friend class SceneLoader;
+	
 };
 

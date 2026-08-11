@@ -17,6 +17,7 @@ Pot::Pot() {
 	m_cb = render->createConstantBuffer(&cc, sizeof(constant));
 
 	m_name = "Pot";
+	m_gameObjectType = GameObjectTypes::POT;
 }
 
 Pot::~Pot() {

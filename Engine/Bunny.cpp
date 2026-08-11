@@ -14,6 +14,7 @@ Bunny::Bunny() {
 	m_cb = render->createConstantBuffer(&cc, sizeof(constant));
 
 	m_name = "Bunny";
+	m_gameObjectType = GameObjectTypes::BUNNY;
 }
 
 Bunny::~Bunny() {

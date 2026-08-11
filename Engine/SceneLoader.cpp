@@ -109,6 +109,22 @@ void SceneLoader::loadGameObject(const YAML::Node& object, GameObject*Parent)
     {
         objectToSpawn = GameObjectTypes::GAME_CAMERA;
     }
+    else if (type == "ARMADILLO")
+    {
+        objectToSpawn = GameObjectTypes::ARMADILLO;
+    }
+    else if (type == "POT")
+    {
+        objectToSpawn = GameObjectTypes::POT;
+    }
+    else if (type == "BUNNY")
+    {
+        objectToSpawn = GameObjectTypes::BUNNY;
+    }
+    else if (type == "LUCY")
+    {
+        objectToSpawn = GameObjectTypes::LUCY;
+    }
     else
     {
         std::cout << "Unknown GameObjectType: " << type << "\n";
@@ -288,6 +304,22 @@ void SceneLoader::SaveGameObject(YAML::Emitter& out, GameObject* object)
     else if (objectType == GameObjectTypes::GAME_CAMERA)
     {
         objectTypeString = "GAME_CAMERA";
+    }
+    else if (objectType == GameObjectTypes::ARMADILLO)
+    {
+        objectTypeString = "ARMADILLO";
+    }
+    else if (objectType == GameObjectTypes::BUNNY)
+    {
+        objectTypeString = "BUNNY";
+    }
+    else if (objectType == GameObjectTypes::POT)
+    {
+        objectTypeString = "POT";
+    }
+    else if (objectType == GameObjectTypes::LUCY)
+    {
+        objectTypeString = "LUCY";
     }
     out << YAML::Key << "GameObjectType"
         << YAML::Value << objectTypeString;
