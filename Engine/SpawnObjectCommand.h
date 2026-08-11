@@ -15,12 +15,14 @@ public:
 			object = receiver->SpawnGameObject(type);
 		}
 		else {
+			object->setActive(true);
 			receiver->m_objects.push_back(object);
 		}
 	}
 
 	void undo() override {
 		if (object) {
+			object->setActive(false);
 			receiver->RemoveObject(object);
 		}
 	}

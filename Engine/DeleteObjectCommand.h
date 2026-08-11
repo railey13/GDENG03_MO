@@ -20,6 +20,7 @@ public:
 				}
 			}
 
+			object->setActive(false);
 			receiver->RemoveObject(object);
 			m_inScene = false;
 
@@ -37,6 +38,7 @@ public:
 			else {
 				receiver->m_objects.insert(receiver->m_objects.begin() + m_index, object);
 			}
+
 			object->setActive(true);
 
 			if (GameCamera* cam = dynamic_cast<GameCamera*>(object)) {
