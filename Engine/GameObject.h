@@ -56,6 +56,14 @@ public:
 	TransformComponent* getTransform() const { return m_transform; }
 	GameObject* getParent() const { return m_parent; }
 	const std::vector<GameObject*>& getChildren() const { return m_children; }
+
+	//For Transformations
+	std::vector<Vector3D> m_positions;
+	std::vector<Vector3D> m_rotations;
+	std::vector<Vector3D> m_scales;
+	//coutnerIndex for the Undo
+	int counterIndex = 0;
+
 public:
 	template <typename T>
 	T* createComponent() {

@@ -1,0 +1,57 @@
+Scene Objects:
+  - GameObjectType: GAME_CAMERA
+    Name: Main Camera
+    Position: [0, 2, -5]
+    Rotation: [0, 0, 0]
+    Scale: [0.4, 0.5, 0]
+    Texture: NONE
+    RigidBodyType: NONE
+    Children: NONE
+  - GameObjectType: CUBE
+    Name: Table Base
+    Position: [-0.3, 0.5, 0]
+    Rotation: [0, 0, 0]
+    Scale: [10, 1.5, 5]
+    Texture: Assets\Textures\blue.png
+    RigidBodyType: NONE
+    Children: NONE
+  - GameObjectType: CUBE
+    Name: Leg1
+    Position: [-2.247, 0.035, -0.849]
+    Rotation: [0, 0, 0]
+    Scale: [0.15, 3.1, 0.2]
+    Texture: Assets\Textures\brick.png
+    RigidBodyType: NONE
+    Children: NONE
+  - GameObjectType: CUBE
+    Name: Leg2
+    Position: [-2.061, 0.081, 0.811]
+    Rotation: [0, 0, 0]
+    Scale: [0.15, 3.1, 0.2]
+    Texture: Assets\Textures\green.png
+    RigidBodyType: NONE
+    Children: NONE
+  - GameObjectType: CUBE
+    Name: Leg3
+    Position: [1.489, -0.019, -0.839]
+    Rotation: [0, 0, 0]
+    Scale: [0.15, 3.1, 0.2]
+    Texture: Assets\Textures\orange.png
+    RigidBodyType: NONE
+    Children: NONE
+  - GameObjectType: CUBE
+    Name: Leg4
+    Position: [1.646, 0.037, 0.813]
+    Rotation: [0, 0, 0]
+    Scale: [0.15, 3.1, 0.2]
+    Texture: Assets\Textures\yellow.png
+    RigidBodyType: NONE
+    Children: NONE
+  - GameObjectType: CUBE
+    Name: Pot
+    Position: [-0.258, 1.082, -0.105]
+    Rotation: [0, 0, 0]
+    Scale: [1, 1, 1]
+    Texture: Assets\Textures\brick.png
+    RigidBodyType: NONE
+    Children: NONE

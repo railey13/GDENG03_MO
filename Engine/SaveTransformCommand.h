@@ -16,9 +16,9 @@ public:
 			storedRot = receiver->m_selectedGameObject->getTransform()->getRotation();
 			storedScale = receiver->m_selectedGameObject->getTransform()->getScale();
 
-			receiver->m_positions.push_back(storedPos);
-			receiver->m_rotations.push_back(storedRot);
-			receiver->m_scales.push_back(storedScale);
+			receiver->m_selectedGameObject->m_positions.push_back(storedPos);
+			receiver->m_selectedGameObject->m_rotations.push_back(storedRot);
+			receiver->m_selectedGameObject->m_scales.push_back(storedScale);
 
 		}
 	}
@@ -27,29 +27,26 @@ public:
 	void undo() override {
 
 		//if the counterIndex is less than 5, add it
-		if (receiver->counterIndex < 5)
+		if (receiver->m_selectedGameObject->counterIndex <= 5)
 		{
 			//coutnerIndex increment
-			receiver->counterIndex++;
+			receiver->m_selectedGameObject->counterIndex++;
 		}
 
 
 		//if the counterIndex is larger than the current size
-		if (receiver->counterIndex > receiver->m_positions.size())
+		if (receiver->m_selectedGameObject->counterIndex > receiver->m_selectedGameObject->m_positions.size())
 		{
 			//decrease it
-			receiver->counterIndex--;
+			receiver->m_selectedGameObject->counterIndex--;
 		}
 
 		//Apply changes
 		
 		if (receiver) {
 				receiver->m_selectedGameObject->getTransform()->setPosition
-				(receiver->m_positions[receiver->m_positions.size() - receiver->counterIndex]);
-				receiver->m_selectedGameObject->getTransform()->setRotation
-				(receiver->m_rotations[receiver->m_rotations.size() - receiver->counterIndex]);
-				receiver->m_selectedGameObject->getTransform()->setScale
-				(receiver->m_scales[receiver->m_scales.size() - receiver->counterIndex]);
+				(receiver->m_selectedGameObject->m_positions[receiver->m_selectedGameObject->m_positions.size() - receiver->m_selectedGameObject->counterIndex]);
+
 		}
 		
 	}

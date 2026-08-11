@@ -141,15 +141,11 @@ private:
 	
 	std::vector<GameObject*> m_objects;
 
-	//For Transformations
-	std::vector<Vector3D> m_positions;
-	std::vector<Vector3D> m_rotations;
-	std::vector<Vector3D> m_scales;
+
 
 	CommandInvoker m_invoker;
 public:
-	//coutnerIndex for the Undo
-	int counterIndex = 0;
+
 private:
 	void* vs_byte_code = nullptr;
 	size_t vs_size = 0;
