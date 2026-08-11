@@ -38,7 +38,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, ui32 msg, WPARAM wparam, LPARAM lparam) {
             ::PostQuitMessage(0);
             break;
         }
-        case WM_MOVE:
         case WM_SIZE: {
             Window* window = (Window*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
             if (window) {

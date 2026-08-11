@@ -156,7 +156,6 @@ private:
 	void* ps_byte_code = nullptr;
 	size_t ps_size = 0;
 
-	int camera_flag = 0;
 	bool gamecamera = false;
 
 	// Stress Test State

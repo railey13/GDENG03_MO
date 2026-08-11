@@ -69,6 +69,15 @@ void SceneHierarchyUI::DrawGameObjectList(GameObject* obj, AppWindow* app) {
 		app->m_selectedGameObject = obj;
 	}
 
+	if (ImGui::BeginPopupContextItem("ItemContexMenu")) {
+		app->m_selectedGameObject = obj;
+
+		if (ImGui::MenuItem("Delete")) {
+			app->getInvoker().executeCommand((int)Action::DeleteSelectedObject);
+		}
+		ImGui::EndPopup();
+	}
+
 	// set the drag-drop source to be GameObject only
 	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
 		ImGui::SetDragDropPayload("GAMEOBJECT", &obj, sizeof(GameObject*));

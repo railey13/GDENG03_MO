@@ -238,7 +238,9 @@ void AppWindow::onUpdate() {
 	}
   
 	for (auto obj : m_objects) {
-		obj->update(deltaTime);
+		if (obj->isActive()) {
+			obj->update(deltaTime);
+		}
 	}
 
 	// --- 1. Render to Editor Viewport Texture ---
@@ -252,7 +254,9 @@ void AppWindow::onUpdate() {
 		context->setPixelShader(m_ps);
 		context->setBlendState(graphEngine->getRenderSystem()->m_alpha_blend_state);
 		for (auto obj : m_objects) {	
-			obj->draw(m_vs, m_ps, sceneCamera->getViewMatrix(), sceneCamera->getProjectionMatrix());
+			if (obj->isActive()) {
+				obj->draw(m_vs, m_ps, sceneCamera->getViewMatrix(), sceneCamera->getProjectionMatrix());
+			}
 		}
 	}
 
@@ -270,7 +274,9 @@ void AppWindow::onUpdate() {
 
 			for (auto obj : m_objects) {
 				if (obj != gameCamera && !sceneLoading) {
-					obj->draw(m_vs, m_ps, gameCamera->getViewMatrix(), gameCamera->getProjectionMatrix());
+					if (obj->isActive()) {
+						obj->draw(m_vs, m_ps, gameCamera->getViewMatrix(), gameCamera->getProjectionMatrix());
+					}
 				}
 			}
 		}
@@ -339,10 +345,6 @@ void AppWindow::onKeyUp(i32 key) {
 			if (m_selectedGameObject) {
 				m_invoker.executeCommand((int)Action::DeleteSelectedObject);
 			}
-			break;
-		case VK_LEFT: camera_flag = 0;
-			break;
-		case VK_RIGHT: camera_flag = 1;
 			break;
 		default: break;
 	}

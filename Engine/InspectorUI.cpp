@@ -32,6 +32,7 @@ void InspectorUI::draw() {
 		if (ImGui::Begin("Inspector", &m_isActive, ImGuiWindowFlags_NoCollapse)) {
 			if (obj) {
 				// GameObject Name
+				activeButton(obj, "object");
 				{
 					strncpy_s(m_nameBuffer, obj->getName().c_str(), sizeof(m_nameBuffer) - 1);
 					m_nameBuffer[sizeof(m_nameBuffer) - 1] = '\0';
@@ -77,6 +78,9 @@ void InspectorUI::draw() {
 					PhysicsComponent* rb = obj->getComponent<PhysicsComponent>();
 
 					ImGui::Separator();
+					
+					if(rb != nullptr) activeButton(rb, "rigidbody");
+
 					if (ImGui::CollapsingHeader("Physics", ImGuiTreeNodeFlags_DefaultOpen)) {
 						if (!rb) {
 							// No physics — offer to add one
@@ -119,6 +123,8 @@ void InspectorUI::draw() {
 				// Texture Component
 				{
 					TextureComponent* tex = obj->getComponent<TextureComponent>();
+					if(tex != nullptr) activeButton(tex, "Texture");
+					
 					if (ImGui::CollapsingHeader("Texture", ImGuiTreeNodeFlags_DefaultOpen)) {
 						if (!tex) {
 							if (ImGui::Button("+ Add Texture Component"))
@@ -177,4 +183,22 @@ void InspectorUI::draw() {
 			ImGuiFileDialog::Instance()->Close();
 		}
 	}
+}
+
+void InspectorUI::activeButton(GameObject* obj, const char* name) {
+	bool active = obj->isActive();
+	std::string label = std::string("Active##") + name;
+	if (ImGui::Checkbox(label.c_str(), &active)) {
+		obj->setActive(active);
+	}
+	ImGui::SameLine();
+}
+
+void InspectorUI::activeButton(Component* c, const char* name) {
+	bool active = c->isActive();
+	std::string label = std::string("Active##") + name;
+	if (ImGui::Checkbox(label.c_str(), &active)) {
+		c->setActive(active);
+	}
+	ImGui::SameLine();
 }
