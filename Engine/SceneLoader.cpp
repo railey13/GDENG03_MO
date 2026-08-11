@@ -346,7 +346,8 @@ void SceneLoader::SaveGameObject(YAML::Emitter& out, GameObject* object)
             bodyType = "DYNAMIC";
         }
     }
-
+    out << YAML::Key << "RigidBodyType"
+        << YAML::Value << bodyType;
 
 
     
