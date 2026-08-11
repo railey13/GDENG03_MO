@@ -1,0 +1,15 @@
+GameObjectType: GAME_CAMERA
+Name: Machop
+Position: 0 2 -5
+Rotation: 0 0 0
+Scale: 1 1 1
+GameObjectType: CUBE
+Name: Bien
+Position: 0 2 0
+Rotation: 0 0 0
+Scale: 5 5 5
+GameObjectType: CUBE
+Name: Vicko
+Position: 0 2 -5
+Rotation: 0 0 0
+Scale: 1 1 1

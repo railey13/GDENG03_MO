@@ -6,6 +6,8 @@
 #include "InspectorUI.h"
 #include "CameraUI.h"
 #include "StressTestUI.h"
+#include "../IMGUI/ImGuiFileDialog.h"
+#include "SceneLoader.h"
 
 MainMenuBarUI::MainMenuBarUI() {
 
@@ -17,10 +19,52 @@ MainMenuBarUI::~MainMenuBarUI() {
 
 void MainMenuBarUI::draw() {
 	UIManager* ui = UIManager::get();
-
+	char fileName[128] = "";
 	if (ImGui::BeginMainMenuBar()) {
 
 		// --- File Menus ---
+		if (ImGui::BeginMenu("File")) {
+			if (ImGui::MenuItem("Save Scene")) {
+				IGFD::FileDialogConfig config;
+				config.path = "Scenes";
+
+				ImGuiFileDialog::Instance()->OpenDialog(
+					"SaveSceneDlg",
+					"Save Scene",
+					".yml",
+					config
+				);
+			}
+
+			
+
+			
+			
+			if (ImGui::MenuItem("Load Scene")) {
+				IGFD::FileDialogConfig config;
+				config.path = "Scenes";
+
+				ImGuiFileDialog::Instance()->OpenDialog(
+					"LoadSceneDlg",
+					"Choose SceneFile",
+					".yml",
+					config
+				);
+			}
+			ImGui::EndMenu();
+		}
+		if (ImGuiFileDialog::Instance()->Display("LoadSceneDlg")) 
+		{
+			if (ImGuiFileDialog::Instance()->IsOk())
+			{
+				std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
+				//do stuff
+				SceneLoader::get()->loadScene(filePathName.c_str());
+
+			}
+			// close
+			ImGuiFileDialog::Instance()->Close();
+		}
 		if (ImGui::BeginMenu("GameObjects")) {
 			if (ImGui::MenuItem("Cube")) {
 				AppWindow::get()->getInvoker().executeCommand((int)Action::SpawnCube);
@@ -136,5 +180,18 @@ void MainMenuBarUI::draw() {
 		if (inEdit) ImGui::EndDisabled();
 
 		ImGui::EndMainMenuBar();
+	}
+
+	if (ImGuiFileDialog::Instance()->Display("SaveSceneDlg"))
+	{
+		if (ImGuiFileDialog::Instance()->IsOk())
+		{
+			std::string filePathName =
+				ImGuiFileDialog::Instance()->GetFilePathName();
+			SceneLoader::get()->SaveScene(filePathName);
+			
+		}
+
+		ImGuiFileDialog::Instance()->Close();
 	}
 }

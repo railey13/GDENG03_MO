@@ -23,4 +23,10 @@ void TextureComponent::setTexturePath(std::string path) {
 	}
 
 	m_texture = temp;
+	texPath = path;
+}
+
+std::string TextureComponent::getTexturePath()
+{
+	return texPath;
 }

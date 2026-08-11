@@ -116,6 +116,7 @@ Capsule::Capsule(void* shader_byte_code, size_t size_shader) {
 	m_cb = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&cc, sizeof(constant));
 
 	m_name = "Capsule";
+	m_gameObjectType = GameObjectTypes::CAPSULE;
 }
 
 Capsule::~Capsule() {

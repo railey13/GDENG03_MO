@@ -88,6 +88,7 @@ GameCamera::GameCamera(void* shader_byte_code, size_t size_shader) {
 	m_cb = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&cc, sizeof(constant));
 
 	m_name = "Main Camera";
+	m_gameObjectType = GameObjectTypes::GAME_CAMERA;
 
 	CameraHandler::get()->setGameCamera(this);
 	m_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/camera.png");

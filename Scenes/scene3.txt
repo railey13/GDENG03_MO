@@ -1,0 +1,20 @@
+GameObjectType: GAME_CAMERA
+Name: Machop
+Position: 0 2 -5
+Rotation: 0 0 0
+Scale: 1 1 1
+GameObjectType: CAPSULE
+Name: Bien
+Position: 0 2 0
+Rotation: 0 0 0
+Scale: 5 1 5
+GameObjectType: SPHERE
+Name: Vicko
+Position: 0 2 -5
+Rotation: 0 0 0
+Scale: 1 1 1
+GameObjectType: PLANE
+Name: Yasuke
+Position: 0 2 5
+Rotation: 0 0 0
+Scale: 1 1 1

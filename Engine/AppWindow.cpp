@@ -22,6 +22,7 @@
 
 #include "PhysicsSystem.h"
 #include "PhysicsComponent.h"
+#include "SceneLoader.h"
 
 AppWindow* AppWindow::sharedInstance = NULL;
 
@@ -172,6 +173,7 @@ void AppWindow::onCreate() {
 		camera->getTransform()->setPosition(Vector3D(0.0f, 2.0f, -5.0f));
 		camera->getTransform()->setRotation(Vector3D(0.0f, 0.0f, 0.0f));
 	}
+	SceneLoader::initialize();
 }
 
 void AppWindow::onUpdate() {
@@ -260,7 +262,7 @@ void AppWindow::onUpdate() {
 			gameCamera->setAspect(game_size.x, game_size.y);
 
 			for (auto obj : m_objects) {
-				if (obj != gameCamera) {
+				if (obj != gameCamera && !sceneLoading) {
 					obj->draw(m_vs, m_ps, gameCamera->getViewMatrix(), gameCamera->getProjectionMatrix());
 				}
 			}

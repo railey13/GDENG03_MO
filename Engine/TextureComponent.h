@@ -9,8 +9,10 @@ public:
 public:
 	void setTexture(TexturePtr tex);
 	void setTexturePath(std::string path);
+	std::string getTexturePath();
 	TexturePtr getTexture() const { return m_texture; }
 private:
 	TexturePtr m_texture;
+	std::string texPath;
 };
 
