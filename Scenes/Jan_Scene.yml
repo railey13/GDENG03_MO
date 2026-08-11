@@ -1,0 +1,17 @@
+Scene Objects:
+  - GameObjectType: GAME_CAMERA
+    Name: Main Camera
+    Position: [0, 2, -5]
+    Rotation: [0, 0, 0]
+    Scale: [0.4, 0.5, 0]
+    Texture: NONE
+    RigidBodyType: NONE
+    Children: NONE
+  - GameObjectType: CUBE
+    Name: BANANA CUBE
+    Position: [-0.3, 0.5, 0]
+    Rotation: [0, 0, 0]
+    Scale: [1, 1, 1]
+    Texture: C:\Users\Elizabeth\Documents\GitHub\GDENG03_MO\Assets\Textures\blue.png
+    RigidBodyType: NONE
+    Children: NONE

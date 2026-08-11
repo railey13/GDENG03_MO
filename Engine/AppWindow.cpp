@@ -55,7 +55,6 @@ void AppWindow::createGraphicsWindow() {
 
 	CameraHandler::initialize();
 
-	UIManager::initialize(m_hwnd, CameraHandler::get()->getSceneCamera());
 	UIManager::initialize(m_hwnd);
 }
 
