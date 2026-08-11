@@ -13,6 +13,7 @@
 #include "InputListener.h"
 #include "CommandInvoker.h"
 #include "SceneState.h"
+#include "SceneLoader.h"
 
 #include "../IMGUI/imgui.h"
 #include "../IMGUI/backends/imgui_impl_dx11.h"
@@ -25,6 +26,7 @@ class SpawnObjectCommand;
 class DeleteObjectCommand;
 class SaveTransformCommand;
 class CloseWindowCommand;
+class SceneLoader;
 
 enum class Action {
 	SpawnCube,
@@ -160,10 +162,14 @@ private:
 	float m_stress_min_fps   = 9999.0f;
 	float m_stress_last_dur  = 0.0f;
 	int   m_stress_last_objs = 0;
+
+	//SceneLoader
+	bool sceneLoading = false;
 private:
 	friend class SpawnObjectCommand;
 	friend class DeleteObjectCommand;
 	friend class SaveTransformCommand;
 	friend class CloseWindowCommand;
+	friend class SceneLoader;
 };
 

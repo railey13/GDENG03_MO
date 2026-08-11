@@ -284,6 +284,7 @@
     <ClCompile Include="React3D Library\src\utils\quickhull\QuickHull.cpp" />
     <ClCompile Include="Engine\TextureComponent.cpp" />
     <ClCompile Include="IMGUI\ImGuiFileDialog.cpp" />
+    <ClCompile Include="Engine\SceneLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\AppWindow.h">
@@ -432,6 +433,8 @@
     <ClInclude Include="IMGUI\ImGuiFileDialog.h" />
     <ClInclude Include="IMGUI\ImGuiFileDialogConfig.h" />
     <ClInclude Include="IMGUI\dirent\dirent.h" />
+    <ClInclude Include="Engine\SceneLoader.h" />
+    <ClInclude Include="Engine\SaveTransformCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\VertexShader.hlsl">

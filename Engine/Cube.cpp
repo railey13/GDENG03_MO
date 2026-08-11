@@ -88,6 +88,7 @@ Cube::Cube(void* shader_byte_code, size_t size_shader) {
 	m_cb = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&cc, sizeof(constant));
 
 	m_name = "Cube";
+	m_gameObjectType = GameObjectTypes::CUBE;
 	m_tex = GraphicsEngine::get()->getTextureManager()->createTextureFromFile(L"Assets/Textures/white.png");
 }
 

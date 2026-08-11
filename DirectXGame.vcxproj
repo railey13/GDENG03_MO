@@ -113,16 +113,16 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NOMINMAX;_DEBUG;_CONSOLE;YAML_CPP_STATIC_DEFINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)React3D Library\include;$(ProjectDir)IMGUI\;$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)React3D Library\include;$(ProjectDir)IMGUI\;$(ProjectDir);$(ProjectDir)Libs\yaml-cpp\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;windowscodecs.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Libs\DirectXTex\bin\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;windowscodecs.lib;yaml-cppd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Libs\DirectXTex\bin\x64\Debug;%(AdditionalLibraryDirectories);$(ProjectDir)Libs\yaml-cpp\Debug</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -133,14 +133,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>;C:\Users\Jai\Desktop\Github Repos\GDENG03_MO\Libs\yaml-cpp\Include;C:\Users\Jai\Desktop\Github Repos\GDENG03_MO\Libs\yaml-cpp\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;windowscodecs.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)Libs\DirectXTex\bin\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;windowscodecs.lib;yaml-cppd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)Libs\DirectXTex\bin\x64\Release;%(AdditionalLibraryDirectories);C:\Users\Jai\Desktop\Github Repos\GDENG03_MO\Libs\yaml-cpp\Debug;C:\Users\Jai\Desktop\Github Repos\GDENG03_MO\Libs\yaml-cpp\Debug;C:\Users\Jai\Desktop\Github Repos\GDENG03_MO\Libs\yaml-cpp\Debug</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -151,6 +152,7 @@
     <ClCompile Include="Engine\Debug.cpp" />
     <ClCompile Include="Engine\DebugUI.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
+    <ClCompile Include="Engine\SceneLoader.cpp" />
     <ClCompile Include="Engine\TransformComponent.cpp" />
     <ClCompile Include="Engine\UI.cpp" />
     <ClCompile Include="Engine\Camera.cpp" />
@@ -293,6 +295,7 @@
     <ClInclude Include="Engine\GameObject.h" />
     <ClInclude Include="Engine\ParentCommand.h" />
     <ClInclude Include="Engine\SaveTransformCommand.h" />
+    <ClInclude Include="Engine\SceneLoader.h" />
     <ClInclude Include="Engine\TransformComponent.h" />
     <ClInclude Include="Engine\UI.h" />
     <ClInclude Include="Engine\Camera.h" />

@@ -43,6 +43,7 @@ Plane::Plane(void* shader_byte_code, size_t size_shader) {
 	m_cb = GraphicsEngine::get()->getRenderSystem()->createConstantBuffer(&cc, sizeof(constant));
 
 	m_name = "Plane";
+	m_gameObjectType = GameObjectTypes::PLANE;
 }
 
 Plane::~Plane() {

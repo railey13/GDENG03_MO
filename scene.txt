@@ -1,0 +1,20 @@
+GameObjectType: CUBE
+Name: Torta
+Position: 0 2 0
+Rotation: 0 0 0
+Scale: 5 5 5
+GameObjectType: CUBE
+Name: Eduardo
+Position: 0 2 -5
+Rotation: 0 0 0
+Scale: 1 1 1
+GameObjectType: CUBE
+Name: Simeon
+Position: 0 0 0
+Rotation: 0 0 0
+Scale: 1 1 1
+GameObjectType: CUBE
+Name: Timon
+Position: 0 2 5
+Rotation: 0 0 0
+Scale: 1 1 1

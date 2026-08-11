@@ -98,7 +98,9 @@ protected:
 
 	GameObject* m_parent = nullptr;
 	std::vector<GameObject*> m_children;
+	GameObjectTypes m_gameObjectType;
 private:
 	friend class Component;
+	friend class SceneLoader;
 };
 
