@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <filesystem>
 #include <yaml-cpp/yaml.h>
 #include "AppWindow.h"
 #include "GameObjectTypes.h"
@@ -181,12 +182,13 @@ void SceneLoader::loadGameObject(const YAML::Node& object, GameObject*Parent)
     // -------------------------
 
     std::string texPath = object["Texture"].as<std::string>();
+    
     if (texPath != "NONE") {
+        texPath =  std::filesystem::absolute(texPath).string();
         objectCreated->createComponent<TextureComponent>();
         objectCreated->getComponent<TextureComponent>()->setTexturePath(texPath);
-
     }
-
+    
     // -------------------------
     // RigidBody
     // -------------------------
@@ -319,8 +321,10 @@ void SceneLoader::SaveGameObject(YAML::Emitter& out, GameObject* object)
 
     std::string TexPath;
     if (object->getComponent<TextureComponent>() == NULL) TexPath = "NONE";
-    else TexPath = object->getComponent<TextureComponent>()->getTexturePath();
-
+    else {
+        TexPath = object->getComponent<TextureComponent>()->getTexturePath();
+        TexPath = std::filesystem::relative(TexPath, std::filesystem::current_path()).string();
+    }
     out << YAML::Key << "Texture"
         << YAML::Value << TexPath;
 
