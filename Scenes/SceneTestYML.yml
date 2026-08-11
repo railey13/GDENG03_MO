@@ -1,0 +1,73 @@
+Scene Objects:
+  - GameObjectType: GAME_CAMERA
+    Name: Machoke
+    Position: [0, 2, -5]
+    Rotation: [0, 0, 0]
+    Scale: [1, 1, 1]
+    Texture: C:\Users\Jai\Desktop\Github Repos\GDENG03_MO\Assets\Textures\camera.png
+    RigidBodyType: NONE
+    Children: NONE
+  - GameObjectType: CAPSULE
+    Name: BienVenido
+    Position: [0, 2, 0]
+    Rotation: [0, 0, 0]
+    Scale: [5, 1, 5]
+    Texture: C:\Users\Jai\Desktop\Github Repos\GDENG03_MO\Assets\Textures\green.png
+    RigidBodyType: NONE
+    Children:
+      - GameObjectType: CAPSULE
+        Name: FICO
+        Position: [0, 3, 0]
+        Rotation: [0, 0, 0]
+        Scale: [1, 1, 1]
+        Texture: C:\Users\Jai\Desktop\Github Repos\GDENG03_MO\Assets\Textures\red.png
+        RigidBodyType: NONE
+        Children: NONE
+  - GameObjectType: CAPSULE
+    Name: JORGE
+    Position: [0, 5, 0]
+    Rotation: [0, 0, 0]
+    Scale: [1, 1, 1]
+    Texture: C:\Users\Jai\Desktop\Github Repos\GDENG03_MO\Assets\Textures\blue.png
+    RigidBodyType: NONE
+    Children: NONE
+  - GameObjectType: SPHERE
+    Name: CARTE
+    Position: [0, 2, -5]
+    Rotation: [0, 0, 0]
+    Scale: [1, 1, 1]
+    Texture: C:\Users\Jai\Desktop\Github Repos\GDENG03_MO\Assets\Textures\CartethyiaPuppet.gif
+    RigidBodyType: KINIMATIC
+    Children: NONE
+  - GameObjectType: PLANE
+    Name: Yasuke
+    Position: [0, 2, 5]
+    Rotation: [0, 0, 0]
+    Scale: [1, 1, 1]
+    Texture: C:\Users\Jai\Desktop\Github Repos\GDENG03_MO\Assets\Textures\red.png
+    RigidBodyType: NONE
+    Children:
+      - GameObjectType: PLANE
+        Name: Ikamaru
+        Position: [0, 4, 0]
+        Rotation: [0, 0, 0]
+        Scale: [1, 1, 1]
+        Texture: C:\Users\Jai\Desktop\Github Repos\GDENG03_MO\Assets\Textures\red.png
+        RigidBodyType: NONE
+        Children:
+          - GameObjectType: CAPSULE
+            Name: Junichiro
+            Position: [0, 5, 0]
+            Rotation: [0, 0, 0]
+            Scale: [1, 1, 1]
+            Texture: C:\Users\Jai\Desktop\Github Repos\GDENG03_MO\Assets\Textures\red.png
+            RigidBodyType: NONE
+            Children: NONE
+  - GameObjectType: PLANE
+    Name: Planet
+    Position: [1.3566437, 1.7782176, 2.346374]
+    Rotation: [1.570796, 0, 0]
+    Scale: [5, 5, 1]
+    Texture: C:\Users\Jai\Desktop\Github Repos\GDENG03_MO\Assets\Textures\yellow.png
+    RigidBodyType: NONE
+    Children: NONE
