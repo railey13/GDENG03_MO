@@ -81,6 +81,18 @@ void MainMenuBarUI::draw() {
 			if (ImGui::MenuItem("Camera")) {
 				AppWindow::get()->getInvoker().executeCommand((int)Action::SpawnCamera);
 			}
+			if (ImGui::MenuItem("Pot")) {
+				AppWindow::get()->getInvoker().executeCommand((int)Action::SpawnPot);
+			}
+			if (ImGui::MenuItem("Bunny")) {
+				AppWindow::get()->getInvoker().executeCommand((int)Action::SpawnBunny);
+			}
+			if (ImGui::MenuItem("Armadillo")) {
+				AppWindow::get()->getInvoker().executeCommand((int)Action::SpawnArmadillo);
+			}
+			if (ImGui::MenuItem("Lucy")) {
+				AppWindow::get()->getInvoker().executeCommand((int)Action::SpawnLucy);
+			}
 			ImGui::Separator();
 			if (ImGui::MenuItem("Spawn 20 Cubes [Stack Test]")) {
 				AppWindow::get()->spawnStressCubes(20, true);

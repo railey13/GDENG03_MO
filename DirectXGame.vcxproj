@@ -71,11 +71,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>Libs\DirectXTex\include;$(IncludePath)</IncludePath>
+    <IncludePath>Libs\DirectXTex\include;Libs\tinyobjloader\include;$(IncludePath)</IncludePath>
     <LibraryPath>Libs\DirectXTex\bin\Win32\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>Libs\DirectXTex\include;$(IncludePath)</IncludePath>
+    <IncludePath>Libs\DirectXTex\include;Libs\tinyobjloader\include;$(IncludePath)</IncludePath>
     <LibraryPath>Libs\DirectXTex\bin\x64\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -84,13 +84,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)React3D Library\include;$(ProjectDir)IMGUI\;$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)React3D Library\include;$(ProjectDir)IMGUI\;$(ProjectDir);$(ProjectDir)Libs\yaml-cpp\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;windowscodecs.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;windowscodecs.lib;yaml-cppd.lib;ole32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -121,7 +121,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;windowscodecs.lib;yaml-cppd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dcompiler.lib;DirectXTex.lib;windowscodecs.lib;yaml-cppd.lib;ole32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)Libs\DirectXTex\bin\x64\Debug;%(AdditionalLibraryDirectories);$(ProjectDir)Libs\yaml-cpp\Debug</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -145,6 +145,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Armadillo.cpp" />
+    <ClCompile Include="Engine\Bunny.cpp" />
     <ClCompile Include="Engine\Capsule.cpp" />
     <ClCompile Include="Engine\AboutUI.cpp" />
     <ClCompile Include="Engine\AppWindow.cpp" />
@@ -152,6 +154,7 @@
     <ClCompile Include="Engine\Debug.cpp" />
     <ClCompile Include="Engine\DebugUI.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
+    <ClCompile Include="Engine\Pot.cpp" />
     <ClCompile Include="Engine\SceneLoader.cpp" />
     <ClCompile Include="Engine\TransformComponent.cpp" />
     <ClCompile Include="Engine\UI.cpp" />
@@ -189,6 +192,9 @@
     <ClCompile Include="Engine\PhysicsSystem.cpp" />
     <ClCompile Include="Engine\StressTestUI.cpp" />
     <ClCompile Include="IMGUI\ImGuiFileDialog.cpp" />
+    <ClCompile Include="Engine\Mesh.cpp" />
+    <ClCompile Include="Engine\MeshManager.cpp" />
+    <ClCompile Include="Engine\Lucy.cpp" />
     <ClCompile Include="React3D Library\src\body\Body.cpp" />
     <ClCompile Include="React3D Library\src\body\RigidBody.cpp" />
     <ClCompile Include="React3D Library\src\collision\broadphase\DynamicAABBTree.cpp" />
@@ -286,6 +292,8 @@
     <ClCompile Include="Engine\TextureComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Armadillo.h" />
+    <ClInclude Include="Engine\Bunny.h" />
     <ClInclude Include="Engine\Capsule.h" />
     <ClInclude Include="Engine\AboutUI.h" />
     <ClInclude Include="Engine\AppWindow.h" />
@@ -294,6 +302,7 @@
     <ClInclude Include="Engine\DebugUI.h" />
     <ClInclude Include="Engine\GameObject.h" />
     <ClInclude Include="Engine\ParentCommand.h" />
+    <ClInclude Include="Engine\Pot.h" />
     <ClInclude Include="Engine\SaveTransformCommand.h" />
     <ClInclude Include="Engine\SceneLoader.h" />
     <ClInclude Include="Engine\TransformComponent.h" />
@@ -325,6 +334,7 @@
     <ClInclude Include="Engine\Prerequisites.h" />
     <ClInclude Include="Engine\RenderSystem.h" />
     <ClInclude Include="Engine\RenderTexture.h" />
+    <ClInclude Include="Engine\VertexMesh.h" />
     <ClInclude Include="Engine\ViewportUI.h" />
     <ClInclude Include="Engine\Resource.h" />
     <ClInclude Include="Engine\ResourceManager.h" />
@@ -352,6 +362,9 @@
     <ClInclude Include="IMGUI\imstb_rectpack.h" />
     <ClInclude Include="IMGUI\imstb_textedit.h" />
     <ClInclude Include="IMGUI\imstb_truetype.h" />
+    <ClInclude Include="Engine\Mesh.h" />
+    <ClInclude Include="Engine\MeshManager.h" />
+    <ClInclude Include="Engine\Lucy.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Engine\TextureComponent.h" />
   </ItemGroup>

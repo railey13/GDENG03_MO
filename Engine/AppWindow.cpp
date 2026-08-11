@@ -19,6 +19,10 @@
 #include "Plane.h"
 #include "Sphere.h"
 #include "Capsule.h"
+#include "Pot.h"
+#include "Armadillo.h"
+#include "Bunny.h"
+#include "Lucy.h"
 
 #include "PhysicsSystem.h"
 #include "PhysicsComponent.h"
@@ -155,6 +159,10 @@ void AppWindow::onCreate() {
 	m_invoker.bindCommand((int)Action::SpawnPlane, [this]() { return new SpawnObjectCommand(this, PLANE); });
 	m_invoker.bindCommand((int)Action::SpawnCapsule, [this]() { return new SpawnObjectCommand(this, CAPSULE); });
 	m_invoker.bindCommand((int)Action::SpawnCamera , [this]() { return new SpawnObjectCommand(this, GAME_CAMERA); });
+	m_invoker.bindCommand((int)Action::SpawnPot , [this]() { return new SpawnObjectCommand(this, POT); });
+	m_invoker.bindCommand((int)Action::SpawnArmadillo , [this]() { return new SpawnObjectCommand(this, ARMADILLO); });
+	m_invoker.bindCommand((int)Action::SpawnBunny , [this]() { return new SpawnObjectCommand(this, BUNNY); });
+	m_invoker.bindCommand((int)Action::SpawnLucy , [this]() { return new SpawnObjectCommand(this, LUCY); });
 
 	m_invoker.bindCommand((int)Action::DeleteSelectedObject, [this]() {
 		return new DeleteObjectCommand(this, m_selectedGameObject);
@@ -397,6 +405,18 @@ GameObject* AppWindow::SpawnGameObject(GameObjectTypes type) {
 			obj = new GameCamera(vs_byte_code, vs_size);
 			obj->getTransform()->setScale((Vector3D(0.4f, 0.5f, 0)));
 			gamecamera = true;
+			break;
+		case POT:
+			obj = new Pot();
+			break;
+		case BUNNY:
+			obj = new Bunny();
+			break;
+		case ARMADILLO:
+			obj = new Armadillo();
+			break;
+		case LUCY:
+			obj = new Lucy();
 			break;
 		default: break;
 	}

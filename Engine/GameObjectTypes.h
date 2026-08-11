@@ -5,5 +5,9 @@ enum GameObjectTypes {
 	SPHERE,
 	PLANE,
 	CAPSULE,
-	GAME_CAMERA
+	GAME_CAMERA,
+	POT,
+	BUNNY,
+	ARMADILLO,
+	LUCY
 };
