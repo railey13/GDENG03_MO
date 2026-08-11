@@ -51,8 +51,6 @@ public:
 				receiver->m_selectedGameObject->getTransform()->setScale
 				(receiver->m_scales[receiver->m_scales.size() - receiver->counterIndex]);
 		}
-
-		Debug::Log("VALUE IS " + receiver->counterIndex);
 		
 	}
 private:
