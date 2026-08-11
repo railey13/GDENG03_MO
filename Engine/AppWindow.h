@@ -126,6 +126,7 @@ public:
 
 	GameObject* m_selectedGameObject = nullptr;
 private:
+
 	SwapChainPtr m_swap_chain;
 	RenderTexturePtr m_editor_rt;
 	RenderTexturePtr m_game_rt;
@@ -146,6 +147,9 @@ private:
 	std::vector<Vector3D> m_scales;
 
 	CommandInvoker m_invoker;
+public:
+	//coutnerIndex for the Undo
+	int counterIndex = 0;
 private:
 	void* vs_byte_code = nullptr;
 	size_t vs_size = 0;

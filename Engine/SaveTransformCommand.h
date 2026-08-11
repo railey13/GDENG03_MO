@@ -25,18 +25,40 @@ public:
 
 	//Get the old transforms
 	void undo() override {
-		if (receiver) {
-			receiver->m_selectedGameObject->getTransform()->setPosition
-				(receiver->m_positions[0]);
-			receiver->m_selectedGameObject->getTransform()->setRotation
-				(receiver->m_rotations[0]);
-			receiver->m_selectedGameObject->getTransform()->setScale
-			(receiver->m_scales[0]);
+
+		//if the counterIndex is less than 5, add it
+		if (receiver->counterIndex < 5)
+		{
+			//coutnerIndex increment
+			receiver->counterIndex++;
 		}
+
+
+		//if the counterIndex is larger than the current size
+		if (receiver->counterIndex > receiver->m_positions.size())
+		{
+			//decrease it
+			receiver->counterIndex--;
+		}
+
+		//Apply changes
+		
+		if (receiver) {
+				receiver->m_selectedGameObject->getTransform()->setPosition
+				(receiver->m_positions[receiver->m_positions.size() - receiver->counterIndex]);
+				receiver->m_selectedGameObject->getTransform()->setRotation
+				(receiver->m_rotations[receiver->m_rotations.size() - receiver->counterIndex]);
+				receiver->m_selectedGameObject->getTransform()->setScale
+				(receiver->m_scales[receiver->m_scales.size() - receiver->counterIndex]);
+		}
+
+		Debug::Log("VALUE IS " + receiver->counterIndex);
+		
 	}
 private:
 	AppWindow* receiver;
 	GameObject* object = nullptr;
+
 	
 	Vector3D storedPos = Vector3D(0, 0, 0);
 	Vector3D storedRot = Vector3D(0, 0, 0);
